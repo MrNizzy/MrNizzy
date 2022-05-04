@@ -1,10 +1,10 @@
 <h1 align="center">Hi 👋, I'm MrNizzy</h1>
 <h3 align="center">A passionate frontend developer from Colombia</h3>
-<img align="right" alt="Coding" width="400" src="https://chrisdermody.com/content/images/2017/12/10_coding_dribbble.gif"
+<img align="right" alt="Coding" width="400" src="https://i.ibb.co/x6VkPh3/index.png"
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=mrnizzy&label=Profile%20views&color=0e75b6&style=flat" alt="mrnizzy" /> </p>
 
-- 🔭 I’m currently working on [Guides Wow](https://github.com/MrNizzy/guides-wow)
+- 🔭 I’m currently working on [Guides WoW](https://github.com/MrNizzy/guides-wow)
 
 - 🌱 I’m currently learning **Flutter, NodeJs and ReactJs**
 

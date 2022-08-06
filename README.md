@@ -1,12 +1,12 @@
 <h1 align="center">Hi 👋, I'm MrNizzy</h1>
 <h3 align="center">A passionate frontend developer from Colombia</h3>
-<img align="right" alt="Coding" width="400" src="https://i.ibb.co/x6VkPh3/index.png"
+<img align="right" alt="Coding" width="400" src="https://i.ibb.co/K6gCRvL/IMG-20220804-130211-942.png"
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=mrnizzy&label=Profile%20views&color=0e75b6&style=flat" alt="mrnizzy" /> </p>
 
-- 🔭 I’m currently working on [Guides WoW](https://github.com/MrNizzy/guides-wow)
+- 🔭 I’m currently working on [WGuides](https://github.com/MrNizzy/WGuides-Angular)
 
-- 🌱 I’m currently learning **Flutter, NodeJs and ReactJs**
+- 🌱 I’m currently learning **Angular, NodeJs and Ionic**
 
 - 👨‍💻 All of my projects are available at [https://github.com/MrNizzy](https://github.com/MrNizzy)
 

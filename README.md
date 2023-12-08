@@ -57,3 +57,5 @@
 ![MrNizzy's GitHub stats](https://github-readme-stats.vercel.app/api?username=MrNizzy\&rank_icon=github&theme=dark&include_all_commits=true)
 
 ![Streak](https://github-readme-streak-stats.herokuapp.com/?user=mrnizzy&theme=dark)
+
+[![roadmap.sh](https://api.roadmap.sh/v1-badge/wide/656df8a15145316d25b78433?variant=dark&roadmaps=angular)](https://roadmap.sh)

@@ -67,7 +67,7 @@
 </details>
 
 <details>
- <summary> 📊 GitHub Stats</summary>
+ <summary> 💎 Angular Roadmap</summary>
  <p>
   <img src="https://api.roadmap.sh/v1-badge/wide/656df8a15145316d25b78433?variant=dark&roadmaps=angular" height="350"/>
  </p>

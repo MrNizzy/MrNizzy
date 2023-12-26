@@ -8,13 +8,13 @@
 </p>
 
 <p align="left">
-      <a href="https://www.youtube.com/c/UCFjfIk29NqqPGmrCfCV14Yg">
+      <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg">
          <img alt="youtube views" title="YouTube views" src="https://custom-icon-badges.demolab.com/youtube/channel/views/UCFjfIk29NqqPGmrCfCV14Yg?color=9d7203&logo=eye&logoColor=black&style=for-the-badge&labelColor=f3c913"/></a> 
       <a href="https://github.com/MrNizzy?tab=repositories&sort=stargazers">
          <img alt="total stars" title="Total stars on GitHub" src="https://custom-icon-badges.demolab.com/github/stars/MrNizzy?color=9d7203&style=for-the-badge&labelColor=f3c913&logo=star&logoColor=black"/></a>
       <a href="https://github.com/MrNizzy?tab=followers">
          <img alt="followers" title="Follow me on Github" src="https://custom-icon-badges.demolab.com/github/followers/MrNizzy?color=1155ba&labelColor=236ad3&style=for-the-badge&logo=person-add&label=Follow&logoColor=white"/></a>
-      <a href="https://www.youtube.com/c/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
+      <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
          <img alt="youtube subscribers" title="Subscribe to my YouTube channel" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"/></a> 
    </p>
 

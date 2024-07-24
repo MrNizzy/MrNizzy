@@ -18,13 +18,13 @@
          <img alt="youtube subscribers" title="Subscribe to my YouTube channel" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"/></a> 
    </p>
 
-- 🚀 Currently working on [Invessoft](https://invessoft.app/) with Angular
+- 🚀 Currently working on [Pilos Creativos](https://piloscreativos.com/) with Angular
 
 - 📖 Currently learning **[Nestjs](https://nestjs.com/)**
 
 - 📚 All of my projects are available at [https://github.com/MrNizzy](https://github.com/MrNizzy)
 
-- 💼 How to reach me **[mr.nizzy.0128@gmail.com](mr.nizzy.0128@gmail.com)**
+- 💼 How to reach me **[mr.nizzy@proton.me](mr.nizzy@proton.me)**
 
 <h2 align="left">Connect with me:</h2>
 <p align="left">

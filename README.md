@@ -17,10 +17,10 @@
       <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
          <img alt="youtube subscribers" title="Subscribe to my YouTube channel" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"/></a> 
    </p>
+<!-- Trabajo Independiente  -->
+- 🚀 Currently working as a freelance programmer
 
-- 🚀 Currently working on [Pilos Creativos](https://piloscreativos.com/) with Angular
-
-- 📖 Currently learning **[Nestjs](https://nestjs.com/)**
+- 📖 Currently learning **[Godot](https://godotengine.org/)**
 
 - 📚 All of my projects are available at [https://github.com/MrNizzy](https://github.com/MrNizzy)
 

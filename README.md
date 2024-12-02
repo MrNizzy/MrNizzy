@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm MrNizzy</h1>
 <h2 align="center">A digital creator / frontend developer / writer from Colombia</h2>
 
-<a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/7b4b3fa4892845c898ba9ed62004091b.png?r=onc" height="500" alt="Nizzy Hernandez's Dev Card"/></a>
+<a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="356" alt="Nizzy Hernandez's Dev Card"/></a>
 
 <p align="left" >
  My interest in technology and programming is my passion, building software applications to solve everyday problems. I build software solutions focusing mainly on architecture, efficiency and quality solutions, all hand in hand to provide a good user experience through UI/UX techniques.

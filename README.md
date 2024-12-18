@@ -48,7 +48,7 @@
 </table>
 
 <h2 align="left">Connect with me:</h2>
-<table>
+<table align="center">
     <tr>
         <td><a href="https://linkedin.com/in/mrnizzy" target="blank"><img align="center" src="./public/icons/linkedin.svg" alt="mrnizzy" height="40" width="40" /></a>
         <a href="https://linkedin.com/in/mrnizzy" target="blank">LinkedIn</a></td>

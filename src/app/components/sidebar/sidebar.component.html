@@ -1,1 +1,13 @@
-<p>sidebar works!</p>
+<ul class="sidebar">
+  <img src="mrnizzy.png" alt="Angular Logo" class="sidebar_logo" />
+  @for (menuItem of menuItems(); track $index) {
+  <li class="sidebar_item">
+    <a [href]="menuItem.section" class="sidebar_item_link">
+      <mat-icon>
+        {{ menuItem.icon }}
+      </mat-icon>
+      {{ menuItem.title }}
+    </a>
+  </li>
+  }
+</ul>

@@ -11,4 +11,20 @@ html {
       density: 0,
     )
   );
+  scroll-behavior: smooth;
+}
+
+.link {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  color: var(--mat-sys-primary);
+  transition: background-size cubic-bezier(0, 0.5, 0, 1) 0.3s;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-size: 100% 1px;
+  }
 }

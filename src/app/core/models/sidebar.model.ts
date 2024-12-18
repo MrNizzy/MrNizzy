@@ -5,31 +5,33 @@ This model is used to define the sidebar menu items. It is used in the sidebar c
 export interface SimpleMenuItem {
   title: string;
   section: string;
+  icon: string;
 }
 
 export const sidebar: SimpleMenuItem[] = [
   {
-    title: 'Inicio',
-    section: '#',
-  },
-  {
     title: 'Works',
-    section: '#',
+    section: '#works',
+    icon: 'work',
   },
   {
     title: 'Languages and tools',
-    section: '#',
+    section: '#languages',
+    icon: 'code',
   },
   {
     title: 'Projects',
-    section: '#',
+    section: '#projects',
+    icon: 'folder',
   },
   {
     title: 'Achievements',
-    section: '#',
+    section: '#achievements',
+    icon: 'star',
   },
   {
     title: 'Contact',
-    section: '#',
+    section: '#contact',
+    icon: 'email',
   },
 ];

@@ -20,7 +20,6 @@
     <tr>
         <td style="width: 40px;"><img src="./public/icons/Man%20Technologist%20Medium%20Skin%20Tone.png" height="30" width="30" alt="work" /></td>
         <td>Currently working as a freelance programmer</td>
-        <td rowspan="7" style="width: 300px"><a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="356" alt="Nizzy Hernandez's Dev Card"/></a></td>
     </tr>
     <tr>
         <td style="width: 40px;"><img src="./public/icons/Man Teacher Medium Skin Tone.png" height="30" width="30" alt="Studying" /></td>
@@ -51,20 +50,20 @@
 <h2 align="left">Connect with me:</h2>
 <table>
     <tr>
-        <td><a href="https://linkedin.com/in/mrnizzy" target="blank"><img align="center" src="./public/icons/linkedin.svg" alt="mrnizzy" height="40" width="40" /></a></td>
-        <td><a href="https://linkedin.com/in/mrnizzy" target="blank">LinkedIn</a></td>
+        <td><a href="https://linkedin.com/in/mrnizzy" target="blank"><img align="center" src="./public/icons/linkedin.svg" alt="mrnizzy" height="40" width="40" /></a>
+        <a href="https://linkedin.com/in/mrnizzy" target="blank">LinkedIn</a></td>
+        <td><a href="https://www.youtube.com/@MrNizzy" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a>
+        <a href="https://www.youtube.com/@MrNizzy" target="blank">YouTube Channel</a>
+        </td>
+        <td rowspan="2" style="width: 300px"><a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="356" alt="Nizzy Hernandez's Dev Card"/></a></td>
     </tr>
     <tr>
-        <td><a href="https://instagram.com/mr.nizzy" target="blank"><img align="center" src="./public/icons/instagram.svg" alt="mr.nizzy" height="40" width="40" /></a></td>
-        <td><a href="https://instagram.com/mr.nizzy" target="blank">Instagram</a></td>
-    </tr>
-    <tr>
-        <td><a href="https://www.youtube.com/@MrNizzy" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a></td>
-        <td><a href="https://www.youtube.com/@MrNizzy" target="blank">YouTube Channel</a></td>
-    </tr>
-    <tr>
-        <td><a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a></td>
-        <td><a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank">YouTube Channel 2</a></td>
+        <td><a href="https://instagram.com/mr.nizzy" target="blank"><img align="center" src="./public/icons/instagram.svg" alt="mr.nizzy" height="40" width="40" /></a>
+        <a href="https://instagram.com/mr.nizzy" target="blank">Instagram</a>
+        </td>
+        <td><a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a>
+        <a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank">YouTube Channel 2</a>
+        </td>
     </tr>
 </table>
 

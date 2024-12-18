@@ -17,7 +17,7 @@
       <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
          <img alt="youtube subscribers" title="Subscribe to my YouTube channel" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"/></a> 
    </p>
-<!-- Trabajo Independiente  -->
+
 - 🚀 Currently working as a freelance programmer
 
 - 📖 Currently learning **[Godot](https://godotengine.org/)**
@@ -26,11 +26,17 @@
 
 - 💼 How to reach me **[mr.nizzy@proton.me](mr.nizzy@proton.me)**
 
+- 📄 Know about my experiences [https://www.linkedin.com/in/mrnizzy/](https://www.linkedin.com/in/mrnizzy/)
+
+- ⚡ Fun fact **I love to write, watch anime and play videogames**
+
+- 📺 I have a [YouTube channel](https://www.youtube.com/@MrNizzy) where I talk about programming, videogames, technology and personal development
+
 <h2 align="left">Connect with me:</h2>
 <p align="left">
 <a href="https://linkedin.com/in/mrnizzy" target="blank"><img align="center" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="mrnizzy" height="30" width="40" /></a>
 <a href="https://instagram.com/mr.nizzy" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="mr.nizzy" height="30" width="40" /></a>
-<a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="mr. nizzy" height="30" width="40" /></a>
+<a href="https://www.youtube.com/@MrNizzy" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="mr. nizzy" height="30" width="40" /></a>
 <a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="mr. nizzy" height="30" width="40" /></a>
 </p>
 

@@ -1,23 +1,21 @@
 .sidebar {
   position: sticky;
+  background: var(--mat-sys-inverse-primary);
   top: calc(50% - 25dvh);
   display: grid;
   gap: 0.5rem;
   width: 250px;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem 1rem 1rem;
   list-style: none;
-  border-left: 1px solid var(--mat-sys-primary);
-  border-top: 1px solid var(--mat-sys-primary);
   border-radius: calc(
     var(--mat-sys-corner-medium) + var(--mat-sys-corner-small)
   );
-  margin-left: 20px;
   box-shadow: var(--mat-sys-level4);
   transition: all 0.3s;
 
   &_logo {
     position: absolute;
-    top: -4rem;
+    top: -2.5rem;
     left: calc(50% - 2.5rem);
     width: 5rem;
     height: 5rem;
@@ -30,6 +28,7 @@
     position: relative;
     a {
       color: var(--mat-sys-primary);
+      background-color: var(--mat-sys-on-primary);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -43,15 +42,6 @@
         color: var(--mat-sys-on-primary);
         box-shadow: var(--mat-sys-level2);
         transition: all 0.3s ease-in-out;
-      }
-      &::before {
-        content: "";
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        background: var(--mat-sys-primary);
-        left: -1.35rem;
-        border-radius: 50%;
       }
     }
   }

@@ -18,32 +18,32 @@
 
 <table>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Man%20Technologist%20Medium%20Skin%20Tone.png" height="30" width="30" alt="work" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Man%20Technologist%20Medium%20Skin%20Tone.png" height="30" width="30" alt="work" /></td>
         <td>Currently working as a freelance programmer</td>
         <td rowspan="7" style="width: 300px"><a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="356" alt="Nizzy Hernandez's Dev Card"/></a></td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Man Teacher Medium Skin Tone.png" height="30" width="30" alt="Studying" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Man Teacher Medium Skin Tone.png" height="30" width="30" alt="Studying" /></td>
         <td>Currently learning <a href="https://godotengine.org/">Godot</a></td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Beaming Face with Smiling Eyes.png" height="30" width="30" alt="Smile" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Beaming Face with Smiling Eyes.png" height="30" width="30" alt="Smile" /></td>
         <td>All of my projects are available at <a href="https://github.com/MrNizzy">GitHub</a></td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Hundred Points.png" height="30" width="30" alt="work together" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Hundred Points.png" height="30" width="30" alt="work together" /></td>
         <td>How to reach me: <a href="mailto:mr.nizzy@proton.me">mr.nizzy@proton.me</a></td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Face with Monocle.png" height="30" width="30" alt="Experience" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Face with Monocle.png" height="30" width="30" alt="Experience" /></td>
         <td>Know about my experiences <a href="https://www.linkedin.com/in/mrnizzy/">LinkedIn</a></td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Smiling Face with Heart-Eyes.png" height="30" width="30" alt="Hobbies" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Smiling Face with Heart-Eyes.png" height="30" width="30" alt="Hobbies" /></td>
         <td>Fun fact: I love to write, watch anime and play videogames</td>
     </tr>
     <tr>
-        <td style="width: 30px;"><img src="./public/icons/Nerd Face.png" height="30" width="30" alt="Nerd Channel" /></td>
+        <td style="width: 40px;"><img src="./public/icons/Nerd Face.png" height="30" width="30" alt="Nerd Channel" /></td>
         <td>I have a <a href="https://www.youtube.com/@MrNizzy">YouTube channel</a> where I talk about programming, videogames, technology and personal development</td>
     </tr>
 </table>

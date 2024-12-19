@@ -190,6 +190,42 @@
           </a>
         </td>
     </tr>
+    <tr>
+        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/todo-16.png" alt="Promediar" width="300" /></td>
+        <td><strong>TODO 16</strong></td>
+    </tr>
+    <tr>
+        <td>
+          TODO 16, is the realization of a technical test which aimed to use Angular 16 with reactive forms.
+        </td>
+    </tr>
+    <tr>
+        <td>
+          <a href="https://todo-16.netlify.app/" target="_blank">
+            Go to web site
+          </a>
+          —
+          <a href="https://github.com/MrNizzy/TODO-16.git" target="_blank">
+            Go to repository
+          </a>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/pyscheme.png" alt="Promediar" width="300" /></td>
+        <td><strong>Lenguaje-FLP</strong></td>
+    </tr>
+    <tr>
+        <td>
+          It is a basic interpreted programming language called “Pyscheme” created with the base language of Scheme using Dr. Racket and the SLLGEN library, with abstraction and algorithm, it was sought to understand in a deeper way the operation of programming languages, this programming language supports: additions, subtractions, multiplications, divisions, division module, IF conditions, variables, while loops, data structures, among others.
+        </td>
+    </tr>
+    <tr>
+        <td>
+          <a href="https://github.com/MrNizzy/Lenguaje-FLP" target="_blank">
+            Go to repository
+          </a>
+        </td>
+    </tr>
 </table>
 
 <h2 align="left">GitHub Stats</h2>

@@ -159,6 +159,22 @@
         </td>
     </tr>
     <tr>
+        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/nshorts.png" alt="Promediar" width="300" /></td>
+        <td><strong>NShorts</strong></td>
+    </tr>
+    <tr>
+        <td>
+          NShorts is an application that allows you to shorten URLs easily and efficiently. It uses a D1 database to store the shortened URLs. It uses Cloudflare Workers for application deployment and Wrangler for application management.
+        </td>
+    </tr>
+    <tr>
+        <td>
+          <a href="https://shorts.mrnizzy.me/api/short" target="_blank">
+            Go to API (preview urls)
+          </a>
+        </td>
+    </tr>
+    <tr>
         <td rowspan="3" style="width: 300px"><img src="./public/screenshots/ninja_frog.png" alt="Promediar" width="300" /></td>
         <td><strong>Ninja frog</strong></td>
     </tr>

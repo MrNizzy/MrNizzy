@@ -1,19 +1,8 @@
 .content {
-  position: relative;
   display: grid;
-  grid-template-areas: "sidebar content";
+  gap: 1rem;
 }
 
-.content_section {
-  grid-area: sidebar;
-  display: grid;
-  height: 100%;
-}
-
-.content_section {
-  grid-area: content;
-  display: grid;
-  &_element {
-    min-height: 100dvh;
-  }
+.section {
+  background-color: var(--mat-sys-primary-container);
 }

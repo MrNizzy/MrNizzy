@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-primary) var(--mat-sys-primary-container);
 }
 
 html,

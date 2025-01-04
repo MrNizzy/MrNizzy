@@ -1,0 +1,15 @@
+.form {
+  display: grid;
+  align-items: center;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-shadow: var(--mat-sys-level2);
+  border-radius: var(--mat-sys-corner-medium);
+  background-color: var(--mat-sys-primary-container);
+  &_title {
+    display: block;
+    font-size: 3rem;
+    text-align: center;
+  }
+}

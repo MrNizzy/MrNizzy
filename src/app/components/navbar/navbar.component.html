@@ -1,0 +1,39 @@
+<nav class="navbar">
+  <section class="navbar_brand">
+    <img src="mrnizzy.png" alt="Logo MrNizzy" width="48" height="48" />
+    <h3>Mr. Nizzy</h3>
+  </section>
+
+  <ul class="navbar_links">
+    <li
+      class="navbar_links_item"
+      routerLink="/"
+      [routerLinkActive]="'active'"
+      [routerLinkActiveOptions]="{
+        exact: true
+      }"
+    >
+      Inicio
+    </li>
+    <li
+      class="navbar_links_item"
+      routerLink="/projects"
+      [routerLinkActive]="'active'"
+      [routerLinkActiveOptions]="{
+        exact: true
+      }"
+    >
+      Proyectos
+    </li>
+    <li
+      class="navbar_links_item"
+      routerLink="/contact"
+      [routerLinkActive]="'active'"
+      [routerLinkActiveOptions]="{
+        exact: true
+      }"
+    >
+      Contacto
+    </li>
+  </ul>
+</nav>

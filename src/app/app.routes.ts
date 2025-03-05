@@ -31,6 +31,14 @@ export const routes: Routes = [
     title: `Proyectos - ${environment.appName}`,
   },
   {
+    path: 'privacy',
+    loadComponent: () =>
+      import('@pages/privacy/privacy.component').then(
+        (m) => m.PrivacyComponent
+      ),
+    title: `Política de privacidad - ${environment.appName}`,
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('@pages/not-found/not-found.component').then(

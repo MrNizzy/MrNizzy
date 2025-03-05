@@ -1,0 +1,140 @@
+<article class="privacy-blog">
+  <header class="blog-header">
+    <h1 class="blog-title">
+      Nuestro Compromiso con Tu Privacidad en {{ appName }} y en App Colombia
+    </h1>
+    <div class="blog-meta">
+      <span class="update-date"
+        >Actualizado el: {{ lastUpdateDate | date : "MMM d, y" }}</span
+      >
+      <span class="read-time">Tiempo de lectura: 8 minutos</span>
+    </div>
+  </header>
+
+  <div class="blog-content">
+    <section class="blog-section intro-section">
+      <p class="lead-text">
+        En {{ appName }}, tu privacidad es fundamental. Esta política explica
+        detalladamente cómo manejamos la información en nuestra aplicación
+        dedicada a la riqueza cultural, histórica y natural de Colombia.
+      </p>
+    </section>
+
+    <section class="blog-section">
+      <h2 class="section-heading">📱 Qué información recogemos y por qué</h2>
+      <p>
+        Como aplicación informativa sin requisitos de registro inicial, nuestra
+        recolección de datos se limita estrictamente a:
+      </p>
+
+      <div class="highlight-box">
+        <h3>Datos esenciales de funcionamiento:</h3>
+        <ul class="feature-list">
+          <li>
+            Información técnica del dispositivo (modelo, versión de Android)
+          </li>
+          <li>Métricas de uso anonimizadas (funcionalidades más accedidas)</li>
+          <li>Registro de errores para mejorar estabilidad</li>
+          <li>Preferencias regionales para contenido localizado</li>
+        </ul>
+        <p class="aside-note">
+          Estos datos nos ayudan a entender cómo nuestros usuarios interactúan
+          con los contenidos sobre departamentos colombianos, especies nativas y
+          patrimonio cultural.
+        </p>
+      </div>
+    </section>
+
+    <section class="blog-section">
+      <h2 class="section-heading">
+        🔮 Próximas funcionalidades y tu privacidad
+      </h2>
+      <p>
+        Estamos trabajando en mejoras que requerirán nuevos flujos de datos:
+      </p>
+
+      <article class="feature-article">
+        <h3 class="feature-title">Sistema de Cuentas (2025)</h3>
+        <p>Cuando implementemos el inicio de sesión:</p>
+        <ul class="feature-list">
+          <li>Almacenaremos solo el email y preferencias de usuario</li>
+          <li>Permitiremos eliminación completa de cuenta</li>
+          <li>
+            Implementaremos autenticación segura mediante autenticación de dos
+            factores
+          </li>
+          <li>Ofreceremos opciones de privacidad personalizadas</li>
+        </ul>
+        <blockquote class="privacy-note">
+          <strong>Importante:</strong> Nunca compartiremos tu dirección de email
+          con terceros sin tu consentimiento explícito.
+        </blockquote>
+      </article>
+
+      <article class="feature-article">
+        <h3 class="feature-title">Suscripciones Premium (2025)</h3>
+        <p>Para acceder a contenido exclusivo:</p>
+        <ul class="feature-list">
+          <li>
+            Procesaremos pagos mediante plataformas certificadas (Google Pay)
+          </li>
+          <li>
+            Almacenaremos solo el estado de suscripción, no datos financieros
+          </li>
+          <li>Implementaremos sincronización segura entre dispositivos</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="blog-section">
+      <h2 class="section-heading">🛡️ Nuestras medidas de seguridad</h2>
+      <p>Protegemos tus datos mediante:</p>
+      <div class="security-grid">
+        <div class="security-card">
+          <h3>Cifrado Avanzado</h3>
+          <p>Todas las comunicaciones usan TLS 1.3 con certificados SHA-256</p>
+        </div>
+        <div class="security-card">
+          <h3>Almacenamiento Seguro</h3>
+          <p>
+            Datos en reposo cifrados con AES-256 en servidores ubicados en
+            Bogotá
+          </p>
+        </div>
+        <div class="security-card">
+          <h3>Auditorías Regulares</h3>
+          <p>Revisiones trimestrales de seguridad por terceros certificados</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-section contact-section">
+      <h2 class="section-heading">📬 Ejercicio de derechos y contacto</h2>
+      <p>De acuerdo con la Ley 1581 de 2012 de Colombia, puedes:</p>
+      <ul class="rights-list">
+        <li>Solicitar acceso a tus datos almacenados</li>
+        <li>Pedir corrección de información inexacta</li>
+        <li>Solicitar eliminación de datos personales</li>
+      </ul>
+      <div class="contact-methods">
+        <p>Para ejercer tus derechos o consultas sobre privacidad:</p>
+        <a href="mailto:{{ contactEmail }}">
+          <div class="contact-card">
+            <mat-icon>email</mat-icon>
+            {{ contactEmail }}
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="blog-footer">
+      <p class="disclaimer">
+        Esta política aplica para todas las versiones disponibles en Google Play
+        Store y futuras actualizaciones.
+      </p>
+      <div class="legal-links">
+        <a href="/terms">Términos de Servicio</a>
+      </div>
+    </footer>
+  </div>
+</article>

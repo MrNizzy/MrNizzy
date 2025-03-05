@@ -136,6 +136,23 @@
         }
       }
     }
+    .rights-list {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        padding: 0.35rem 0;
+        padding-left: 1.8rem;
+        position: relative;
+
+        &::before {
+          content: "✅";
+          position: absolute;
+          left: 0;
+          color: var(--mat-sys-primary);
+        }
+      }
+    }
 
     .contact-card {
       display: flex;

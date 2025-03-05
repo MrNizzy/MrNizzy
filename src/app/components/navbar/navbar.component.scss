@@ -56,3 +56,28 @@
   background-color: var(--mat-sys-on-primary-container);
   color: var(--mat-sys-on-primary);
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+  .navbar_links {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    background-color: var(--mat-sys-surface);
+    box-shadow: var(--mat-sys-level2);
+    &_item {
+      padding: 0.5rem 1rem;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .active {
+    background-color: var(--mat-sys-on-primary-container);
+    color: var(--mat-sys-on-primary);
+  }
+}

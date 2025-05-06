@@ -48,10 +48,9 @@ export interface WorkExperience {
 // Información del perfil
 export const profileInfo: ProfileInfo = {
   title: 'Hola 👋, Soy MrNizzy',
-  subtitle:
-    'Ingeniero de sistemas / creador digital / desarrollador frontend / escritor de Colombia',
+  subtitle: 'Ingeniero de sistemas / creador digital / escritor de Colombia',
   description:
-    'Fullstack developer con más de 2 años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de un sistema a una arquitectura desacoplada, logrando una mejora del 50% en rendimiento y escalabilidad. Apasionado por la innovación y el desarrollo ágil.',
+    'Fullstack developer con más de 2 años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de un sistema a una arquitectura desacoplada, logrando una mejora del 50% en rendimiento y escalabilidad. Con experiencia en el análisis de requisitos, optimización de procesos, experiencias de usuario, diseño de interfaces con foco en diseño responsivo. Versátil y proactivo, con un deseo insaciable de mejorar continuamente. Además, de la pasión por la innovación y el desarrollo ágil.',
 };
 
 // Experiencia profesional
@@ -64,8 +63,8 @@ export const experienceItems: ExperienceItem[] = [
     icon: './icons/Man Teacher Medium Skin Tone.png',
     text: 'Actualmente aprendiendo',
     link: {
-      text: 'Godot',
-      url: 'https://godotengine.org/',
+      text: 'Ionic',
+      url: 'https://ionicframework.com',
     },
   },
   {
@@ -106,26 +105,38 @@ export const experienceItems: ExperienceItem[] = [
   },
 ];
 
+const currentDate = new Date();
+
+// Helper function to calculate months between two dates
+function calculateMonthsBetween(startDate: Date, endDate: Date): number {
+  const yearsDifference = endDate.getFullYear() - startDate.getFullYear();
+  const monthsDifference = endDate.getMonth() - startDate.getMonth();
+  return Math.abs(yearsDifference * 12 + monthsDifference);
+}
+
 // Experiencia laboral
 export const workExperiences: WorkExperience[] = [
   {
     position: 'Freelance Developer - Ionic (Angular) / NestJS',
     company: 'Independiente',
-    period: 'Agosto 2024 — Actualidad',
+    period: `Agosto 2024 — Actualidad (${calculateMonthsBetween(
+      currentDate,
+      new Date(2024, 7)
+    )} meses)`,
     description:
       'Fullstack y desarrollo móvil. Creador de la aplicación móvil Caffy: Un mundo mágico, en Ionic para dispositivos Android. Uso de patrones de arquitectura para mejorar el rendimiento, tráfico de red y seguridad de la información de las sesiones. Diseño y adaptación del sistema gráfico de la aplicación, logos, temas, UI/UX.',
   },
   {
     position: 'Desarrollador Fullstack',
     company: 'WEBCLOSTER S.A.S., Tuluá, Valle del Cauca',
-    period: 'Marzo 2023 — Agosto 2024',
+    period: 'Marzo 2023 — Agosto 2024 (17 meses)',
     description:
       'Migré el sistema de Invessoft a una arquitectura desacoplada, optimizando en un 50% la velocidad de carga de la aplicación, mediante el uso de Angular y NestJs, mejorando la calidad del software más de un 40%, cumpliendo con estándares de calidad, escalabilidad y rendimiento. Configuré el servidor VPS para el despliegue del sistema, incluyendo dominio, subdominios, Nginx, PM2, entre otros. Lideré el equipo de desarrollo Frontend, mejorando aspectos de UI/UX en más de un 40%. Contribuí a la mejora de un 30% de la base de datos para la migración de MySQL a PostgreSQL, incluyendo normalización y diagramas de flujo. Mejoré el sistema de permisos y perfiles en un 60%, incrementando la escalabilidad para nuevas funcionalidades grandes y pequeñas. Reduje la deuda técnica del aplicativo en más de un 65%, facilitando la lectura del código para futuros desarrolladores y promoviendo un ambiente de desarrollo más limpio y reutilizable. Desarrollé una API para la generación de certificados para usuarios participantes en eventos de investigación.',
   },
   {
     position: 'Desarrollador Freelance',
     company: 'Lt-Automation',
-    period: 'Abril 2020 — Junio 2020',
+    period: 'Abril 2020 — Junio 2020 (2 meses)',
     description:
       'Desarrollé una nueva landing page, mejorando un 80% los problemas de accesibilidad y experiencia de usuario de acuerdo a las especificaciones del cliente. Implementé propiedades más recientes de HTML5 y CSS3, modificando partes del sitio web deprecadas en cerca de un 35% de sus elementos visuales. Mejoré el diseño responsivo porque no se contaba con adaptación a dispositivos móviles, con soporte en smartphones, tablets y equipos de escritorio.',
   },
@@ -169,16 +180,6 @@ export const tools: Tool[][] = [
       url: 'https://nestjs.com/',
     },
     {
-      name: 'Tailwindcss',
-      icon: './icons/tailwindcss.svg',
-      url: 'https://tailwindcss.com/',
-    },
-    {
-      name: 'Bootstrap',
-      icon: './icons/bootstrap.svg',
-      url: 'https://getbootstrap.com',
-    },
-    {
       name: 'HTML5',
       icon: './icons/html5.svg',
       url: 'https://developer.mozilla.org/es/docs/Web/HTML',
@@ -197,13 +198,6 @@ export const tools: Tool[][] = [
       name: 'TypeScript',
       icon: './icons/typescript.svg',
       url: 'https://www.typescriptlang.org/',
-    },
-  ],
-  [
-    {
-      name: 'Python',
-      icon: './icons/python.svg',
-      url: 'https://www.python.org',
     },
     {
       name: 'Sass',
@@ -240,11 +234,86 @@ export const tools: Tool[][] = [
       icon: './icons/postgresql.svg',
       url: 'https://www.postgresql.org',
     },
+    {
+      name: 'Ionic',
+      icon: './icons/ionic.svg',
+      url: 'https://ionicframework.com',
+    },
+    {
+      name: 'Cloudflare',
+      icon: './icons/cloudflare.svg',
+      url: 'https://www.cloudflare.com',
+    },
+    {
+      name: 'Cloudflare Workers',
+      icon: './icons/cloudflare-workers.svg',
+      url: 'https://workers.cloudflare.com',
+    },
+    {
+      name: 'Hono',
+      icon: './icons/hono.svg',
+      url: 'https://hono.dev',
+    },
+    {
+      name: 'Angular Material',
+      icon: './icons/angular.svg',
+      url: 'https://material.angular.io',
+    },
+    {
+      name: 'Python',
+      icon: './icons/python.svg',
+      url: 'https://www.python.org',
+    },
+    {
+      name: 'LaTeX',
+      icon: './icons/latex.svg',
+      url: 'https://www.latex-project.org/',
+    },
+    {
+      name: 'Tailwindcss',
+      icon: './icons/tailwindcss.svg',
+      url: 'https://tailwindcss.com/',
+    },
+    {
+      name: 'Bootstrap',
+      icon: './icons/bootstrap.svg',
+      url: 'https://getbootstrap.com',
+    },
   ],
 ];
 
 // Proyectos
 export const projects: Project[] = [
+  {
+    title: 'Caffy: Un mundo mágico',
+    images: ['./screenshots/caffy.jpg'],
+    icon: './icons/caffy.png',
+    description:
+      'Aplicación móvil desarrollada en Ionic para Android, sobre Colombia. Incluye su cultura, gastronomía, lugares turísticos y más. Utiliza Angular y NestJS para la API, con un diseño responsivo y optimizado para dispositivos móviles.',
+    links: [
+      {
+        text: 'Ir al sitio web',
+        url: 'https://caffy.mrnizzy.me/',
+      },
+    ],
+  },
+  {
+    title: 'Repos Trackr',
+    images: ['./screenshots/repos-trackr.png'],
+    icon: './icons/repos-trackr.png',
+    description:
+      'Aplicación web que permite consultar los repositorios de GitHub de un usuario, mostrando información como el número de estrellas, forks y commits. Desarrollada con Angular y NestJS, utilizando la API de GitHub con un Proxy en Laravel. Hace parte de la solución de una prueba técnica.',
+    links: [
+      {
+        text: 'Ir al sitio web',
+        url: 'https://repos-trackr.mrnizzy.me',
+      },
+      {
+        text: 'Ir al repositorio',
+        url: 'https://github.com/MrNizzy/repo-trackr-angular',
+      },
+    ],
+  },
   {
     title: 'Invessoft',
     images: ['./screenshots/invessoft.png', './screenshots/invessoft_2.png'],

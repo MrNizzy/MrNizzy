@@ -107,9 +107,10 @@ body {
 }
 
 .section {
-  padding: 2rem 1rem;
-  border-radius: var(--mat-sys-shape-large);
-  box-shadow: var(--mat-sys-elevation-level1);
+  background: var(--mat-sys-surface);
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: var(--mat-sys-level3);
   margin: 0 auto;
   position: relative;
   overflow: hidden;

@@ -1,0 +1,24 @@
+<section class="landing">
+  <div class="landing_content">
+    <div class="landing_text-wrapper">
+      <span class="badge">Portfolio</span>
+      <h1 class="landing_title animate-in">{{ profile().title }}</h1>
+      <p class="landing_text animate-in-delay-1">{{ profile().subtitle }}</p>
+      <p class="landing_description animate-in-delay-2">
+        {{ profile().description }}
+      </p>
+      <div class="landing_actions animate-in-delay-3">
+        <a mat-fab extended class="primary-action" routerLink="/contact">
+          <mat-icon> mail </mat-icon>
+          Contáctame si quieres trabajar conmigo ✨
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="landing_banner animate-in-right">
+    <div class="profile-image-wrapper">
+      <img src="mrnizzy.png" alt="MrNizzy profile" width="350" />
+      <div class="profile-image-bg"></div>
+    </div>
+  </div>
+</section>

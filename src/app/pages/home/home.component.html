@@ -1,41 +1,15 @@
 <main class="content">
-  <section class="landing">
-    <div class="landing_content">
-      <h1 class="landing_title">Lorem ipsum dolor sit amet.</h1>
-      <p class="landing_text">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-        eligendi.
-      </p>
-      <a class="landing_button" routerLink="/contact">Contact</a>
-    </div>
-    <div class="landing_banner">
-      <!-- TODO: Modify later -->
-      <img
-        src="screenshots/promediar.png"
-        alt="Promediar screenshot"
-        width="350"
-      />
-    </div>
-  </section>
-  <section class="section">
-    <h2 class="section_title">Experiencia</h2>
-    <p class="section_text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-      eligendi.
-    </p>
-  </section>
-  <section class="section">
-    <h2 class="section_title">Herramientas & lenguajes</h2>
-    <p class="section_text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-      eligendi.
-    </p>
-  </section>
-  <section class="section">
-    <h2 class="section_title">Proyectos</h2>
-    <p class="section_text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-      eligendi.
-    </p>
-  </section>
+  <app-hero-banner [profileInfo]="profile()"></app-hero-banner>
+
+  <app-work-experience [experiences]="work()"></app-work-experience>
+
+  <app-tech-stack [tools]="toolGroups()"></app-tech-stack>
+
+  <app-learning-experience
+    [learningExperiences]="experience()"
+  ></app-learning-experience>
+
+  <app-project-showcase [projectsData]="projectList()"></app-project-showcase>
+
+  <app-site-footer [socialLinks]="social()"></app-site-footer>
 </main>

@@ -1,0 +1,35 @@
+<section class="section work-experience-section">
+  <div class="section_header">
+    <h2 class="section_title"><mat-icon>work</mat-icon> Experiencia laboral</h2>
+    <div class="section_divider"></div>
+  </div>
+
+  <div class="work-experience-container">
+    @for (job of work(); track $index) {
+    <div
+      class="work-experience-item animate-in-item"
+      style="--anim-delay: calc({{ $index }} * 200ms)"
+    >
+      <div class="work-timeline">
+        <div class="work-dot"></div>
+        @if (!$last) {
+        <div class="work-line"></div>
+        }
+      </div>
+      <div class="work-content">
+        <div class="work-header">
+          <h3 class="work-position">{{ job.position }}</h3>
+          <div class="work-company">{{ job.company }}</div>
+          <div class="work-period">{{ job.period }}</div>
+        </div>
+        <p class="work-description">{{ job.description }}</p>
+        @if (job.readMoreLink) {
+        <a [href]="job.readMoreLink" class="work-more-link"
+          >Saber más <mat-icon>arrow_forward</mat-icon></a
+        >
+        }
+      </div>
+    </div>
+    }
+  </div>
+</section>

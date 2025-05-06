@@ -1,0 +1,25 @@
+<section class="section tools-section">
+  <div class="section_header">
+    <h2 class="section_title">Tecnologías</h2>
+    <div class="section_divider"></div>
+  </div>
+
+  <div class="tools_container">
+    @for (toolRow of toolGroups(); track $index) {
+    <div class="tools_row">
+      @for (tool of toolRow; track tool.name) {
+      <a
+        [href]="tool.url"
+        target="_blank"
+        rel="noreferrer"
+        class="tool-item"
+        [title]="tool.name"
+      >
+        <img [src]="tool.icon" [alt]="tool.name" height="50" width="50" />
+        <span class="tool-tooltip">{{ tool.name }}</span>
+      </a>
+      }
+    </div>
+    }
+  </div>
+</section>

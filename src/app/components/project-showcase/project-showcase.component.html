@@ -1,0 +1,49 @@
+<section class="section projects-section">
+  <div class="section_header">
+    <h2 class="section_title"><mat-icon>folder_special</mat-icon> Proyectos</h2>
+    <div class="section_divider"></div>
+  </div>
+
+  <div class="projects-grid">
+    @for (project of projects(); track $index) {
+    <div
+      class="project-card animate-in-item"
+      style="--anim-delay: calc({{ $index }} * 150ms)"
+    >
+      <div class="project-image">
+        <img [src]="project.images[0]" [alt]="project.title" />
+      </div>
+      <div class="project-content">
+        <div class="project-header">
+          @if (project.icon) {
+          <img
+            [src]="project.icon"
+            class="project-icon"
+            [alt]="project.title"
+          />
+          }
+          <h3 class="project-title">{{ project.title }}</h3>
+        </div>
+        @if (project.description) {
+        <p class="project-description">{{ project.description }}</p>
+        }
+        <div class="project-links">
+          @for (link of project.links; track link.text) {
+          <a [href]="link.url" target="_blank" class="project-link">
+            {{ link.text }}
+            <mat-icon>launch</mat-icon>
+          </a>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- <div class="section_actions">
+    <a mat-stroked-button routerLink="/projects">
+      Ver todos los proyectos
+      <mat-icon>arrow_forward</mat-icon>
+    </a>
+  </div> -->
+</section>

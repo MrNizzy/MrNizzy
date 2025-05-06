@@ -1,28 +1,30 @@
-<form [formGroup]="form" (ngSubmit)="sendEmail()" class="form">
-  <h1 class="form_title">Contacto</h1>
-  <mat-form-field appearance="outline">
-    <mat-label> Asunto </mat-label>
-    <input matInput formControlName="asunto" />
-    <mat-icon matSuffix>email</mat-icon>
-  </mat-form-field>
+<section class="contact">
+  <form [formGroup]="form" (ngSubmit)="sendEmail()" class="form">
+    <h1 class="form_title">Contacto</h1>
+    <mat-form-field appearance="outline">
+      <mat-label> Asunto </mat-label>
+      <input matInput formControlName="asunto" />
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label> Mensaje </mat-label>
-    <textarea
-      matInput
-      formControlName="mensaje"
-      cdkTextareaAutosize
-      cdkAutosizeMinRows="3"
-      cdkAutosizeMaxRows="5"
-    ></textarea>
-    <mat-icon matSuffix>message</mat-icon>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Mensaje </mat-label>
+      <textarea
+        matInput
+        formControlName="mensaje"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="5"
+      ></textarea>
+      <mat-icon matSuffix>message</mat-icon>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label> Email </mat-label>
-    <input matInput formControlName="email" />
-    <mat-icon matSuffix>email</mat-icon>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Email </mat-label>
+      <input matInput formControlName="email" />
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">Enviar</button>
-</form>
+    <button mat-raised-button type="submit">Enviar mensaje</button>
+  </form>
+</section>

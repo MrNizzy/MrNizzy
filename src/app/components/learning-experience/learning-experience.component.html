@@ -1,0 +1,29 @@
+<section class="section experience-section">
+  <div class="section_header">
+    <h2 class="section_title">Aprendizaje y experiencia</h2>
+    <div class="section_divider"></div>
+  </div>
+
+  <ul class="experience-list">
+    @for (item of experience(); track $index) {
+    <li
+      class="experience-item animate-in-item"
+      style="--anim-delay: calc({{ $index }} * 100ms)"
+    >
+      <div class="experience-icon">
+        <img [src]="item.icon" height="30" width="30" [alt]="item.text" />
+      </div>
+      <div class="experience-content">
+        <p>
+          {{ item.text }}
+          @if (item.link) {
+          <a [href]="item.link.url" target="_blank" class="link">{{
+            item.link.text
+          }}</a>
+          }
+        </p>
+      </div>
+    </li>
+    }
+  </ul>
+</section>

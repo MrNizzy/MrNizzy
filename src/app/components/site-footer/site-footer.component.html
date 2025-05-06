@@ -1,0 +1,25 @@
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-social">
+      <span>Sígueme en:</span>
+      @for (socialItem of social(); track socialItem.name) {
+      <a
+        [href]="socialItem.url"
+        target="_blank"
+        rel="noreferrer"
+        class="social-link"
+      >
+        <img
+          [src]="socialItem.icon"
+          [alt]="socialItem.name"
+          height="24"
+          width="24"
+        />
+      </a>
+      }
+    </div>
+    <div class="footer-copyright">
+      <p>Creado con ❤️ por MrNizzy usando Angular.</p>
+    </div>
+  </div>
+</footer>

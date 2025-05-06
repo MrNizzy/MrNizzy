@@ -1,0 +1,104 @@
+.experience-section {
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      rgba(var(--mat-sys-primary-rgb), 0.04) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(var(--mat-sys-secondary-rgb), 0.03) 0%,
+      transparent 20%
+    );
+}
+
+.experience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: var(--mat-sys-shape-medium);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(
+      to bottom,
+      var(--mat-sys-primary),
+      var(--mat-sys-secondary)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateX(5px);
+    box-shadow: var(--mat-sys-elevation-level2);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .experience-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background-color: var(--mat-sys-surface-container-highest);
+    box-shadow: var(--mat-sys-elevation-level1);
+  }
+
+  .experience-content {
+    flex: 1;
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    a.link {
+      color: var(--mat-sys-primary);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.3s ease;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--mat-sys-primary);
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        color: var(--mat-sys-secondary);
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

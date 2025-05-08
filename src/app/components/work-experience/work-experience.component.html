@@ -5,10 +5,11 @@
   </div>
 
   <div class="work-experience-container">
-    @for (job of work(); track $index) {
+    @for (job of works(); track $index) {
     <div
       class="work-experience-item animate-in-item"
       style="--anim-delay: calc({{ $index }} * 200ms)"
+      appScrollFadeIn
     >
       <div class="work-timeline">
         <div class="work-dot"></div>

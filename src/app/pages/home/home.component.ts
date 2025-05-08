@@ -19,6 +19,7 @@ import { LearningExperienceComponent } from '../../components/learning-experienc
 import { TechStackComponent } from '../../components/tech-stack/tech-stack.component';
 import { ProjectShowcaseComponent } from '../../components/project-showcase/project-showcase.component';
 import { SiteFooterComponent } from '../../components/site-footer/site-footer.component';
+import { ScrollFadeInDirective } from '@app/core/directives/scroll-fade-in.directive';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { SiteFooterComponent } from '../../components/site-footer/site-footer.co
     TechStackComponent,
     ProjectShowcaseComponent,
     SiteFooterComponent,
+    ScrollFadeInDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

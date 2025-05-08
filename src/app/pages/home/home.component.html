@@ -1,15 +1,16 @@
 <main class="content">
-  <app-hero-banner [profileInfo]="profile()"></app-hero-banner>
+  <app-hero-banner [profileInfo]="profile()" appScrollFadeIn />
 
-  <app-work-experience [experiences]="work()"></app-work-experience>
+  <app-work-experience [works]="work()" appScrollFadeIn />
 
-  <app-tech-stack [tools]="toolGroups()"></app-tech-stack>
+  <app-tech-stack [tools]="toolGroups()" appScrollFadeIn />
 
   <app-learning-experience
     [learningExperiences]="experience()"
-  ></app-learning-experience>
+    appScrollFadeIn
+  />
 
-  <app-project-showcase [projects]="projectList()"></app-project-showcase>
+  <app-project-showcase [projects]="projectList()" appScrollFadeIn />
 
-  <app-site-footer [socialLinks]="social()"></app-site-footer>
+  <app-site-footer [socialLinks]="social()" appScrollFadeIn />
 </main>

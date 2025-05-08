@@ -11,7 +11,13 @@
       style="--anim-delay: calc({{ $index }} * 150ms)"
     >
       <div class="project-image">
-        <img [src]="project.images[0]" [alt]="project.title" />
+        <img
+          [ngSrc]="project.images[0]"
+          [alt]="project.title"
+          width="24"
+          height="24"
+          [priority]="false"
+        />
       </div>
       <div class="project-content">
         <div class="project-header">
@@ -39,11 +45,4 @@
     </div>
     }
   </div>
-
-  <!-- <div class="section_actions">
-    <a mat-stroked-button routerLink="/projects">
-      Ver todos los proyectos
-      <mat-icon>arrow_forward</mat-icon>
-    </a>
-  </div> -->
 </section>

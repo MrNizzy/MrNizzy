@@ -2,15 +2,40 @@
   <div class="landing_content">
     <div class="landing_text-wrapper">
       <span class="badge">Portfolio</span>
-      <h1 class="landing_title animate-in">{{ profile().title }}</h1>
+      <h1 class="landing_title animate-in">
+        Hola
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
+          alt="Saludo"
+          width="48"
+        />, soy MrNizzy
+      </h1>
       <p class="landing_text animate-in-delay-1">{{ profile().subtitle }}</p>
       <p class="landing_description animate-in-delay-2">
         {{ profile().description }}
       </p>
       <div class="landing_actions animate-in-delay-3">
-        <a mat-fab extended class="primary-action" routerLink="/contact">
+        <a
+          mat-fab
+          extended
+          class="primary-action"
+          href="mailto:mr.nizzy.0128@gmail.com"
+          subject="¡Hola! Quiero trabajar contigo"
+          body="¡Hola! MrNizzy, me gustaría trabajar contigo. ¿Podrías ayudarme?, mi propuesta es..."
+        >
           <mat-icon> mail </mat-icon>
           Contáctame si quieres trabajar conmigo ✨
+        </a>
+        <a
+          mat-fab
+          extended
+          class="secondary-action"
+          href="https://linkedin.com/in/mrnizzy/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <mat-icon> business_center </mat-icon>
+          LinkedIn
         </a>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import * as THREE from 'three';
 
@@ -11,17 +12,16 @@ import * as THREE from 'three';
   selector: 'app-animated-background',
   templateUrl: './animated-background.component.html',
   styleUrl: './animated-background.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
-  @ViewChild('container', { static: true }) containerRef!: ElementRef;
+  private readonly containerRef = viewChild.required<ElementRef>('container');
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private particles!: THREE.Points;
   private animationFrameId: number | null = null;
-
-  constructor() {}
 
   ngOnInit() {
     this.initThree();
@@ -36,7 +36,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
       cancelAnimationFrame(this.animationFrameId);
     }
     window.removeEventListener('resize', this.onWindowResize.bind(this));
-    this.containerRef.nativeElement.removeChild(this.renderer.domElement);
+    this.containerRef().nativeElement.removeChild(this.renderer.domElement);
     this.disposeScene();
   }
 
@@ -53,7 +53,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.containerRef.nativeElement.appendChild(this.renderer.domElement);
+    this.containerRef().nativeElement.appendChild(this.renderer.domElement);
 
     // Crear partículas
     this.createParticles();

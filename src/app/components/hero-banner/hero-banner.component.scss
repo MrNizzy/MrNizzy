@@ -75,9 +75,12 @@
   }
 
   &_actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
-    flex-wrap: wrap;
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
 
     .primary-action {
       background: linear-gradient(
@@ -135,6 +138,14 @@
       z-index: 1;
       opacity: 0.4;
       filter: blur(20px);
+    }
+
+    @media (max-width: 768px) {
+      img {
+        margin-top: 2rem;
+        width: 40%;
+        height: auto;
+      }
     }
   }
 }

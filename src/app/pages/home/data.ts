@@ -50,7 +50,7 @@ export const profileInfo: ProfileInfo = {
   title: 'Hola 👋, Soy MrNizzy',
   subtitle: 'Ingeniero de sistemas / creador digital / escritor de Colombia',
   description:
-    'Fullstack developer con más de 2 años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de un sistema a una arquitectura desacoplada, logrando una mejora del 50% en rendimiento y escalabilidad. Con experiencia en el análisis de requisitos, optimización de procesos, experiencias de usuario, diseño de interfaces con foco en diseño responsivo. Versátil y proactivo, con un deseo insaciable de mejorar continuamente. Además, de la pasión por la innovación y el desarrollo ágil.',
+    'Desarrollador con 2+ años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de sistemas a arquitecturas desacopladas, mejorando rendimiento y escalabilidad en un 50%. Experto en diseño responsivo, optimización de procesos y desarrollo ágil.',
 };
 
 // Experiencia profesional
@@ -330,6 +330,7 @@ export const projects: Project[] = [
   {
     title: 'Promediar',
     images: ['./screenshots/promediar.png'],
+    icon: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Man%20Teacher%20Medium%20Skin%20Tone.png',
     description:
       'Aplicación web para calcular promedios ponderados y determinar notas necesarias, creada con Angular y formularios reactivos.',
     links: [

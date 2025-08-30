@@ -1,8 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnInit,
+  input,
   signal,
 } from '@angular/core';
 
@@ -10,23 +9,13 @@ import { SocialLink } from '../../pages/home/data';
 
 @Component({
   selector: 'app-site-footer',
-  standalone: true,
   imports: [],
   templateUrl: './site-footer.component.html',
   styleUrl: './site-footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SiteFooterComponent implements OnInit {
-  @Input() set socialLinks(value: SocialLink[]) {
-    this._social.set(value);
-  }
+export class SiteFooterComponent {
+  public readonly socialLinks = input<SocialLink[]>([]);
 
-  currentYear: number = 0;
-
-  private _social = signal<SocialLink[]>([]);
-  social = this._social.asReadonly();
-
-  ngOnInit(): void {
-    this.currentYear = new Date().getFullYear();
-  }
+  public readonly currentYear = signal(new Date().getFullYear()).asReadonly();
 }

@@ -5,7 +5,7 @@
   </div>
 
   <div class="tools_container">
-    @for (toolRow of toolGroups(); track $index) {
+    @for (toolRow of tools(); track $index) {
     <div class="tools_row">
       @for (tool of toolRow; track tool.name) {
       <a

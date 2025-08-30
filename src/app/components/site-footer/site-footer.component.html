@@ -2,7 +2,7 @@
   <div class="footer-container">
     <div class="footer-social">
       <span>Sígueme en:</span>
-      @for (socialItem of social(); track socialItem.name) {
+      @for (socialItem of socialLinks(); track socialItem.name) {
       <a
         [href]="socialItem.url"
         target="_blank"

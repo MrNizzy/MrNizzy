@@ -50,7 +50,7 @@ export const profileInfo: ProfileInfo = {
   title: 'Hola 👋, Soy MrNizzy',
   subtitle: 'Ingeniero de sistemas / creador digital / escritor de Colombia',
   description:
-    'Desarrollador con 2+ años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de sistemas a arquitecturas desacopladas, mejorando rendimiento y escalabilidad en un 50%. Experto en diseño responsivo, optimización de procesos y desarrollo ágil.',
+    'Desarrollador con 3 años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de sistemas a arquitecturas desacopladas, mejorando rendimiento y escalabilidad en un 50%. Experto en diseño responsivo, optimización de procesos y desarrollo ágil.',
 };
 
 // Experiencia profesional
@@ -117,10 +117,20 @@ function calculateMonthsBetween(startDate: Date, endDate: Date): number {
 // Experiencia laboral
 export const workExperiences: WorkExperience[] = [
   {
+    position: 'Frontend Developer - Angular',
+    company: `WittyPlus`,
+    period: `Julio 2025 — Actualidad (${calculateMonthsBetween(
+      currentDate,
+      new Date(2025, 6)
+    )} meses)`,
+    description:
+      'Desarrollo de aplicaciones micro-frontends utilizando Angular, integrando con APIs RESTful. Implementación de mejores prácticas de desarrollo, optimización de rendimiento. Colaboración en un entorno ágil, participando en revisiones de código y planificación de sprints para entregar soluciones eficientes y escalables. Desarrollo de una librería de componentes reutilizables con Angular y DaisyUI, mejorando la consistencia y eficiencia en el desarrollo de interfaces de usuario.',
+  },
+  {
     position: 'Freelance Developer - Ionic (Angular) / NestJS',
     company: 'Independiente',
-    period: `Agosto 2024 — Actualidad (${calculateMonthsBetween(
-      currentDate,
+    period: `Agosto 2024 — Julio 2025 (${calculateMonthsBetween(
+      new Date(2025, 7),
       new Date(2024, 7)
     )} meses)`,
     description:

@@ -50,8 +50,8 @@
   border-left: 4px solid transparent;
   transition: all 0.3s ease;
   &:hover {
-    box-shadow: var(--mat-sys-level1);
-    border-left: 4px solid var(--mat-sys-secondary);
+    box-shadow: var(--mat-sys-level3);
+    transform: scale(1.02);
   }
 }
 
@@ -82,6 +82,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   overflow: hidden;
 }
 

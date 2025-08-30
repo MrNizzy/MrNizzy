@@ -4,13 +4,13 @@ import {
   Input,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Tool } from '../../pages/home/data';
 
 @Component({
   selector: 'app-tech-stack',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './tech-stack.component.html',
   styleUrl: './tech-stack.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

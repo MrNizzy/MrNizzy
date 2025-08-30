@@ -5,13 +5,13 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SocialLink } from '../../pages/home/data';
 
 @Component({
   selector: 'app-site-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './site-footer.component.html',
   styleUrl: './site-footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

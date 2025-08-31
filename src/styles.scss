@@ -1,35 +1,17 @@
-@use "./styles/normalize.scss";
-@use "./styles/themes/mrnizzy.scss" as theme;
-@use "@angular/material" as mat;
+@use "tailwindcss";
 
 html {
-  color-scheme: light dark;
-  @include mat.theme(
-    (
-      color: theme.$primary-palette,
-      typography: "Bai Jamjuree",
-      density: 0,
-    )
-  );
+  color-scheme: dark;
+  background-color: #121212;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Story Script', sans-serif;
 }
 
 body {
   scroll-behavior: smooth;
-}
-
-.link {
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 1px;
-  color: var(--mat-sys-primary);
-  transition: background-size cubic-bezier(0, 0.5, 0, 1) 0.3s;
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    background-size: 100% 1px;
-  }
+  font-family: 'Open Sans', sans-serif;
 }
 
 @keyframes fadeInUp {
@@ -106,52 +88,59 @@ body {
   }
 }
 
-.section {
-  background: var(--mat-sys-surface);
-  padding: 2rem 3rem;
-  border-radius: 1rem;
-  box-shadow: var(--mat-sys-level3);
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-
-  &:hover {
-    box-shadow: var(--mat-sys-elevation-level2);
+/* Overlay animations */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
   }
-
-  &_header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
+  to {
+    opacity: 1;
   }
+}
 
-  &_title {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--mat-sys-primary);
-    font-weight: 600;
-    position: relative;
-    display: inline-block;
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
   }
+  to {
+    opacity: 0;
+  }
+}
 
-  &_subtitle {
-    font-size: 1.1rem;
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: 0.5rem;
-    max-width: 700px;
+@keyframes overlayPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
-  &_divider {
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(
-      90deg,
-      var(--mat-sys-primary),
-      var(--mat-sys-secondary)
-    );
-    margin-top: 0.25rem;
-    border-radius: 10px;
+@keyframes overlayPanelOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.overlay-fade-in {
+  animation: overlayFadeIn 0.25s ease forwards;
+}
+
+.overlay-fade-out {
+  animation: overlayFadeOut 0.25s ease forwards;
+}
+
+.overlay-panel-in {
+  animation: overlayPanelIn 0.25s ease forwards;
+}
+
+.overlay-panel-out {
+  animation: overlayPanelOut 0.25s ease forwards;
 }

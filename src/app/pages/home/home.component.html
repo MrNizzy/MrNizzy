@@ -1,7 +1,7 @@
-<main class="content">
-  <app-hero-banner [profileInfo]="profile()" appScrollFadeIn />
+<app-hero-banner [profileInfo]="profile()" appScrollFadeIn />
 
-  <app-work-experience [works]="work()" appScrollFadeIn />
+<section class="grid gap-12">
+  <app-work-experience appScrollFadeIn />
 
   <app-tech-stack [tools]="toolGroups()" appScrollFadeIn />
 
@@ -9,8 +9,6 @@
     [learningExperiences]="experience()"
     appScrollFadeIn
   />
+</section>
 
-  <app-project-showcase [projects]="projectList()" appScrollFadeIn />
-
-  <app-site-footer [socialLinks]="social()" appScrollFadeIn />
-</main>
+<app-social-network appScrollFadeIn />

@@ -1,25 +1,13 @@
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-social">
-      <span>Sígueme en:</span>
-      @for (socialItem of socialLinks(); track socialItem.name) {
-      <a
-        [href]="socialItem.url"
-        target="_blank"
-        rel="noreferrer"
-        class="social-link"
-      >
-        <img
-          [src]="socialItem.icon"
-          [alt]="socialItem.name"
-          height="24"
-          width="24"
-        />
-      </a>
-      }
-    </div>
-    <div class="footer-copyright">
-      <p>Creado con ❤️ por MrNizzy usando Angular.</p>
-    </div>
-  </div>
+<footer class="container p-4 text-center mx-auto grid gap-4 mt-12 opacity-75">
+  <p>
+    Creado con ❤️ por
+    <span class="font-semibold text-pink-500 tracking-wider lowercase">
+      {{ author() }}
+    </span>
+    usando Angular.
+    <br />
+    <span class="font-semibold text-pink-500 tracking-wider lowercase">
+      &copy; {{ currentYear() }}
+    </span>
+  </p>
 </footer>

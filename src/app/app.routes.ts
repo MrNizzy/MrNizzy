@@ -6,13 +6,13 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('@pages/home/home.component').then((m) => m.HomeComponent),
-    title: `Inicio - ${environment.appName}`,
+    title: `Home - ${environment.appName}`,
   },
   {
     path: 'about',
     loadComponent: () =>
       import('@pages/about/about.component').then((m) => m.AboutComponent),
-    title: `Acerca de - ${environment.appName}`,
+    title: `About - ${environment.appName}`,
   },
   {
     path: 'contact',
@@ -20,7 +20,7 @@ export const routes: Routes = [
       import('@pages/contact/contact.component').then(
         (m) => m.ContactComponent
       ),
-    title: `Contacto - ${environment.appName}`,
+    title: `Contact - ${environment.appName}`,
   },
   {
     path: 'projects',
@@ -28,7 +28,15 @@ export const routes: Routes = [
       import('@pages/projects/projects.component').then(
         (m) => m.ProjectsComponent
       ),
-    title: `Proyectos - ${environment.appName}`,
+    title: `Projects - ${environment.appName}`,
+  },
+  {
+    path: 'resources',
+    loadComponent: () =>
+      import('@pages/resources/resources.component').then(
+        (m) => m.ResourcesComponent
+      ),
+    title: `Resources - ${environment.appName}`,
   },
   {
     path: 'privacy',
@@ -36,7 +44,7 @@ export const routes: Routes = [
       import('@pages/privacy/privacy.component').then(
         (m) => m.PrivacyComponent
       ),
-    title: `Política de privacidad - ${environment.appName}`,
+    title: `Privacy - ${environment.appName}`,
   },
   {
     path: '**',
@@ -44,6 +52,6 @@ export const routes: Routes = [
       import('@pages/not-found/not-found.component').then(
         (m) => m.NotFoundComponent
       ),
-    title: `Página no encontrada - ${environment.appName}`,
+    title: `Not Found - ${environment.appName}`,
   },
 ];

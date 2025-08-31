@@ -1,48 +1,95 @@
-<section class="section projects-section">
-  <div class="section_header">
-    <h2 class="section_title"><mat-icon>folder_special</mat-icon> Proyectos</h2>
-    <div class="section_divider"></div>
+<section class="grid gap-8">
+  <!-- Filter chips -->
+  <div class="flex flex-wrap gap-3 justify-center">
+    @for (cat of categories(); track cat) {
+    <button
+      type="button"
+      (click)="setCategory(cat)"
+      class="px-6 py-3 md:py-4 rounded-full text-sm border border-black/10 backdrop-blur-md bg-black/5 shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] hover:border-black/20 hover:shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] hover:bg-pink-500/10 transition-all duration-200 cursor-pointer"
+      [class.bg-pink-500]="selectedCategory() === cat"
+      [class.border-pink-500]="selectedCategory() === cat"
+      [class.text-white]="selectedCategory() === cat"
+    >
+      {{ cat }}
+    </button>
+    }
   </div>
 
-  <div class="projects-grid">
-    @for (project of projects(); track $index) {
-    <div
-      class="project-card animate-in-item"
-      style="--anim-delay: calc({{ $index }} * 150ms)"
+  <!-- Projects grid -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-center"
+  >
+    @for (project of filteredProjects(); track project.title) {
+    <article
+      class="group relative overflow-hidden rounded-2xl border border-black/10 bg-black/10 backdrop-blur-md p-6 md:p-8 hover:border-black/20 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
     >
-      <div class="project-image">
-        <img
-          [ngSrc]="project.images[0]"
-          [alt]="project.title"
-          width="24"
-          height="24"
-          [priority]="false"
-        />
-      </div>
-      <div class="project-content">
-        <div class="project-header">
+      <div class="grid gap-5">
+        <div class="flex items-start gap-3">
           @if (project.icon) {
           <img
             [src]="project.icon"
-            class="project-icon"
-            [alt]="project.title"
+            alt="{{ project.title }}"
+            class="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 rounded"
           />
           }
-          <h3 class="project-title">{{ project.title }}</h3>
+          <div class="grid gap-1">
+            <h3 class="text-xl md:text-2xl font-bold leading-tight">
+              {{ project.title }}
+            </h3>
+            @if (project.description) {
+            <p
+              class="text-white/80 text-sm md:text-base line-clamp-3"
+              [title]="project.description"
+            >
+              {{ project.description }}
+            </p>
+            }
+          </div>
         </div>
-        @if (project.description) {
-        <p class="project-description">{{ project.description }}</p>
-        }
-        <div class="project-links">
+
+        <!-- preview image -->
+        <div
+          class="rounded-xl overflow-hidden border border-black/10 bg-black/20 ring-1 ring-black/10"
+        >
+          <div class="aspect-video w-full">
+            <img
+              [ngSrc]="project.images[0]"
+              alt="{{ project.title }} preview"
+              width="1280"
+              height="720"
+              class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+              [priority]="false"
+            />
+          </div>
+        </div>
+
+        <!-- tags chips -->
+        <div class="flex flex-wrap gap-2">
+          @for (chip of (project.tags ?? project.categories ?? []); track chip)
+          {
+          <span
+            class="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-wide border border-black/20 bg-black/20 text-white/90"
+            >{{ chip }}</span
+          >
+          }
+        </div>
+
+        <!-- links -->
+        <div class="flex flex-wrap gap-4 pt-3">
           @for (link of project.links; track link.text) {
-          <a [href]="link.url" target="_blank" class="project-link">
-            {{ link.text }}
-            <mat-icon>launch</mat-icon>
+          <a
+            [href]="link.url"
+            target="_blank"
+            class="inline-flex items-center gap-1.5 text-pink-300 hover:text-pink-200 transition-colors underline decoration-transparent hover:decoration-current underline-offset-4"
+            rel="noopener noreferrer"
+          >
+            <span>{{ link.text }}</span>
+            <mat-icon class="!text-base">launch</mat-icon>
           </a>
           }
         </div>
       </div>
-    </div>
+    </article>
     }
   </div>
 </section>

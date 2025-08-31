@@ -1,30 +1,73 @@
-<section class="contact">
-  <form [formGroup]="form" (ngSubmit)="sendEmail()" class="form">
-    <h1 class="form_title">Contacto</h1>
-    <mat-form-field appearance="outline">
-      <mat-label> Asunto </mat-label>
-      <input matInput formControlName="asunto" />
-      <mat-icon matSuffix>email</mat-icon>
-    </mat-form-field>
+<section class="w-full flex items-center justify-center">
+  <div
+    class="group relative w-full max-w-xl overflow-hidden rounded-2xl border border-black/10 bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300"
+  >
+    <!-- sheen -->
+    <span
+      class="pointer-events-none absolute -inset-y-10 -left-1/2 h-[200%] w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 translate-x-[-120%] group-hover:opacity-100 group-hover:translate-x-[240%] transition-all duration-700 ease-out"
+    ></span>
 
-    <mat-form-field appearance="outline">
-      <mat-label> Mensaje </mat-label>
-      <textarea
-        matInput
-        formControlName="mensaje"
-        cdkTextareaAutosize
-        cdkAutosizeMinRows="3"
-        cdkAutosizeMaxRows="5"
-      ></textarea>
-      <mat-icon matSuffix>message</mat-icon>
-    </mat-form-field>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="sendEmail()"
+      class="relative grid gap-5 p-6 sm:p-8"
+    >
+      <h1
+        class="text-center text-3xl sm:text-4xl font-semibold tracking-wider text-white uppercase"
+      >
+        Contact
+      </h1>
 
-    <mat-form-field appearance="outline">
-      <mat-label> Email </mat-label>
-      <input matInput formControlName="email" />
-      <mat-icon matSuffix>email</mat-icon>
-    </mat-form-field>
+      <!-- Asunto -->
+      <div class="grid gap-2">
+        <label for="asunto" class="text-sm font-medium text-white/80">
+          Subject
+        </label>
+        <input
+          id="asunto"
+          type="text"
+          formControlName="asunto"
+          placeholder="Subject"
+          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none ring-0 transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
+          autocomplete="off"
+        />
+      </div>
 
-    <button mat-raised-button type="submit">Enviar mensaje</button>
-  </form>
+      <!-- Mensaje -->
+      <div class="grid gap-2">
+        <label for="mensaje" class="text-sm font-medium text-white/80">
+          Message
+        </label>
+        <textarea
+          id="mensaje"
+          formControlName="mensaje"
+          rows="6"
+          placeholder="Tell me how I can help you"
+          class="w-full min-h-28 resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
+        ></textarea>
+      </div>
+
+      <!-- Email -->
+      <div class="grid gap-2">
+        <label for="email" class="text-sm font-medium text-white/80">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="your@email.com"
+          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
+          autocomplete="email"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="mt-2 h-12 rounded-xl bg-gradient-to-r from-pink-400/80 to-pink-500/80 text-white font-semibold tracking-wide shadow hover:from-pink-500 hover:to-pink-400 cursor-pointer hover:scale-105 transition-all duration-300"
+      >
+        Send message
+      </button>
+    </form>
+  </div>
 </section>

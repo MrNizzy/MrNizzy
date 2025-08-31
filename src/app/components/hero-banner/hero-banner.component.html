@@ -1,51 +1,47 @@
-<section class="landing">
-  <div class="landing_content">
-    <div class="landing_text-wrapper">
-      <span class="badge">Portfolio</span>
-      <h1 class="landing_title animate-in">
-        Hola
-        <img
-          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png"
-          alt="Saludo"
-          width="48"
-        />, soy MrNizzy
+<section
+  class="min-h-[calc(100dvh-8rem)] flex flex-col justify-center items-start align-center text-start mx-4"
+>
+  <div
+    class="grid grid-cols-1 xl:grid-cols-[1fr_450px] rounded-2xl gap-6 backdrop-blur-xl backdrop-saturate-150 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:to-transparent p-6 md:p-12 align-center items-center"
+  >
+    <div class="flex flex-col gap-6">
+      <h1
+        class="text-5xl md:text-6xl xl:text-8xl font-bold text-pretty tracking-wide"
+      >
+        <!-- gradient text -->
+        <span
+          class="bg-gradient-to-r from-pink-400 to-pink-500 bg-clip-text text-transparent"
+        >
+          System's Engineer
+        </span>
+        and passionate developer
       </h1>
-      <p class="landing_text animate-in-delay-1">
-        {{ profileInfo().subtitle }}
+      <p
+        class="text-lg md:text-xl lg:text-2xl max-w-3xl text-pretty tracking-wider leading-relaxed"
+      >
+        Crafting seamless digital experiences with a blend of creativity and
+        technical expertise.
       </p>
-      <p class="landing_description animate-in-delay-2">
-        {{ profileInfo().description }}
-      </p>
-      <div class="landing_actions animate-in-delay-3">
-        <a
-          mat-fab
-          extended
-          class="primary-action"
-          href="mailto:mr.nizzy.0128@gmail.com"
-          subject="¡Hola! Quiero trabajar contigo"
-          body="¡Hola! MrNizzy, me gustaría trabajar contigo. ¿Podrías ayudarme?, mi propuesta es..."
-        >
-          <mat-icon> mail </mat-icon>
-          Contáctame si quieres trabajar conmigo ✨
-        </a>
-        <a
-          mat-fab
-          extended
-          class="secondary-action"
-          href="https://linkedin.com/in/mrnizzy/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <mat-icon> business_center </mat-icon>
-          LinkedIn
-        </a>
-      </div>
     </div>
-  </div>
-  <div class="landing_banner animate-in-right">
-    <div class="profile-image-wrapper">
-      <img src="mrnizzy.png" alt="MrNizzy profile" width="350" />
-      <div class="profile-image-bg"></div>
-    </div>
+    <a
+      href="https://github.com/MrNizzy"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="group w-2/3 mx-auto"
+      title="MrNizzy GitHub"
+      aria-label="MrNizzy GitHub"
+    >
+      <picture>
+        <source srcset="mrnizzy.webp" type="image/webp" />
+        <img
+          src="mrnizzy.png"
+          alt="Logo MrNizzy"
+          width="256"
+          height="256"
+          class="w-full mx-auto hidden xl:block group-hover:scale-110 transition-all duration-300"
+          loading="lazy"
+        />
+      </picture>
+    </a>
   </div>
 </section>

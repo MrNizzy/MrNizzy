@@ -65,7 +65,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     const positions = new Float32Array(particleCount * 3);
     const sizes = new Float32Array(particleCount);
 
-    const color1 = new THREE.Color(0xbb0056);
+    const color1 = new THREE.Color(0xf6339a);
     const color2 = new THREE.Color(0x4b0082); // Color índigo
 
     const colors = new Float32Array(particleCount * 3);
@@ -97,7 +97,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
       sizeAttenuation: true,
       vertexColors: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 1,
     });
 
     // Crear el sistema de partículas

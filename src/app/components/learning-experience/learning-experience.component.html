@@ -1,27 +1,55 @@
-<section class="section experience-section">
-  <div class="section_header">
-    <h2 class="section_title">Aprendizaje y experiencia</h2>
-    <div class="section_divider"></div>
-  </div>
+<section class="container grid gap-12 mt-12" appScrollFadeIn>
+  <h2 class="text-6xl font-bold flex items-center gap-4 tracking-wide uppercase">
+    Fun facts
+  </h2>
 
-  <ul class="experience-list">
-    @for (item of experience(); track $index) {
+  <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+    @for (item of learningExperiences(); track $index) {
     <li
-      class="experience-item animate-in-item"
-      style="--anim-delay: calc({{ $index }} * 100ms)"
+      class="group relative cursor-default overflow-hidden rounded-2xl border border-white/5 bg-black/5 dark:bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300"
     >
-      <div class="experience-icon">
-        <img [src]="item.icon" height="30" width="30" [alt]="item.text" />
-      </div>
-      <div class="experience-content">
-        <p>
-          {{ item.text }}
-          @if (item.link) {
-          <a [href]="item.link.url" target="_blank" class="link">{{
-            item.link.text
-          }}</a>
-          }
-        </p>
+      <!-- sheen -->
+      <span
+        class="pointer-events-none absolute -inset-y-10 -left-1/2 h-[200%] w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 translate-x-[-120%] group-hover:opacity-100 group-hover:translate-x-[240%] transition-all duration-700 ease-out"
+      ></span>
+
+      <div class="flex items-center gap-4 p-4 md:p-6">
+        <img
+          [src]="item.icon"
+          height="48"
+          width="48"
+          alt="{{ item.text }}"
+          class="h-16 w-16 object-contain"
+        />
+        <div class="flex-1 text-white/80">
+          <p
+            class="text-base md:text-lg leading-relaxed flex items-center gap-2"
+          >
+            {{ item.text }}
+            @if (item.link) {
+            <a
+              [href]="item.link.url"
+              target="_blank"
+              rel="noreferrer"
+              class="flex items-center gap-2 text-pink-300 group-hover:text-pink-200 underline decoration-pink-400/40 group-hover:decoration-pink-300 transition-colors"
+            >
+              {{ item.link.text }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                class="hidden group-hover:block"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M9.367 2.25H9.4a.75.75 0 0 1 0 1.5c-1.132 0-1.937 0-2.566.052c-.62.05-1.005.147-1.31.302a3.25 3.25 0 0 0-1.42 1.42c-.155.305-.251.69-.302 1.31c-.051.63-.052 1.434-.052 2.566v5.2c0 1.133 0 1.937.052 2.566c.05.62.147 1.005.302 1.31a3.25 3.25 0 0 0 1.42 1.42c.305.155.69.251 1.31.302c.63.051 1.434.052 2.566.052h5.2c1.133 0 1.937 0 2.566-.052c.62-.05 1.005-.147 1.31-.302a3.25 3.25 0 0 0 1.42-1.42c.155-.305.251-.69.302-1.31c.051-.63.052-1.434.052-2.566v-1.1a.75.75 0 0 1 1.5 0v1.133c0 1.092 0 1.958-.057 2.655c-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461c-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057c-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869c-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655c.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461c.697-.057 1.563-.057 2.655-.057M13.5 3a.75.75 0 0 1 .75-.75H21a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0V4.81l-6.97 6.97a.75.75 0 1 1-1.06-1.06l6.97-6.97h-4.94A.75.75 0 0 1 13.5 3"
+                />
+              </svg>
+            </a>
+            }
+          </p>
+        </div>
       </div>
     </li>
     }

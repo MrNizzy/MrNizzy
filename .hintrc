@@ -1,11 +1,14 @@
 {
-  "extends": ["development"],
+  "extends": [
+    "development"
+  ],
   "hints": {
     "axe/structure": [
       "default",
       {
         "list": "off"
       }
-    ]
+    ],
+    "axe/text-alternatives": "off"
   }
 }

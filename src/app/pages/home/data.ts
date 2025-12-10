@@ -66,8 +66,8 @@ export const experienceItems: ExperienceItem[] = [
     icon: './icons/Man Teacher Medium Skin Tone.png',
     text: 'Currently learning',
     link: {
-      text: 'Ionic',
-      url: 'https://ionicframework.com',
+      text: 'Next.js',
+      url: 'https://nextjs.org',
     },
   },
   {
@@ -144,7 +144,7 @@ export const tools: Tool[][] = [
     {
       name: 'Angular',
       icon: './icons/angular.svg',
-      url: 'https://angular.io/cli',
+      url: 'https://angular.dev',
     },
     {
       name: 'Nestjs',
@@ -255,6 +255,41 @@ export const tools: Tool[][] = [
       name: 'Bootstrap',
       icon: './icons/bootstrap.svg',
       url: 'https://getbootstrap.com',
+    },
+    {
+      name: 'React',
+      icon: './icons/react.svg',
+      url: 'https://react.dev',
+    },
+    {
+      name: 'Next.js',
+      icon: './icons/nextjs.svg',
+      url: 'https://nextjs.org',
+    },
+    {
+      name: 'Three.js',
+      icon: './icons/threejs.svg',
+      url: 'https://threejs.org',
+    },
+    {
+      name: 'Shadcn UI',
+      icon: './icons/shadcn-ui.svg',
+      url: 'https://ui.shadcn.com',
+    },
+    {
+      name: 'Windsurf',
+      icon: './icons/windsurf.svg',
+      url: 'https://windsurf.com/editor',
+    },
+    {
+      name: 'Warp',
+      icon: './icons/warp.avif',
+      url: 'https://warp.dev',
+    },
+    {
+      name: 'Powertoys',
+      icon: './icons/powertoys.svg',
+      url: 'https://learn.microsoft.com/en-us/windows/powertoys/',
     },
   ],
 ];

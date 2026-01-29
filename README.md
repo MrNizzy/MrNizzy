@@ -2,7 +2,7 @@
 <h2 align="center">A systems engineer / digital creator / frontend developer / writer from Colombia</h2>
 
 <p align="left" >
- Fullstack developer with more than 2 years of experience in Angular, NestJS and SQL databases. I led the migration of a system to a decoupled architecture, achieving a 50% improvement in performance and scalability. Passionate about innovation and agile development.
+ Fullstack developer with more than 3 years of experience in Angular, NestJS and SQL databases. I led the migration of a system to a decoupled architecture, achieving a 50% improvement in performance and scalability. Passionate about innovation and agile development.
 </p>
 
 <p align="left">
@@ -23,7 +23,7 @@
     </tr>
     <tr>
         <td style="width: 40px;"><img src="./public/icons/Man Teacher Medium Skin Tone.png" height="30" width="30" alt="Studying" /></td>
-        <td>Currently learning <a href="https://godotengine.org/">Godot</a></td>
+        <td>Currently learning <a href="https://threejs.org/">Three.js</a></td>
     </tr>
     <tr>
         <td style="width: 40px;"><img src="./public/icons/Beaming Face with Smiling Eyes.png" height="30" width="30" alt="Smile" /></td>
@@ -243,17 +243,3 @@
         </td>
     </tr>
 </table>
-
-<h2 align="left">GitHub Stats</h2>
-
-<p align="left">
-   <img src="https://github-readme-stats.vercel.app/api?username=MrNizzy&show_icons=true&locale=en&theme=dark&include_all_commits=true&count_private=true" alt="MrNizzy" />
-   <img src="https://github-readme-streak-stats.herokuapp.com/?user=MrNizzy&theme=dark" alt="MrNizzy" />
-
-</p>
-
-<h2 align="left">Most used languages</h2>
-
-<p align="left">
-   <img src="https://github-readme-stats.vercel.app/api/top-langs?username=MrNizzy&show_icons=true&locale=en&layout=compact&theme=dark" alt="MrNizzy" />
-</p>

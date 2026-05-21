@@ -1,245 +1,336 @@
-<h1 align="center">Hi 👋, I'm MrNizzy</h1>
-<h2 align="center">A systems engineer / digital creator / frontend developer / writer from Colombia</h2>
+<!--
+  ╭──────────────────────────────────────────────╮
+  │           MrNizzy · GitHub Profile           │
+  │     Crafted with care · Colombia 🇨🇴          │
+  ╰──────────────────────────────────────────────╯
+-->
 
-<p align="left" >
- Fullstack developer with more than 3 years of experience in Angular, NestJS and SQL databases. I led the migration of a system to a decoupled architecture, achieving a 50% improvement in performance and scalability. Passionate about innovation and agile development.
+<div align="center">
+
+<a href="https://github.com/MrNizzy">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:EC2C7A,100:3D2545&height=200&section=header&text=MrNizzy&fontSize=72&fontColor=FBF1DA&fontAlignY=38&desc=Systems%20Engineer%20·%20Fullstack%20Developer%20·%20Digital%20Creator&descAlignY=62&descSize=14&descAlign=50&animation=fadeIn" alt="header" />
+</a>
+
+<table>
+  <tr>
+    <td width="180" align="center">
+      <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/mrnizzy.png" width="160" alt="MrNizzy logo" />
+    </td>
+    <td align="left">
+      <a href="https://github.com/MrNizzy">
+        <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3500&pause=900&color=EC2C7A&center=false&vCenter=true&width=540&lines=Building+scalable+products+at+WittyPlus;Migrating+legacy+systems+%E2%80%94+%E2%86%9750%25+performance;Crafting+UIs+with+Angular+%2B+Tailwind;Designing+APIs+with+NestJS+%2B+PostgreSQL;Creating+on+YouTube+about+code+%26+games" alt="typing" />
+      </a>
+      <br /><br />
+      <sub>
+        Hey 👋 &nbsp;I'm <b>Brayan Hernández</b> — fullstack dev from Colombia.<br />
+        I ship products at <a href="https://wittyplus.com.co/"><b>WittyPlus</b></a>, mentor on YouTube, and break things on weekends.
+      </sub>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<p>
+  <a href="https://www.linkedin.com/in/mrnizzy/">
+    <img src="https://custom-icon-badges.demolab.com/badge/-LinkedIn-3D2545?style=for-the-badge&logo=linkedin&logoColor=FBF1DA&labelColor=EC2C7A" alt="LinkedIn" />
+  </a>
+  <a href="https://www.youtube.com/@MrNizzy">
+    <img src="https://custom-icon-badges.demolab.com/badge/-YouTube-3D2545?style=for-the-badge&logo=youtube&logoColor=FBF1DA&labelColor=EC2C7A" alt="YouTube" />
+  </a>
+  <a href="https://instagram.com/mr.nizzy">
+    <img src="https://custom-icon-badges.demolab.com/badge/-Instagram-3D2545?style=for-the-badge&logo=instagram&logoColor=FBF1DA&labelColor=EC2C7A" alt="Instagram" />
+  </a>
+  <a href="mailto:mr.nizzy@proton.me">
+    <img src="https://custom-icon-badges.demolab.com/badge/-Email-3D2545?style=for-the-badge&logo=mail&logoColor=FBF1DA&labelColor=EC2C7A" alt="Email" />
+  </a>
 </p>
 
-<p align="left">
-      <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg">
-         <img alt="youtube views" title="YouTube views" src="https://custom-icon-badges.demolab.com/youtube/channel/views/UCFjfIk29NqqPGmrCfCV14Yg?color=9d7203&logo=eye&logoColor=black&style=for-the-badge&labelColor=f3c913"/></a> 
-      <a href="https://github.com/MrNizzy?tab=repositories&sort=stargazers">
-         <img alt="total stars" title="Total stars on GitHub" src="https://custom-icon-badges.demolab.com/github/stars/MrNizzy?color=9d7203&style=for-the-badge&labelColor=f3c913&logo=star&logoColor=black"/></a>
-      <a href="https://github.com/MrNizzy?tab=followers">
-         <img alt="followers" title="Follow me on Github" src="https://custom-icon-badges.demolab.com/github/followers/MrNizzy?color=1155ba&labelColor=236ad3&style=for-the-badge&logo=person-add&label=Follow&logoColor=white"/></a>
-      <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
-         <img alt="youtube subscribers" title="Subscribe to my YouTube channel" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"/></a> 
-   </p>
+<p>
+  <a href="https://github.com/MrNizzy?tab=followers">
+    <img alt="followers" src="https://custom-icon-badges.demolab.com/github/followers/MrNizzy?color=3D2545&labelColor=EC2C7A&style=flat-square&logo=person-add&label=Follow&logoColor=FBF1DA" />
+  </a>
+  <a href="https://github.com/MrNizzy?tab=repositories&sort=stargazers">
+    <img alt="total stars" src="https://custom-icon-badges.demolab.com/github/stars/MrNizzy?color=3D2545&style=flat-square&labelColor=EC2C7A&logo=star&logoColor=FBF1DA" />
+  </a>
+  <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1">
+    <img alt="youtube subscribers" src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=3D2545&label=Subscribers&logo=video&logoColor=FBF1DA&style=flat-square&labelColor=EC2C7A" />
+  </a>
+  <img alt="profile views" src="https://komarev.com/ghpvc/?username=MrNizzy&label=Profile%20views&color=EC2C7A&style=flat-square" />
+</p>
+
+</div>
+
+<br />
+
+## <picture><img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Man%20Technologist%20Medium%20Skin%20Tone.png" height="26" /></picture> &nbsp;whoami
+
+```ts
+const nizzy: Developer = {
+  name:        "Brayan Hernández",
+  alias:       "MrNizzy",
+  role:        "Fullstack Developer",
+  company:     "WittyPlus",
+  location:    "Colombia 🇨🇴",
+  experience:  "3+ years shipping production systems",
+
+  stack: {
+    frontend:  ["Angular", "TypeScript", "TailwindCSS", "SCSS"],
+    backend:   ["NestJS", "Node.js"],
+    databases: ["PostgreSQL", "MySQL", "SQLite"],
+    tooling:   ["Git", "Linux", "Nginx", "ESLint", "Prettier"],
+  },
+
+  currentlyBuilding: "scalable platforms @ WittyPlus",
+  currentlyLearning: "Godot — game dev on weekends",
+  passions:          ["writing ✍️", "anime 🍣", "videogames 🎮"],
+
+  funFact: "I led a migration that cut load times by 50%.",
+};
+```
+
+<br />
+
+## <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Hundred%20Points.png" height="26" /> &nbsp;What I'm up to
 
 <table>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Man%20Technologist%20Medium%20Skin%20Tone.png" height="30" width="30" alt="work" /></td>
-        <td>Currently working as a freelance programmer</td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Man Teacher Medium Skin Tone.png" height="30" width="30" alt="Studying" /></td>
-        <td>Currently learning <a href="https://threejs.org/">Three.js</a></td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Beaming Face with Smiling Eyes.png" height="30" width="30" alt="Smile" /></td>
-        <td>All of my projects are available at <a href="https://github.com/MrNizzy">GitHub</a></td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Hundred Points.png" height="30" width="30" alt="work together" /></td>
-        <td>How to reach me: <a href="mailto:mr.nizzy@proton.me">mr.nizzy@proton.me</a></td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Face with Monocle.png" height="30" width="30" alt="Experience" /></td>
-        <td>Know about my experiences <a href="https://www.linkedin.com/in/mrnizzy/">LinkedIn</a></td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Smiling Face with Heart-Eyes.png" height="30" width="30" alt="Hobbies" /></td>
-        <td>Fun fact: I love to write, watch anime and play videogames</td>
-    </tr>
-    <tr>
-        <td style="width: 40px;"><img src="./public/icons/Nerd Face.png" height="30" width="30" alt="Nerd Channel" /></td>
-        <td>I have a <a href="https://www.youtube.com/@MrNizzy">YouTube channel</a> where I talk about programming, videogames, technology and personal development</td>
-    </tr>
+  <tr>
+    <td valign="top" width="33%">
+      <h4 align="center">💼 &nbsp;Day job</h4>
+      <p align="center">Crafting fullstack features at <a href="https://wittyplus.com.co/"><b>WittyPlus</b></a> — Angular, NestJS, PostgreSQL.</p>
+    </td>
+    <td valign="top" width="33%">
+      <h4 align="center">🎮 &nbsp;Side quest</h4>
+      <p align="center">Learning <a href="https://godotengine.org/"><b>Godot</b></a> — turning game ideas into playable prototypes.</p>
+    </td>
+    <td valign="top" width="33%">
+      <h4 align="center">📺 &nbsp;On camera</h4>
+      <p align="center">Sharing on <a href="https://www.youtube.com/@MrNizzy"><b>YouTube</b></a> — code, games, tech &amp; growth.</p>
+    </td>
+  </tr>
 </table>
 
-<h2 align="left">Connect with me:</h2>
-<table align="center">
-    <tr>
-        <td><a href="https://linkedin.com/in/mrnizzy" target="blank"><img align="center" src="./public/icons/linkedin.svg" alt="mrnizzy" height="40" width="40" /></a>
-        <a href="https://linkedin.com/in/mrnizzy" target="blank">LinkedIn</a></td>
-        <td><a href="https://www.youtube.com/@MrNizzy" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a>
-        <a href="https://www.youtube.com/@MrNizzy" target="blank">YouTube Channel</a>
-        </td>
-        <td rowspan="2" style="width: 300px"><a href="https://app.daily.dev/mrnizzy"><img align="right" src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="356" alt="Nizzy Hernandez's Dev Card"/></a></td>
-    </tr>
-    <tr>
-        <td><a href="https://instagram.com/mr.nizzy" target="blank"><img align="center" src="./public/icons/instagram.svg" alt="mr.nizzy" height="40" width="40" /></a>
-        <a href="https://instagram.com/mr.nizzy" target="blank">Instagram</a>
-        </td>
-        <td><a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank"><img align="center" src="./public/icons/youtube.svg" alt="mr. nizzy" height="40" width="40" /></a>
-        <a href="https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg" target="blank">YouTube Channel 2</a>
-        </td>
-    </tr>
-</table>
+<br />
 
-<h2 align="left">Languages & tools</h2>
+## <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Nerd%20Face.png" height="26" /> &nbsp;Tech I love working with
+
+<div align="center">
 
 <table>
-    <tr>
-        <td><a href="https://angular.io/cli" target="_blank" rel="noreferrer"> <img src="./public/icons/angular.svg" alt="Angular" height="50" width="50"/> </a></td>
-        <td><a href="https://nestjs.com/" target="_blank" rel="noreferrer"> <img src="./public/icons/nestjs.svg" alt="Nestjs" height="50" width="50"/> </a></td>
-        <td><a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="./public/icons/tailwindcss.svg" alt="Tailwindcss" height="50" width="50"/> </a></td>
-        <td><a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="./public/icons/bootstrap.svg" alt="Bootstrap" height="50" width="50"/> </a></td>
-        <td><a href="https://developer.mozilla.org/es/docs/Web/HTML" target="_blank" rel="noreferrer"> <img src="./public/icons/html5.svg" alt="html5" height="50" width="50"/> </a></td>
-        <td><a href="https://developer.mozilla.org/es/docs/Learn/Getting_started_with_the_web/CSS_basics" target="_blank" rel="noreferrer"> <img src="./public/icons/css.svg" alt="css3" height="50" width="50"/> </a></td>
-        <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="./public/icons/javascript.svg" alt="javascript" height="50" width="50"/> </a></td>
-        <td><a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="./public/icons/typescript.svg" alt="typescript" height="50" width="50"/> </a></td>
-    </tr>
-    <tr>
-        <td><a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="./public/icons/python.svg" alt="python" height="50" width="50"/> </a></td>
-        <td><a href="https://sass-lang.com" target="_blank" rel="noreferrer"> <img src="./public/icons/sass.svg" alt="sass" height="50" width="50"/> </a></td>
-        <td><a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="./public/icons/nodejs.svg" alt="nodejs" height="50" width="50"/> </a></td>
-        <td><a href="https://www.figma.com/" target="_blank" rel="noreferrer"> <img src="./public/icons/figma.svg" alt="figma" height="50" width="50"/> </a></td>
-        <td><a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="./public/icons/git.svg" alt="git" height="50" width="50"/> </a></td>
-        <td><a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="./public/icons/linux.svg" alt="linux" height="50" width="50"/> </a></td>
-        <td><a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="./public/icons/mysql.svg" alt="mysql" height="50" width="50"/> </a></td>
-        <td><a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="./public/icons/postgresql.svg" alt="postgresql" height="50" width="50"/> </a></td>
-    </tr>
-    <tr>
-        <td><a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="./public/icons/sqlite.svg" alt="sqlite" height="50" width="50"/> </a></td>
-        <td><a href="https://nginx.org/en/" target="_blank" rel="noreferrer"> <img src="./public/icons/nginx.svg" alt="NGINX" height="50" width="50" /> </a></td>
-        <td><a href="https://eslint.org/" target="_blank" rel="noreferrer"> <img src="./public/icons/eslint.svg" alt="EsLint" height="50" width="50" /> </a></td>
-        <td><a href="https://www.latex-project.org/" target="_blank" rel="noreferrer"> <img src="./public/icons/latex.svg" alt="LaTex" height="50" width="50" /> </a></td>
-        <td><a href="https://prettier.io/" alt="Prettier" target="_blank" rel="noreferrer"> <img src="./public/icons/prettier-icon-light.svg" alt="Prettier" height="50" width="50" /> </a></td>
-        <td colspan="3"></td>
-    </tr>
+  <tr>
+    <td align="center" width="120"><b>Frontend</b></td>
+    <td>
+      <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=angular,ts,js,tailwind,bootstrap,sass,html,css&theme=dark" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="120"><b>Backend</b></td>
+    <td>
+      <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=nestjs,nodejs,python&theme=dark" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="120"><b>Databases</b></td>
+    <td>
+      <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=postgres,mysql,sqlite&theme=dark" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="120"><b>Tooling</b></td>
+    <td>
+      <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=git,linux,nginx,figma,vscode&theme=dark" /></a>
+      <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/eslint.svg" height="48" />
+      <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/prettier-icon-light.svg" height="48" />
+      <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/latex.svg" height="48" />
+    </td>
+  </tr>
 </table>
 
-<h2 align="left">Projects & works</h2>
+</div>
+
+<br />
+
+## <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Face%20with%20Monocle.png" height="26" /> &nbsp;Featured work
+
 <table>
-    <tr>
-        <td rowspan="3" style="width: 300px">
-          <img src="./public/screenshots/invessoft.png" alt="Invessoft" width="300" />
-          <img src="./public/screenshots/invessoft_2.png" alt="Invessoft" width="300" />
-        </td>
-        <td>
-          <strong>
-            <img src="./public/icons/invessoft.png" alt="Invessoft" height="30" />
-          </strong>
-          </td>
-    </tr>
-    <tr>
-        <td>
-          <ul>
-            <li>
-              I migrated 85% of the system from Invessoft to Angular and NestJS, achieving a 50% improvement in performance and a 40% improvement in UI/UX.
-            </li>
-            <li>
-              Optimized the configuration of VPS servers for Nginx and PM2, ensuring efficient deployments.
-            </li>
-            <li>
-              I contributed to continuous system improvements in both the backend and frontend.
-            </li>
-            <li>
-              Improved the system of permissions and profiles, improving scalability in new large and small functionalities.
-            </li>
-          </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://invessoft.app/" target="_blank">
-            Go to web site
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/promediar.png" alt="Promediar" width="300" /></td>
-        <td><strong>Promediar</strong></td>
-    </tr>
-    <tr>
-        <td>
-          A web application that allows students to calculate their weighted grade point average and determine how much they need in the last grade to pass the subject. This application was created with Angular using reactive forms and keyboard event handling to improve accessibility.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://promediar.netlify.app/" target="_blank">
-            Go to web site
-          </a>
-          —
-          <a href="https://github.com/MrNizzy/promediar-angular" target="_blank">
-            Go to repository
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/nshorts.png" alt="Promediar" width="300" /></td>
-        <td><strong>NShorts</strong></td>
-    </tr>
-    <tr>
-        <td>
-          NShorts is an application that allows you to shorten URLs easily and efficiently. It uses a D1 database to store the shortened URLs. It uses Cloudflare Workers for application deployment and Wrangler for application management.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://shorts.mrnizzy.me/api/short" target="_blank">
-            Go to API (preview urls)
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/ninja_frog.png" alt="Promediar" width="300" /></td>
-        <td><strong>Ninja frog</strong></td>
-    </tr>
-    <tr>
-        <td>
-          It is a game created in Python using the Pygame library, this project was developed as a technical test and to practice logic concepts.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://github.com/MrNizzy/Ninja-Frog" target="_blank">
-            Go to repository
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/minizinc.png" alt="Promediar" width="300" /></td>
-        <td><strong>MiniZinc Converter</strong></td>
-    </tr>
-    <tr>
-        <td>
-          Complexity & Optimization project to convert the input value of an optimization problem as a parameter to return the value in code to be executed in the MiniZinc software.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://github.com/MrNizzy/convertidor-minizinc" target="_blank">
-            Go to repository
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/todo-16.png" alt="Promediar" width="300" /></td>
-        <td><strong>TODO 16</strong></td>
-    </tr>
-    <tr>
-        <td>
-          TODO 16, is the realization of a technical test which aimed to use Angular 16 with reactive forms.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://todo-16.netlify.app/" target="_blank">
-            Go to web site
-          </a>
-          —
-          <a href="https://github.com/MrNizzy/TODO-16.git" target="_blank">
-            Go to repository
-          </a>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="3" style="width: 300px"><img src="./public/screenshots/pyscheme.png" alt="Promediar" width="300" /></td>
-        <td><strong>Lenguaje-FLP</strong></td>
-    </tr>
-    <tr>
-        <td>
-          It is a basic interpreted programming language called “Pyscheme” created with the base language of Scheme using Dr. Racket and the SLLGEN library, with abstraction and algorithm, it was sought to understand in a deeper way the operation of programming languages, this programming language supports: additions, subtractions, multiplications, divisions, division module, IF conditions, variables, while loops, data structures, among others.
-        </td>
-    </tr>
-    <tr>
-        <td>
-          <a href="https://github.com/MrNizzy/Lenguaje-FLP" target="_blank">
-            Go to repository
-          </a>
-        </td>
-    </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://invessoft.app/" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/screenshots/invessoft.png" width="100%" alt="Invessoft" />
+      </a>
+      <h3 align="center">
+        <a href="https://invessoft.app/">Invessoft</a>
+      </h3>
+      <p align="center">
+        <img src="https://img.shields.io/badge/Angular-DD0031?style=flat&logo=angular&logoColor=white" />
+        <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white" />
+        <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white" />
+      </p>
+      <p>
+        Migrated <b>85%</b> of the platform to Angular + NestJS — delivered a <b>50% performance gain</b> and a <b>40% UI/UX improvement</b>. Tuned VPS, Nginx and PM2 for reliable deployments.
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://promediar.netlify.app/" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/screenshots/promediar.png" width="100%" alt="Promediar" />
+      </a>
+      <h3 align="center">
+        <a href="https://promediar.netlify.app/">Promediar</a>
+        ·
+        <a href="https://github.com/MrNizzy/promediar-angular">repo</a>
+      </h3>
+      <p align="center">
+        <img src="https://img.shields.io/badge/Angular-DD0031?style=flat&logo=angular&logoColor=white" />
+        <img src="https://img.shields.io/badge/Reactive%20Forms-FF4154?style=flat&logo=angular&logoColor=white" />
+      </p>
+      <p>
+        A weighted GPA calculator built with Angular reactive forms. Designed with keyboard-first interactions for accessibility.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://shorts.mrnizzy.me/api/short" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/screenshots/nshorts.png" width="100%" alt="NShorts" />
+      </a>
+      <h3 align="center">
+        <a href="https://shorts.mrnizzy.me/api/short">NShorts</a>
+      </h3>
+      <p align="center">
+        <img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=flat&logo=cloudflare&logoColor=white" />
+        <img src="https://img.shields.io/badge/D1-FBAD41?style=flat&logo=cloudflare&logoColor=white" />
+      </p>
+      <p>
+        URL shortener running on the edge with Cloudflare Workers + D1. Deployed and managed through Wrangler.
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://github.com/MrNizzy/Ninja-Frog" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/screenshots/ninja_frog.png" width="100%" alt="Ninja Frog" />
+      </a>
+      <h3 align="center">
+        <a href="https://github.com/MrNizzy/Ninja-Frog">Ninja Frog</a>
+      </h3>
+      <p align="center">
+        <img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white" />
+        <img src="https://img.shields.io/badge/Pygame-87CEEB?style=flat&logo=python&logoColor=white" />
+      </p>
+      <p>
+        A small platformer built in Python &amp; Pygame — a playground for game logic, collisions and state machines.
+      </p>
+    </td>
+  </tr>
 </table>
+
+<details>
+  <summary><b>📦 &nbsp;More projects</b></summary>
+
+  <br />
+
+  <table>
+    <tr>
+      <td width="50%" valign="top">
+        <h4><a href="https://github.com/MrNizzy/convertidor-minizinc">MiniZinc Converter</a></h4>
+        <p>Tool that converts optimization problem inputs into MiniZinc-executable code. Built for the Complexity &amp; Optimization course.</p>
+      </td>
+      <td width="50%" valign="top">
+        <h4><a href="https://todo-16.netlify.app/">TODO 16</a> · <a href="https://github.com/MrNizzy/TODO-16.git">repo</a></h4>
+        <p>Technical challenge built with Angular 16 and reactive forms — exploring the (then-)latest Angular features.</p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top">
+        <h4><a href="https://github.com/MrNizzy/Lenguaje-FLP">Pyscheme — Lenguaje-FLP</a></h4>
+        <p>An interpreted toy language built on top of Scheme with Dr. Racket + SLLGEN. Supports arithmetic, conditionals, variables, loops and data structures — an exploration into how programming languages actually work under the hood.</p>
+      </td>
+    </tr>
+  </table>
+
+</details>
+
+<br />
+
+## <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Beaming%20Face%20with%20Smiling%20Eyes.png" height="26" /> &nbsp;The numbers
+
+<div align="center">
+
+<a href="https://github.com/MrNizzy">
+  <!-- Mirror used because github-readme-stats.vercel.app frequently 503s under load. Swap host back if upstream stabilizes. -->
+  <img height="180" src="https://github-readme-stats-sigma-five.vercel.app/api?username=MrNizzy&show_icons=true&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117&title_color=EC2C7A&icon_color=EC2C7A&text_color=FBF1DA&ring_color=EC2C7A&cache_seconds=1800" />
+</a>
+<a href="https://git.io/streak-stats">
+  <img height="180" src="https://github-readme-streak-stats.herokuapp.com/?user=MrNizzy&hide_border=true&background=0d1117&stroke=3D2545&ring=EC2C7A&fire=EC2C7A&currStreakNum=EC2C7A&sideNums=FBF1DA&currStreakLabel=EC2C7A&sideLabels=FBF1DA&dates=8b949e" />
+</a>
+
+<br />
+
+<a href="https://github.com/MrNizzy">
+  <img height="180" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs?username=MrNizzy&layout=compact&hide_border=true&bg_color=0d1117&title_color=EC2C7A&text_color=FBF1DA&langs_count=8&cache_seconds=1800" />
+</a>
+<a href="https://github.com/ryo-ma/github-profile-trophy">
+  <img height="180" src="https://github-profile-trophy.vercel.app/?username=MrNizzy&theme=radical&no-frame=true&no-bg=true&column=4&margin-w=4&margin-h=4" />
+</a>
+
+<br /><br />
+
+<a href="https://github.com/MrNizzy">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=MrNizzy&bg_color=0d1117&color=FBF1DA&line=EC2C7A&point=FBF1DA&area=true&hide_border=true" width="98%" />
+</a>
+
+</div>
+
+<br />
+
+## <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Smiling%20Face%20with%20Heart-Eyes.png" height="26" /> &nbsp;Let's talk
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center" width="160">
+      <a href="https://linkedin.com/in/mrnizzy" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/linkedin.svg" height="40" /><br />
+        <b>LinkedIn</b>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="https://www.youtube.com/@MrNizzy" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/youtube.svg" height="40" /><br />
+        <b>YouTube</b>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="https://instagram.com/mr.nizzy" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/instagram.svg" height="40" /><br />
+        <b>Instagram</b>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="mailto:mr.nizzy@proton.me" target="_blank">
+        <img src="https://raw.githubusercontent.com/MrNizzy/MrNizzy/main/public/icons/Hundred%20Points.png" height="40" /><br />
+        <b>Email</b>
+      </a>
+    </td>
+    <td rowspan="1" align="center">
+      <a href="https://app.daily.dev/mrnizzy">
+        <img src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default" width="280" alt="Dev Card" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<br />
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:3D2545,100:EC2C7A&height=120&section=footer" alt="footer" />
+
+<p>
+  <i>“First, solve the problem. Then, write the code.”</i> — John Johnson
+</p>
+
+<sub>Thanks for stopping by — feel free to ⭐ a repo or say <a href="mailto:mr.nizzy@proton.me">hi</a>.</sub>
+
+</div>

@@ -22,7 +22,7 @@
       </a>
       <br /><br />
       <sub>
-        Hey 👋 &nbsp;I'm <b>Brayan Hernández</b> — fullstack dev from Colombia.<br />
+        Hey 👋 &nbsp;I'm <b>Brallan Hernandez</b> — fullstack dev from Colombia.<br />
         I ship products at <a href="https://wittyplus.com.co/"><b>WittyPlus</b></a>, mentor on YouTube, and break things on weekends.
       </sub>
     </td>
@@ -67,7 +67,7 @@
 
 ```ts
 const nizzy: Developer = {
-  name:        "Brayan Hernández",
+  name:        "Brallan Hernandez",
   alias:       "MrNizzy",
   role:        "Fullstack Developer",
   company:     "WittyPlus",

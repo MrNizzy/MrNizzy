@@ -107,6 +107,7 @@
     "schematicCollections": [
       "angular-eslint"
     ],
+    "packageManager": "pnpm",
     "analytics": false
   },
   "schematics": {

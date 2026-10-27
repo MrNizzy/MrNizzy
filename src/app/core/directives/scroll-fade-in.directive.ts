@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 @Directive({
@@ -11,9 +12,9 @@ import {
   standalone: true,
 })
 export class ScrollFadeInDirective implements OnInit, OnDestroy {
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
   private observer!: IntersectionObserver;
-
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
     // Inicialmente hacemos que el elemento sea invisible y trasladado hacia arriba

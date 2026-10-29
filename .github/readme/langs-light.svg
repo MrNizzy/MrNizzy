@@ -10,9 +10,9 @@
     <g clip-path="url(#bar-clip)">
       <rect x="24" y="62" width="133.02" height="10" fill="#BE185D" />
       <rect x="159.02" y="62" width="99.47" height="10" fill="#0891B2" />
-      <rect x="260.49" y="62" width="48.61" height="10" fill="#7C3AED" />
+      <rect x="260.5" y="62" width="48.61" height="10" fill="#7C3AED" />
       <rect x="311.11" y="62" width="30.1" height="10" fill="#059669" />
-      <rect x="343.2" y="62" width="23.94" height="10" fill="#C2410C" />
+      <rect x="343.21" y="62" width="23.94" height="10" fill="#C2410C" />
       <rect x="369.15" y="62" width="86.85" height="10" fill="#8C959F" />
     </g>
     <circle cx="29" cy="103" r="5" fill="#BE185D" />

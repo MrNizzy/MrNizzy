@@ -28,15 +28,19 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     this.animate();
 
     // Manejar el redimensionamiento de la ventana
-    window.addEventListener('resize', this.onWindowResize.bind(this));
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   ngOnDestroy() {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
     }
-    window.removeEventListener('resize', this.onWindowResize.bind(this));
-    this.containerRef().nativeElement.removeChild(this.renderer.domElement);
+    window.removeEventListener('resize', this.onWindowResize);
+    // El componente puede destruirse antes de ngOnInit (p. ej. en tests)
+    if (this.renderer) {
+      this.containerRef().nativeElement.removeChild(this.renderer.domElement);
+      this.renderer.dispose();
+    }
     this.disposeScene();
   }
 
@@ -118,16 +122,17 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     this.renderer.render(this.scene, this.camera);
   }
 
-  private onWindowResize() {
+  // Arrow function para que add/removeEventListener reciban la misma referencia
+  private readonly onWindowResize = () => {
     // Actualizar cámara y renderer cuando la ventana cambie de tamaño
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+  };
 
   private disposeScene() {
     // Limpiar memoria
-    if (this.particles) {
+    if (this.scene && this.particles) {
       this.scene.remove(this.particles);
       (this.particles.geometry as THREE.BufferGeometry).dispose();
       (this.particles.material as THREE.Material).dispose();

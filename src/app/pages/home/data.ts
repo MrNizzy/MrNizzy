@@ -307,7 +307,7 @@ export const projects: Project[] = [
     links: [
       {
         text: 'Visit website',
-        url: 'https://caffy.mrnizzy.me/',
+        url: 'https://caffy.pages.dev/',
       },
     ],
   },
@@ -322,7 +322,7 @@ export const projects: Project[] = [
     links: [
       {
         text: 'Visit website',
-        url: 'https://repos-trackr.mrnizzy.me',
+        url: 'https://repo-trackr-angular.pages.dev/',
       },
       {
         text: 'View repository',
@@ -374,7 +374,7 @@ export const projects: Project[] = [
     links: [
       {
         text: 'Open API (URL preview)',
-        url: 'https://shorts.mrnizzy.me/api/short',
+        url: 'https://nshorts.mrnizzy.workers.dev/api/short',
       },
     ],
   },

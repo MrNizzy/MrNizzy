@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   appName: 'MrNizzy',
-  apiUrl: 'https://shorts.mrnizzy.me',
+  apiUrl: 'https://nshorts.mrnizzy.workers.dev',
 };

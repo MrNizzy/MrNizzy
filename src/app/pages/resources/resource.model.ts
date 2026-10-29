@@ -28,8 +28,8 @@ export const RESOURCES: Resources = {
 export const RESOURCE: Resource = {
   resource_id: '',
   name: 'Unknown',
-  url: 'https://mrnizzy.me',
-  url_image: 'https://mrnizzy.me/mrnizzy.webp',
+  url: 'https://mrnizzy.pages.dev',
+  url_image: 'https://mrnizzy.pages.dev/mrnizzy.webp',
   url_repository: 'https://github.com/MrNizzy',
   description: 'Unknown',
   type: 'Unknown',

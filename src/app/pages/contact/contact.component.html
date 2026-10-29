@@ -1,73 +1,174 @@
 <section class="w-full flex items-center justify-center">
   <div
-    class="group relative w-full max-w-xl overflow-hidden rounded-2xl border border-black/10 bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300"
+    class="group relative w-full max-w-xl overflow-hidden rounded-2xl border border-black/10 bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300 motion-reduce:transition-none"
   >
     <!-- sheen -->
     <span
-      class="pointer-events-none absolute -inset-y-10 -left-1/2 h-[200%] w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 translate-x-[-120%] group-hover:opacity-100 group-hover:translate-x-[240%] transition-all duration-700 ease-out"
+      class="pointer-events-none absolute -inset-y-10 -left-1/2 h-[200%] w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 translate-x-[-120%] group-hover:opacity-100 group-hover:translate-x-[240%] transition-all duration-700 ease-out motion-reduce:hidden"
     ></span>
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="sendEmail()"
-      class="relative grid gap-5 p-6 sm:p-8"
-    >
+    <div class="relative grid gap-6 p-6 sm:p-8">
       <h1
         class="text-center text-3xl sm:text-4xl font-semibold tracking-wider text-white uppercase"
       >
         Contact
       </h1>
 
-      <!-- Asunto -->
-      <div class="grid gap-2">
-        <label for="asunto" class="text-sm font-medium text-white/80">
-          Subject
-        </label>
-        <input
-          id="asunto"
-          type="text"
-          formControlName="asunto"
-          placeholder="Subject"
-          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none ring-0 transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
-          autocomplete="off"
-        />
-      </div>
+      <p class="text-center text-white/70">
+        Have a project in mind or a question about Angular or NestJS? Pick the
+        channel that works best for you.
+      </p>
 
-      <!-- Mensaje -->
-      <div class="grid gap-2">
-        <label for="mensaje" class="text-sm font-medium text-white/80">
-          Message
-        </label>
-        <textarea
-          id="mensaje"
-          formControlName="mensaje"
-          rows="6"
-          placeholder="Tell me how I can help you"
-          class="w-full min-h-28 resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
-        ></textarea>
-      </div>
-
-      <!-- Email -->
-      <div class="grid gap-2">
-        <label for="email" class="text-sm font-medium text-white/80">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="your@email.com"
-          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition focus:border-pink-400/60 focus:ring-2 focus:ring-pink-400/40"
-          autocomplete="email"
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="mt-2 h-12 rounded-xl bg-gradient-to-r from-pink-400/80 to-pink-500/80 text-white font-semibold tracking-wide shadow hover:from-pink-500 hover:to-pink-400 cursor-pointer hover:scale-105 transition-all duration-300"
+      <!-- Primary channel: email -->
+      <div
+        class="grid gap-4 rounded-xl border border-pink-400/60 bg-white/5 p-5 shadow-[0_0_24px_-10px] shadow-pink-400/40"
       >
-        Send message
-      </button>
-    </form>
+        <p class="text-sm font-medium text-pink-200">
+          Email is the fastest way to reach me
+        </p>
+
+        <p
+          class="font-mono text-lg sm:text-xl text-white break-all select-all"
+        >
+          {{ email }}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button
+            type="button"
+            (click)="copyEmail()"
+            class="inline-flex h-12 min-w-44 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-400/80 to-pink-500/80 px-5 font-semibold tracking-wide text-white shadow cursor-pointer transition-all duration-300 hover:from-pink-500 hover:to-pink-400 motion-safe:hover:scale-105 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+          >
+            @switch (copyState()) {
+              @case ('copied') {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>Copied</span>
+              }
+              @case ('failed') {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+                <span>Copy failed</span>
+              }
+              @default {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                  />
+                </svg>
+                <span>Copy email</span>
+              }
+            }
+          </button>
+
+          <a
+            [href]="mailtoHref"
+            class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-pink-400/40 px-5 font-semibold tracking-wide text-pink-200 transition-colors duration-300 hover:border-pink-400/70 hover:bg-pink-400/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+            <span>Write an email</span>
+          </a>
+        </div>
+
+        <!-- Announces the result of the copy action to assistive technology -->
+        <span class="sr-only" aria-live="polite" aria-atomic="true">{{
+          copyAnnouncement()
+        }}</span>
+      </div>
+
+      <!-- Social channels -->
+      <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 gap-3" aria-label="Social channels">
+        @for (channel of channels; track channel.url) {
+          <li>
+            <a
+              [href]="channel.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group/channel flex h-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:border-pink-400/40 hover:bg-white/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+            >
+              <img
+                [src]="channel.icon"
+                alt=""
+                width="32"
+                height="32"
+                class="h-8 w-8 shrink-0 object-contain"
+                aria-hidden="true"
+              />
+              <span class="grid min-w-0 flex-1">
+                <span class="font-semibold text-white">{{ channel.name }}</span>
+                <span class="text-sm text-white/60">{{ channel.purpose }}</span>
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-5 w-5 shrink-0 text-white/40 transition-all duration-300 group-hover/channel:text-pink-300 group-focus-visible/channel:text-pink-300 motion-safe:group-hover/channel:translate-x-0.5 motion-safe:group-hover/channel:-translate-y-0.5 motion-reduce:transition-none"
+                aria-hidden="true"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 17 17 7M8 7h9v9"
+                />
+              </svg>
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <p
+        class="flex items-center justify-center gap-1.5 text-sm text-white/60"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"
+          />
+        </svg>
+        <span>Based in Colombia (UTC−5)</span>
+      </p>
+    </div>
   </div>
 </section>

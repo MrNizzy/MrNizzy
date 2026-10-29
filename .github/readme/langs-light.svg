@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" width="480" height="200" role="img" aria-label="Most used languages: HTML 31.3%, TypeScript 23.5%, PHP 11.7%, CSS 7.4%, SCSS 6.0%, Other 20.1%.">
+  <title>Most used languages: HTML 31.3%, TypeScript 23.5%, PHP 11.7%, CSS 7.4%, SCSS 6.0%, Other 20.1%.</title>
+  <defs>
+    <style>.num { font-variant-numeric: tabular-nums; }</style>
+    <clipPath id="bar-clip"><rect x="24" y="62" width="432" height="10" rx="5" /></clipPath>
+  </defs>
+  <rect x="0.5" y="0.5" width="479" height="199" rx="16" fill="#F6F8FA" stroke="#D0D7DE" stroke-width="1" />
+  <g font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <text x="24" y="40" font-size="18" font-weight="600" fill="#BE185D">Most used languages</text>
+    <g clip-path="url(#bar-clip)">
+      <rect x="24" y="62" width="133.02" height="10" fill="#BE185D" />
+      <rect x="159.02" y="62" width="99.47" height="10" fill="#0891B2" />
+      <rect x="260.49" y="62" width="48.61" height="10" fill="#7C3AED" />
+      <rect x="311.11" y="62" width="30.1" height="10" fill="#059669" />
+      <rect x="343.2" y="62" width="23.94" height="10" fill="#C2410C" />
+      <rect x="369.15" y="62" width="86.85" height="10" fill="#8C959F" />
+    </g>
+    <circle cx="29" cy="103" r="5" fill="#BE185D" />
+    <text x="43" y="108" font-size="14" fill="#1F2328">HTML</text>
+    <text class="num" x="224" y="108" text-anchor="end" font-size="14" fill="#59636E">31.3%</text>
+    <circle cx="29" cy="131" r="5" fill="#0891B2" />
+    <text x="43" y="136" font-size="14" fill="#1F2328">TypeScript</text>
+    <text class="num" x="224" y="136" text-anchor="end" font-size="14" fill="#59636E">23.5%</text>
+    <circle cx="29" cy="159" r="5" fill="#7C3AED" />
+    <text x="43" y="164" font-size="14" fill="#1F2328">PHP</text>
+    <text class="num" x="224" y="164" text-anchor="end" font-size="14" fill="#59636E">11.7%</text>
+    <circle cx="253" cy="103" r="5" fill="#059669" />
+    <text x="267" y="108" font-size="14" fill="#1F2328">CSS</text>
+    <text class="num" x="456" y="108" text-anchor="end" font-size="14" fill="#59636E">7.4%</text>
+    <circle cx="253" cy="131" r="5" fill="#C2410C" />
+    <text x="267" y="136" font-size="14" fill="#1F2328">SCSS</text>
+    <text class="num" x="456" y="136" text-anchor="end" font-size="14" fill="#59636E">6.0%</text>
+    <circle cx="253" cy="159" r="5" fill="#8C959F" />
+    <text x="267" y="164" font-size="14" fill="#1F2328">Other</text>
+    <text class="num" x="456" y="164" text-anchor="end" font-size="14" fill="#59636E">20.1%</text>
+  </g>
+</svg>

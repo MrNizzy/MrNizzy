@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { environment } from '@env/environment';
 import { CONTACT_EMAIL } from '@models/contact.model';
 import { UiCardDirective } from '@shared/ui/card/card.directive';
@@ -22,7 +21,6 @@ const LAST_UPDATED_FORMAT = new Intl.DateTimeFormat('es-CO', {
 @Component({
   selector: 'app-privacy',
   imports: [
-    RouterLink,
     UiCardDirective,
     UiIconComponent,
     UiLinkDirective,

@@ -103,12 +103,14 @@ describe('PrivacyComponent', () => {
     expect(mailto?.classList).toContain('text-accent');
   });
 
-  it('links to the terms of service', () => {
+  it('does not link to a terms of service page, which does not exist', () => {
     const terms = Array.from(root.querySelectorAll('a')).find(
-      (link) => link.textContent?.trim() === 'Términos de Servicio'
+      (link) =>
+        link.getAttribute('href') === '/terms' ||
+        link.textContent?.trim() === 'Términos de Servicio'
     );
 
-    expect(terms?.getAttribute('href')).toBe('/terms');
+    expect(terms).toBeUndefined();
   });
 
   it('renders the body copy muted, with comfortable line height and line length', () => {

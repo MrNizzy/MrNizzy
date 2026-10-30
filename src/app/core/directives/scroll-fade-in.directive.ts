@@ -17,6 +17,11 @@ export class ScrollFadeInDirective implements OnInit, OnDestroy {
   private observer!: IntersectionObserver;
 
   ngOnInit() {
+    // Si el usuario prefiere movimiento reducido, mostramos el elemento de inmediato
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     // Inicialmente hacemos que el elemento sea invisible y trasladado hacia arriba
     this.renderer.setStyle(this.el.nativeElement, 'opacity', '0');
     this.renderer.setStyle(

@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ProjectShowcaseComponent } from "@app/components/project-showcase/project-showcase.component";
+import { ProjectShowcaseComponent } from '@components/project-showcase/project-showcase.component';
+import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-projects',
-  imports: [ProjectShowcaseComponent],
+  imports: [ProjectShowcaseComponent, UiSectionHeadingComponent],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectsComponent {
-
-}
+export class ProjectsComponent {}

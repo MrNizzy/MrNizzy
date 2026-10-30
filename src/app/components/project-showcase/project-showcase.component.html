@@ -1,107 +1,110 @@
-<section class="grid gap-8">
-  <!-- Filter chips -->
-  <div class="flex flex-wrap gap-3 justify-center">
-    @for (cat of categories(); track cat) {
-    <button
-      type="button"
-      (click)="setCategory(cat)"
-      class="px-6 py-3 md:py-4 rounded-full text-sm border border-black/10 backdrop-blur-md bg-black/5 shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] hover:border-black/20 hover:shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] hover:bg-pink-500/10 transition-all duration-200 cursor-pointer"
-      [class.bg-pink-500]="selectedCategory() === cat"
-      [class.border-pink-500]="selectedCategory() === cat"
-      [class.text-white]="selectedCategory() === cat"
+<div class="grid gap-6 md:gap-8">
+  <div class="grid gap-3">
+    <div
+      class="flex flex-wrap gap-2"
+      role="group"
+      aria-label="Filter by category"
     >
-      {{ cat }}
-    </button>
-    }
+      @for (cat of categories(); track cat) {
+        <button
+          appUiChip
+          [selected]="selectedCategory() === cat"
+          (click)="setCategory(cat)"
+        >
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <p
+      class="text-sm text-fg-subtle"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ resultsLabel() }}
+    </p>
   </div>
 
-  <!-- Projects grid -->
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-center"
-  >
-    @for (project of filteredProjects(); track project.title) {
-    <article
-      class="group relative overflow-hidden rounded-2xl border border-black/10 bg-black/10 backdrop-blur-md p-6 md:p-8 hover:border-black/20 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-    >
-      <div class="grid gap-5">
-        <div class="flex items-start gap-3">
-          @if (project.icon) {
-          <img
-            [src]="project.icon"
-            alt="{{ project.title }}"
-            class="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 rounded"
-          />
-          }
-          <div class="grid gap-1">
-            <h2 class="text-xl md:text-2xl font-bold leading-tight">
-              {{ project.title }}
-            </h2>
+  @if (filteredProjects().length > 0) {
+    <!-- Each card spans three rows of this grid (text, preview, footer), so the
+         previews of side-by-side cards line up whatever the text length. -->
+    <ul class="grid gap-4 md:grid-cols-2 md:gap-6">
+      @for (project of filteredProjects(); track project.title) {
+        <li appUiCard variant="glass" class="row-span-3 grid grid-rows-subgrid">
+          <div class="grid content-start gap-3">
+            <div class="flex items-center gap-3">
+              @if (project.icon) {
+                <!-- Dark artwork on a transparent background goes on a light plate: it would vanish on the dark surface. -->
+                <img
+                  [src]="project.icon"
+                  alt=""
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-10 shrink-0 rounded-chip object-contain"
+                  [class]="project.iconOnLight ? 'w-20 bg-white p-1' : 'w-10'"
+                />
+              }
+              <h2 class="text-heading text-fg">{{ project.title }}</h2>
+            </div>
             @if (project.description) {
-            <p
-              class="text-white/80 text-sm md:text-base line-clamp-3"
-              [title]="project.description"
-            >
-              {{ project.description }}
-            </p>
+              <p class="text-pretty text-fg-muted">{{ project.description }}</p>
             }
           </div>
-        </div>
 
-        <!-- preview image -->
-        <div
-          class="rounded-xl overflow-hidden border border-black/10 bg-black/20 ring-1 ring-black/10"
-        >
-          <div class="aspect-video w-full">
+          <div
+            class="aspect-video overflow-hidden rounded-control border border-line bg-canvas"
+          >
             <img
-              [ngSrc]="project.images[0]"
-              alt="{{ project.title }} preview"
+              [src]="project.images[0]"
+              alt="Screenshot of {{ project.title }}"
               width="1280"
               height="720"
-              class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-              [priority]="false"
+              [attr.loading]="$first ? 'eager' : 'lazy'"
+              [attr.fetchpriority]="$first ? 'high' : null"
+              decoding="async"
+              class="size-full object-cover object-top"
             />
           </div>
-        </div>
 
-        <!-- tags chips -->
-        <div class="flex flex-wrap gap-2">
-          @for (chip of (project.tags ?? project.categories ?? []); track chip)
-          {
-          <span
-            class="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-wide border border-black/20 bg-black/20 text-white/90"
-            >{{ chip }}</span
-          >
-          }
-        </div>
+          <div class="grid content-end gap-4">
+            @let tags = project.tags ?? project.categories ?? [];
+            @if (tags.length > 0) {
+              <ul class="flex flex-wrap gap-2" aria-label="Tags">
+                @for (tag of tags; track tag) {
+                  <li appUiChip>{{ tag }}</li>
+                }
+              </ul>
+            }
 
-        <!-- links -->
-        <div class="flex flex-wrap gap-4 pt-3">
-          @for (link of project.links; track link.text) {
-          <a
-            [href]="link.url"
-            target="_blank"
-            class="inline-flex items-center gap-1.5 text-pink-300 hover:text-pink-200 transition-colors underline decoration-transparent hover:decoration-current underline-offset-4"
-            rel="noopener noreferrer"
-          >
-            <span>{{ link.text }}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              class="shrink-0"
-              aria-hidden="true"
-            >
-              <path
-                fill="currentColor"
-                d="M9.367 2.25H9.4a.75.75 0 0 1 0 1.5c-1.132 0-1.937 0-2.566.052c-.62.05-1.005.147-1.31.302a3.25 3.25 0 0 0-1.42 1.42c-.155.305-.251.69-.302 1.31c-.051.63-.052 1.434-.052 2.566v5.2c0 1.133 0 1.937.052 2.566c.05.62.147 1.005.302 1.31a3.25 3.25 0 0 0 1.42 1.42c.305.155.69.251 1.31.302c.63.051 1.434.052 2.566.052h5.2c1.133 0 1.937 0 2.566-.052c.62-.05 1.005-.147 1.31-.302a3.25 3.25 0 0 0 1.42-1.42c.155-.305.251-.69.302-1.31c.051-.63.052-1.434.052-2.566v-1.1a.75.75 0 0 1 1.5 0v1.133c0 1.092 0 1.958-.057 2.655c-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461c-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057c-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869c-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655c.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461c.697-.057 1.563-.057 2.655-.057M13.5 3a.75.75 0 0 1 .75-.75H21a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0V4.81l-6.97 6.97a.75.75 0 1 1-1.06-1.06l6.97-6.97h-4.94A.75.75 0 0 1 13.5 3"
-              />
-            </svg>
-          </a>
-          }
-        </div>
-      </div>
-    </article>
-    }
-  </div>
-</section>
+            <ul class="flex flex-wrap gap-x-6 gap-y-2">
+              @for (link of project.links; track link.text) {
+                <li>
+                  <a
+                    appUiLink
+                    external
+                    class="whitespace-nowrap"
+                    [href]="link.url"
+                    >{{ link.text
+                    }}<span class="sr-only"> for {{ project.title }}</span
+                    ><app-ui-icon
+                      name="external-link"
+                      [size]="16"
+                      class="ml-1 align-middle"
+                    /><span class="sr-only"> (opens in a new tab)</span></a
+                  >
+                </li>
+              }
+            </ul>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <div appUiCard variant="glass" padding="lg">
+      <p class="text-fg-muted">No projects in this category yet.</p>
+    </div>
+  }
+</div>

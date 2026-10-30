@@ -4,12 +4,15 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
-import { Project, projects } from '../../pages/home/data';
+import { Project, projects } from '@pages/home/data';
+import { UiCardDirective } from '@shared/ui/card/card.directive';
+import { UiChipDirective } from '@shared/ui/chip/chip.directive';
+import { UiIconComponent } from '@shared/ui/icon/icon.component';
+import { UiLinkDirective } from '@shared/ui/link/link.directive';
 
 @Component({
   selector: 'app-project-showcase',
-  imports: [NgOptimizedImage],
+  imports: [UiCardDirective, UiChipDirective, UiIconComponent, UiLinkDirective],
   templateUrl: './project-showcase.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -31,6 +34,12 @@ export class ProjectShowcaseComponent {
     const sel = this.selectedCategory();
     if (!sel || sel === 'All') return this.projects();
     return this.projects().filter((p) => (p.categories ?? []).includes(sel));
+  });
+
+  /** Result count, announced politely after every filter change. */
+  public readonly resultsLabel = computed(() => {
+    const count = this.filteredProjects().length;
+    return `Showing ${count} ${count === 1 ? 'project' : 'projects'}`;
   });
 
   public setCategory(cat: string) {

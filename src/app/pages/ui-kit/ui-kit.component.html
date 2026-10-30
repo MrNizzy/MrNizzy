@@ -63,6 +63,14 @@
         </a>
       </div>
     }
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="w-10 text-sm text-fg-subtle">icon</span>
+      @for (variant of buttonVariants; track variant) {
+        <button appUiButton [variant]="variant" size="icon" aria-label="Switch theme">
+          <app-ui-icon name="sun" [size]="24" />
+        </button>
+      }
+    </div>
   </section>
 
   <!-- Links -->
@@ -111,7 +119,7 @@
     <article appUiCard interactive class="flex items-center justify-between gap-4">
       <div>
         <h4 class="text-heading text-fg">Interactive card</h4>
-        <p class="mt-1 text-fg-muted">Hover it, or tab to the button to see focus-within.</p>
+        <p class="mt-1 text-fg-muted">Hover it, or tab to the button to see the keyboard focus ring.</p>
       </div>
       <button appUiButton variant="secondary" size="sm">Action</button>
     </article>

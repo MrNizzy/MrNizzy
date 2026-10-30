@@ -26,6 +26,9 @@ import { CardPadding, CardVariant, UiCardDirective } from './card.directive';
         <button id="focus-target" type="button">Action</button>
       </article>
     </div>
+    <div data-theme="light">
+      <article id="light-card" appUiCard interactive>Light</article>
+    </div>
   `,
 })
 class HostComponent {
@@ -47,7 +50,7 @@ describe('UiCardDirective', () => {
     fixture.detectChanges();
   });
 
-  it('renders the focus-within ring in the dark theme (computed style)', () => {
+  it('renders the keyboard focus ring in the dark theme (computed style)', () => {
     // Regression: a `none` card shadow token invalidated the whole
     // box-shadow list, so the ring never showed on dark surface cards.
     el('focus-target').focus();
@@ -117,7 +120,7 @@ describe('UiCardDirective', () => {
     it('is inert by default', () => {
       const classes = el('default').classList;
       expect(classes).not.toContain('hover:border-line-strong');
-      expect(classes).not.toContain('focus-within:ring-2');
+      expect(classes).not.toContain('has-[:focus-visible]:ring-2');
     });
 
     it('reacts to hover and to focus inside the card', () => {
@@ -127,12 +130,65 @@ describe('UiCardDirective', () => {
       const classes = el('configurable').classList;
       expect(classes).toContain('hover:border-line-strong');
       expect(classes).toContain('motion-safe:transition-colors');
-      expect(classes).toContain('focus-within:ring-2');
-      expect(classes).toContain('focus-within:ring-focus');
+      expect(classes).toContain('has-[:focus-visible]:ring-2');
+      expect(classes).toContain('has-[:focus-visible]:ring-focus');
     });
 
     it('accepts the bare attribute form', () => {
-      expect(el('list-item').classList).toContain('focus-within:ring-2');
+      expect(el('list-item').classList).toContain('has-[:focus-visible]:ring-2');
+    });
+  });
+
+  describe('sheen', () => {
+    it('is part of the interactive affordance', () => {
+      host.interactive.set(true);
+      fixture.detectChanges();
+
+      expect(el('configurable').classList).toContain('ui-sheen');
+      expect(el('list-item').classList).toContain('ui-sheen');
+    });
+
+    it('is never added to non-interactive cards', () => {
+      expect(el('default').classList).not.toContain('ui-sheen');
+      expect(el('div').classList).not.toContain('ui-sheen');
+      expect(el('configurable').classList).not.toContain('ui-sheen');
+    });
+
+    it('is removed again when a card stops being interactive', () => {
+      host.interactive.set(true);
+      fixture.detectChanges();
+      host.interactive.set(false);
+      fixture.detectChanges();
+
+      expect(el('configurable').classList).not.toContain('ui-sheen');
+    });
+
+    it('draws the band with a pointer-transparent ::after under the content', () => {
+      const card = getComputedStyle(el('list-item'));
+      const band = getComputedStyle(el('list-item'), '::after');
+
+      expect(card.position).toBe('relative');
+      expect(card.overflow).toBe('hidden');
+      expect(card.isolation).toBe('isolate');
+      expect(band.content).toBe('""');
+      expect(band.position).toBe('absolute');
+      expect(band.pointerEvents).toBe('none');
+      // Below the (non-positioned) content, above the card background.
+      expect(band.zIndex).toBe('-1');
+      expect(band.opacity).toBe('0');
+      expect(band.transitionDuration).toBe('0.7s, 0.7s');
+    });
+
+    it('draws nothing on a non-interactive card', () => {
+      expect(getComputedStyle(el('default'), '::after').content).toBe('none');
+    });
+
+    it('takes its colour from the theme token in both themes', () => {
+      const token = (id: string) =>
+        getComputedStyle(el(id)).getPropertyValue('--ds-sheen').trim();
+
+      expect(token('focus-card')).toBe('rgb(255 255 255 / 0.1)');
+      expect(token('light-card')).toBe('rgb(219 39 119 / 0.07)');
     });
   });
 

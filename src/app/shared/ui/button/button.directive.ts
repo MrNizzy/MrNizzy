@@ -2,7 +2,7 @@ import { Directive, ElementRef, computed, inject, input } from '@angular/core';
 import { COLOR_TRANSITION, FOCUS_RING } from '../ui-classes';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonSize = 'sm' | 'md';
+export type ButtonSize = 'sm' | 'md' | 'icon';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 const BASE = `inline-flex items-center justify-center gap-2 rounded-control font-semibold select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${FOCUS_RING} ${COLOR_TRANSITION}`;
@@ -10,6 +10,8 @@ const BASE = `inline-flex items-center justify-center gap-2 rounded-control font
 const SIZES: Record<ButtonSize, string> = {
   sm: 'h-9 px-3 text-sm',
   md: 'h-11 px-5 text-sm sm:text-base',
+  // Square, icon-only: the consumer provides the accessible name.
+  icon: 'size-11',
 };
 
 const VARIANTS: Record<ButtonVariant, string> = {

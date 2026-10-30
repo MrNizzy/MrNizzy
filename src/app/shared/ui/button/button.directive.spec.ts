@@ -104,6 +104,18 @@ describe('UiButtonDirective', () => {
     });
   });
 
+  describe('icon size', () => {
+    it('is a square 44px target without horizontal padding', () => {
+      host.size.set('icon');
+      fixture.detectChanges();
+
+      const classes = el('configurable').classList;
+      expect(classes).toContain('size-11');
+      expect(classes).not.toContain('px-5');
+      expect(classes).not.toContain('h-11');
+    });
+  });
+
   describe('accessibility and states', () => {
     it('has a visible keyboard focus ring', () => {
       const classes = el('default').classList;

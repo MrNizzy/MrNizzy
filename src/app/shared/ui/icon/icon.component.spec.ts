@@ -133,6 +133,8 @@ describe('icon registry', () => {
     'map-pin',
     'search',
     'github',
+    'sun',
+    'moon',
   ];
 
   it('contains every icon the templates need', () => {

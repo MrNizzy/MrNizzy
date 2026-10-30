@@ -18,8 +18,12 @@ const PADDINGS: Record<CardPadding, string> = {
   lg: 'p-6 md:p-8',
 };
 
+// `ui-sheen` (styles.scss) draws the hover light sweep with ::after. It is
+// part of the interactive affordance only: static cards never get it.
+// The ring follows keyboard focus (:focus-visible) on the card or inside it,
+// so it does not stick around after a mouse click.
 const INTERACTIVE =
-  'hover:border-line-strong motion-safe:transition-colors focus-within:ring-2 focus-within:ring-focus';
+  'ui-sheen hover:border-line-strong motion-safe:transition-colors focus-visible:ring-2 focus-visible:ring-focus has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus';
 
 /** Container surface. Apply it to `article`, `section`, `li` or `div`. */
 @Directive({
@@ -29,7 +33,10 @@ const INTERACTIVE =
 export class UiCardDirective {
   readonly variant = input<CardVariant>('surface');
   readonly padding = input<CardPadding>('md');
-  /** Adds hover and focus-within feedback for cards that contain a link or button. */
+  /**
+   * Adds hover and keyboard-focus feedback (border, ring and a light sweep) for
+   * cards that contain a link or button.
+   */
   readonly interactive = input(false, { transform: booleanAttribute });
 
   protected readonly classes = computed(() => {

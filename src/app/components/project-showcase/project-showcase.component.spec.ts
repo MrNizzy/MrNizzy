@@ -196,13 +196,32 @@ describe('ProjectShowcaseComponent', () => {
 
       expect(frame.classList).toContain('rounded-control');
       expect(frame.classList).toContain('overflow-hidden');
-      expect(shot.getAttribute('src')).toBe(projects[0].images[0]);
       expect(shot.getAttribute('alt')).toBe(
         `Screenshot of ${projects[0].title}`
       );
       expect(shot.getAttribute('width')).toBe('1280');
       expect(shot.getAttribute('height')).toBe('720');
       expect(shot.getAttribute('decoding')).toBe('async');
+    });
+
+    it('serves each screenshot as responsive WebP renditions of its original', () => {
+      const shots = cards().map(
+        (card) => card.querySelector('.aspect-video img') as HTMLImageElement
+      );
+
+      shots.forEach((shot, index) => {
+        const original = projects[index].images[0].replace(/\.[^./]+$/, '');
+        const candidates = shot.getAttribute('srcset')!.split(', ');
+
+        candidates.forEach((candidate) => {
+          expect(candidate.startsWith(`${original}-`)).toBeTrue();
+          expect(candidate).toMatch(/-\d+\.webp \d+w$/);
+        });
+        expect(candidates[candidates.length - 1]).toContain(
+          shot.getAttribute('src')!
+        );
+        expect(shot.getAttribute('sizes')).toContain('calc(100vw');
+      });
     });
 
     it('lazy-loads every screenshot except the first, which is the likely LCP', () => {

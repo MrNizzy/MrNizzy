@@ -20,7 +20,16 @@ export interface Tool {
 
 export interface Project {
   title: string;
-  images: string[];
+  /**
+   * Original screenshots. The first one is shown, through its WebP renditions.
+   * Non-empty on purpose: the card always renders a screenshot.
+   */
+  images: [string, ...string[]];
+  /**
+   * Widths of the WebP renditions generated next to `images[0]`. Set it only
+   * when the original is narrower than the defaults (`SCREENSHOT_WIDTHS`).
+   */
+  screenshotWidths?: readonly number[];
   icon?: string;
   /**
    * The icon is dark artwork on a transparent background (for example a logo
@@ -347,6 +356,7 @@ export const projects: Project[] = [
   {
     title: 'Ninja Frog',
     images: ['./screenshots/ninja_frog.png'],
+    screenshotWidths: [508],
     categories: ['Game'],
     tags: ['Python', 'Pygame'],
     description:

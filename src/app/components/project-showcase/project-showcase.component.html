@@ -54,11 +54,14 @@
             }
           </div>
 
+          @let shot = screenshot(project);
           <div
             class="aspect-video overflow-hidden rounded-control border border-line bg-canvas"
           >
             <img
-              [src]="project.images[0]"
+              [srcset]="shot.srcset"
+              [sizes]="screenshotSizes"
+              [src]="shot.src"
               alt="Screenshot of {{ project.title }}"
               width="1280"
               height="720"

@@ -9,6 +9,11 @@ import { UiCardDirective } from '@shared/ui/card/card.directive';
 import { UiChipDirective } from '@shared/ui/chip/chip.directive';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
 import { UiLinkDirective } from '@shared/ui/link/link.directive';
+import {
+  SCREENSHOT_SIZES,
+  ScreenshotSources,
+  screenshotSources,
+} from './project-screenshot';
 
 @Component({
   selector: 'app-project-showcase',
@@ -30,6 +35,8 @@ export class ProjectShowcaseComponent {
 
   public readonly selectedCategory = signal<string>('All');
 
+  protected readonly screenshotSizes = SCREENSHOT_SIZES;
+
   public readonly filteredProjects = computed<Project[]>(() => {
     const sel = this.selectedCategory();
     if (!sel || sel === 'All') return this.projects();
@@ -44,5 +51,9 @@ export class ProjectShowcaseComponent {
 
   public setCategory(cat: string) {
     this.selectedCategory.set(cat);
+  }
+
+  protected screenshot(project: Project): ScreenshotSources {
+    return screenshotSources(project);
   }
 }

@@ -1,128 +1,111 @@
-<section class="about-container">
-  <div class="about-header">
-    <h1>Acerca de mí</h1>
-    <p class="subtitle">
-      Ingeniero de sistemas | Creador digital | Desarrollador frontend |
-      Escritor
-    </p>
+<div class="grid max-w-3xl gap-16 md:gap-24">
+  <div class="grid items-center gap-8 lg:grid-cols-[1fr_16rem] lg:gap-16">
+    <app-ui-section-heading
+      [level]="1"
+      description="Systems engineer, digital creator, frontend developer and writer."
+    >
+      About me
+    </app-ui-section-heading>
+
+    <picture
+      class="order-first block w-28 sm:w-36 lg:order-none lg:w-full lg:justify-self-end"
+    >
+      <source srcset="mrnizzy.webp" type="image/webp" />
+      <img
+        src="mrnizzy.png"
+        alt="MrNizzy profile picture"
+        width="256"
+        height="256"
+        class="w-full"
+        decoding="async"
+      />
+    </picture>
   </div>
 
-  <div class="about-content">
-    <div class="profile">
-      <div class="profile-image">
-        <img src="mrnizzy.png" alt="MrNizzy profile" />
-        <div class="social-stats">
-          <div class="stat-item">
-            <a href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg">
-              <img
-                alt="youtube views"
-                title="YouTube views"
-                src="https://custom-icon-badges.demolab.com/youtube/channel/views/UCFjfIk29NqqPGmrCfCV14Yg?color=9d7203&logo=eye&logoColor=black&style=for-the-badge&labelColor=f3c913"
-              />
-            </a>
-          </div>
-          <div class="stat-item">
-            <a
-              href="https://github.com/MrNizzy?tab=repositories&sort=stargazers"
-            >
-              <img
-                alt="total stars"
-                title="Total stars on GitHub"
-                src="https://custom-icon-badges.demolab.com/github/stars/MrNizzy?color=9d7203&style=for-the-badge&labelColor=f3c913&logo=star&logoColor=black"
-              />
-            </a>
-          </div>
-          <div class="stat-item">
-            <a href="https://github.com/MrNizzy?tab=followers">
-              <img
-                alt="followers"
-                title="Follow me on Github"
-                src="https://custom-icon-badges.demolab.com/github/followers/MrNizzy?color=1155ba&labelColor=236ad3&style=for-the-badge&logo=person-add&label=Follow&logoColor=white"
-              />
-            </a>
-          </div>
-          <div class="stat-item">
-            <a
-              href="https://www.youtube.com/channel/UCFjfIk29NqqPGmrCfCV14Yg?sub_confirmation=1"
-            >
-              <img
-                alt="youtube subscribers"
-                title="Subscribe to my YouTube channel"
-                src="https://custom-icon-badges.demolab.com/youtube/channel/subscribers/UCFjfIk29NqqPGmrCfCV14Yg?color=a80f23&label=SUBSCRIBE&logo=video&logoColor=white&style=for-the-badge&labelColor=c70f23"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
+  <section class="grid gap-6 md:gap-8">
+    <app-ui-section-heading>Professional experience</app-ui-section-heading>
 
-      <div class="profile-info">
-        <div class="info-section">
-          <h2>Experiencia profesional</h2>
-          <p>
-            Desarrollador fullstack con más de 2 años de experiencia en Angular,
-            NestJS y bases de datos SQL. Lideré la migración de un sistema a una
-            arquitectura desacoplada, logrando una mejora del 50% en rendimiento
-            y escalabilidad. Apasionado por la innovación y el desarrollo ágil.
-          </p>
-        </div>
-
-        <div class="info-section">
-          <h2>Habilidades técnicas</h2>
-          <div class="skill-tags">
-            <span class="skill-tag">Angular</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">NestJS</span>
-            <span class="skill-tag">SQL</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">HTML/CSS</span>
-            <span class="skill-tag">SASS</span>
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">Linux</span>
-            <span class="skill-tag">Docker</span>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h2>Pasiones y hobbies</h2>
-          <p>
-            Me apasiona la escritura, ver anime y jugar videojuegos. Tengo un
-            <a href="https://www.youtube.com/@MrNizzy" target="_blank"
-              >canal de YouTube</a
-            >
-            donde hablo sobre programación, videojuegos, tecnología y desarrollo
-            personal.
-          </p>
-        </div>
-
-        <div class="info-section">
-          <h2>Estadísticas de GitHub</h2>
-          <div class="github-stats">
-            <img
-              src="https://github-readme-stats.vercel.app/api?username=MrNizzy&show_icons=true&locale=en&theme=dark&include_all_commits=true&count_private=true"
-              alt="MrNizzy GitHub Stats"
-            />
-            <img
-              src="https://github-readme-streak-stats.herokuapp.com/?user=MrNizzy&theme=dark"
-              alt="MrNizzy GitHub Streak"
-            />
-            <img
-              src="https://github-readme-stats.vercel.app/api/top-langs?username=MrNizzy&show_icons=true&locale=en&layout=compact&theme=dark"
-              alt="MrNizzy Most Used Languages"
-            />
-          </div>
-        </div>
-      </div>
+    <div appUiCard variant="glass" padding="lg" class="grid gap-4">
+      <p class="text-fg-muted">
+        Fullstack developer with 3+ years of experience in Angular, NestJS and
+        SQL databases. I led the migration of a system to a decoupled
+        architecture, achieving a 50% improvement in performance and
+        scalability. Passionate about innovation and agile development.
+      </p>
+      <p class="text-sm text-fg-subtle">
+        Read the full work history on the
+        <a appUiLink routerLink="/">home page</a>, or see what I have built in
+        <a appUiLink routerLink="/projects">Projects</a>.
+      </p>
     </div>
+  </section>
 
-    <div class="dev-card">
-      <h2>Developer Card</h2>
-      <a href="https://app.daily.dev/mrnizzy">
-        <img
-          src="https://api.daily.dev/devcards/v2/CozVE49xs.png?r=7e4&type=default"
-          width="356"
-          alt="Nizzy Hernandez's Dev Card"
-        />
-      </a>
+  <section class="grid gap-6 md:gap-8">
+    <app-ui-section-heading>Technical skills</app-ui-section-heading>
+
+    <div appUiCard variant="glass" padding="lg" class="grid gap-4">
+      <ul role="list" class="flex flex-wrap gap-2">
+        @for (skill of skills; track skill) {
+          <li appUiChip>{{ skill }}</li>
+        }
+      </ul>
+      <p class="text-sm text-fg-subtle">
+        The complete list of tools is on the
+        <a appUiLink routerLink="/">home page</a>.
+      </p>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section class="grid gap-6 md:gap-8">
+    <app-ui-section-heading>Passions and hobbies</app-ui-section-heading>
+
+    <div appUiCard variant="glass" padding="lg">
+      <p class="text-fg-muted">
+        I am passionate about writing, watching anime and playing video games.
+        I have a
+        <a appUiLink external [href]="youtubeUrl"
+          >YouTube channel<app-ui-icon
+            name="external-link"
+            [size]="16"
+            class="ml-1 align-middle"
+          /><span class="sr-only"> (opens in a new tab)</span></a
+        >
+        where I talk about programming, video games, technology and personal
+        development.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid gap-6 md:gap-8">
+    <app-ui-section-heading>Find me online</app-ui-section-heading>
+
+    <ul
+      role="list"
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6"
+    >
+      @for (profile of profiles; track profile.url) {
+        <li class="flex">
+          <a
+            appUiCard
+            variant="glass"
+            interactive
+            [href]="profile.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex w-full items-center gap-4 outline-hidden"
+          >
+            <span class="grid min-w-0 flex-1">
+              <span class="font-semibold text-fg">{{ profile.name }}</span>
+              <span class="text-sm text-fg-muted">{{ profile.purpose }}</span>
+            </span>
+            <app-ui-icon
+              name="arrow-up-right"
+              class="text-fg-subtle motion-safe:transition-colors group-hover:text-accent"
+            />
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </section>
+</div>

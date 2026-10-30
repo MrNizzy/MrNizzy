@@ -1,35 +1,42 @@
-<article class="privacy-blog">
-  <header class="blog-header">
-    <h1 class="blog-title">
-      Nuestro Compromiso con Tu Privacidad en {{ appName }} y en App Colombia
-    </h1>
-    <div class="blog-meta">
-      <span class="update-date"
-        >Actualizado el: {{ lastUpdateDate | date : "MMM d, y" }}</span
-      >
-      <span class="read-time">Tiempo de lectura: 8 minutos</span>
+<!-- The policy is legal text for Colombian users and stays in Spanish. -->
+<article lang="es" class="grid gap-16 leading-relaxed text-fg-muted md:gap-24">
+  <header class="grid gap-6">
+    <div class="grid gap-4">
+      <app-ui-section-heading [level]="1" class="text-balance">
+        Nuestro Compromiso con Tu Privacidad en {{ appName }} y en App Colombia
+      </app-ui-section-heading>
+
+      <p class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-fg-subtle">
+        <span
+          >Actualizado el:
+          <time [attr.datetime]="lastUpdatedIso">{{ lastUpdated }}</time></span
+        >
+        <span>Tiempo de lectura: 8 minutos</span>
+      </p>
     </div>
+
+    <p class="max-w-prose text-lg">
+      En {{ appName }}, tu privacidad es fundamental. Esta política explica
+      detalladamente cómo manejamos la información en nuestra aplicación
+      dedicada a la riqueza cultural, histórica y natural de Colombia.
+    </p>
   </header>
 
-  <div class="blog-content">
-    <section class="blog-section intro-section">
-      <p class="lead-text">
-        En {{ appName }}, tu privacidad es fundamental. Esta política explica
-        detalladamente cómo manejamos la información en nuestra aplicación
-        dedicada a la riqueza cultural, histórica y natural de Colombia.
-      </p>
-    </section>
+  <div class="grid max-w-3xl gap-16 md:gap-24">
+    <section class="grid gap-6 md:gap-8">
+      <app-ui-section-heading>
+        <span icon aria-hidden="true">📱</span>
+        Qué información recogemos y por qué
+      </app-ui-section-heading>
 
-    <section class="blog-section">
-      <h2 class="section-heading">📱 Qué información recogemos y por qué</h2>
-      <p>
+      <p class="max-w-prose">
         Como aplicación informativa sin requisitos de registro inicial, nuestra
         recolección de datos se limita estrictamente a:
       </p>
 
-      <div class="highlight-box">
-        <h3>Datos esenciales de funcionamiento:</h3>
-        <ul class="feature-list">
+      <div appUiCard variant="glass" padding="lg" class="grid gap-4">
+        <h3 class="text-heading text-fg">Datos esenciales de funcionamiento:</h3>
+        <ul class="grid max-w-prose list-disc gap-2 pl-5 marker:text-accent">
           <li>
             Información técnica del dispositivo (modelo, versión de Android)
           </li>
@@ -37,115 +44,127 @@
           <li>Registro de errores para mejorar estabilidad</li>
           <li>Preferencias regionales para contenido localizado</li>
         </ul>
-        <p class="aside-note">
-          Estos datos nos ayudan a entender cómo nuestros usuarios interactúan
-          con los contenidos sobre departamentos colombianos, especies nativas y
-          patrimonio cultural.
-        </p>
+        <div class="border-t border-line pt-4">
+          <p class="max-w-prose">
+            Estos datos nos ayudan a entender cómo nuestros usuarios
+            interactúan con los contenidos sobre departamentos colombianos,
+            especies nativas y patrimonio cultural.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="blog-section">
-      <h2 class="section-heading">
-        🔮 Próximas funcionalidades y tu privacidad
-      </h2>
-      <p>
+    <section class="grid gap-6 md:gap-8">
+      <app-ui-section-heading>
+        <span icon aria-hidden="true">🔮</span>
+        Próximas funcionalidades y tu privacidad
+      </app-ui-section-heading>
+
+      <p class="max-w-prose">
         Estamos trabajando en mejoras que requerirán nuevos flujos de datos:
       </p>
 
-      <article class="feature-article">
-        <h3 class="feature-title">Sistema de Cuentas (2025)</h3>
-        <p>Cuando implementemos el inicio de sesión:</p>
-        <ul class="feature-list">
-          <li>Almacenaremos solo el email y preferencias de usuario</li>
-          <li>Permitiremos eliminación completa de cuenta</li>
-          <li>
-            Implementaremos autenticación segura mediante autenticación de dos
-            factores
-          </li>
-          <li>Ofreceremos opciones de privacidad personalizadas</li>
-        </ul>
-        <blockquote class="privacy-note">
-          <strong>Importante:</strong> Nunca compartiremos tu dirección de email
-          con terceros sin tu consentimiento explícito.
-        </blockquote>
-      </article>
+      <div class="grid gap-4 md:gap-6">
+        <article appUiCard variant="glass" padding="lg" class="grid gap-4">
+          <h3 class="text-heading text-fg">Sistema de Cuentas (2025)</h3>
+          <p class="max-w-prose">Cuando implementemos el inicio de sesión:</p>
+          <ul class="grid max-w-prose list-disc gap-2 pl-5 marker:text-accent">
+            <li>Almacenaremos solo el email y preferencias de usuario</li>
+            <li>Permitiremos eliminación completa de cuenta</li>
+            <li>
+              Implementaremos autenticación segura mediante autenticación de dos
+              factores
+            </li>
+            <li>Ofreceremos opciones de privacidad personalizadas</li>
+          </ul>
+          <blockquote class="max-w-prose border-l-2 border-accent pl-4">
+            <strong class="font-semibold text-fg">Importante:</strong> Nunca
+            compartiremos tu dirección de email con terceros sin tu
+            consentimiento explícito.
+          </blockquote>
+        </article>
 
-      <article class="feature-article">
-        <h3 class="feature-title">Suscripciones Premium (2025)</h3>
-        <p>Para acceder a contenido exclusivo:</p>
-        <ul class="feature-list">
-          <li>
-            Procesaremos pagos mediante plataformas certificadas (Google Pay)
-          </li>
-          <li>
-            Almacenaremos solo el estado de suscripción, no datos financieros
-          </li>
-          <li>Implementaremos sincronización segura entre dispositivos</li>
-        </ul>
-      </article>
+        <article appUiCard variant="glass" padding="lg" class="grid gap-4">
+          <h3 class="text-heading text-fg">Suscripciones Premium (2025)</h3>
+          <p class="max-w-prose">Para acceder a contenido exclusivo:</p>
+          <ul class="grid max-w-prose list-disc gap-2 pl-5 marker:text-accent">
+            <li>
+              Procesaremos pagos mediante plataformas certificadas (Google Pay)
+            </li>
+            <li>
+              Almacenaremos solo el estado de suscripción, no datos financieros
+            </li>
+            <li>Implementaremos sincronización segura entre dispositivos</li>
+          </ul>
+        </article>
+      </div>
     </section>
 
-    <section class="blog-section">
-      <h2 class="section-heading">🛡️ Nuestras medidas de seguridad</h2>
-      <p>Protegemos tus datos mediante:</p>
-      <div class="security-grid">
-        <div class="security-card">
-          <h3>Cifrado Avanzado</h3>
+    <section class="grid gap-6 md:gap-8">
+      <app-ui-section-heading>
+        <span icon aria-hidden="true">🛡️</span>
+        Nuestras medidas de seguridad
+      </app-ui-section-heading>
+
+      <p class="max-w-prose">Protegemos tus datos mediante:</p>
+
+      <ul role="list" class="grid gap-4 sm:grid-cols-3 md:gap-6">
+        <li appUiCard variant="glass" class="grid content-start gap-2">
+          <h3 class="text-heading text-fg">Cifrado Avanzado</h3>
           <p>Implementación de protocolos de cifrado de vanguardia</p>
-        </div>
-        <div class="security-card">
-          <h3>Almacenamiento Seguro</h3>
+        </li>
+        <li appUiCard variant="glass" class="grid content-start gap-2">
+          <h3 class="text-heading text-fg">Almacenamiento Seguro</h3>
           <p>
             Protección de datos en reposo mediante tecnologías de cifrado
             avanzadas
           </p>
-        </div>
-        <div class="security-card">
-          <h3>Auditorías Regulares</h3>
+        </li>
+        <li appUiCard variant="glass" class="grid content-start gap-2">
+          <h3 class="text-heading text-fg">Auditorías Regulares</h3>
           <p>Realización de revisiones periódicas de seguridad por expertos</p>
-        </div>
-      </div>
+        </li>
+      </ul>
     </section>
 
-    <section class="blog-section contact-section">
-      <h2 class="section-heading">📬 Ejercicio de derechos y contacto</h2>
-      <p>De acuerdo con la Ley 1581 de 2012 de Colombia, puedes:</p>
-      <ul class="rights-list">
+    <section class="grid gap-6 md:gap-8">
+      <app-ui-section-heading>
+        <span icon aria-hidden="true">📬</span>
+        Ejercicio de derechos y contacto
+      </app-ui-section-heading>
+
+      <p class="max-w-prose">
+        De acuerdo con la Ley 1581 de 2012 de Colombia, puedes:
+      </p>
+
+      <ul class="grid max-w-prose list-disc gap-2 pl-5 marker:text-accent">
         <li>Solicitar acceso a tus datos almacenados</li>
         <li>Pedir corrección de información inexacta</li>
         <li>Solicitar eliminación de datos personales</li>
       </ul>
-      <div class="contact-methods">
+
+      <div appUiCard variant="glass" padding="lg" class="grid gap-3">
         <p>Para ejercer tus derechos o consultas sobre privacidad:</p>
-        <a href="mailto:{{ contactEmail }}">
-          <div class="contact-card">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              class="shrink-0"
-              aria-hidden="true"
-            >
-              <path
-                fill="currentColor"
-                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
-              />
-            </svg>
-            {{ contactEmail }}
-          </div>
+        <a
+          appUiLink
+          [href]="mailtoHref"
+          class="inline-flex w-fit max-w-full items-center gap-2 text-heading font-semibold break-all"
+        >
+          <app-ui-icon name="mail" [size]="24" />
+          {{ contactEmail }}
         </a>
       </div>
     </section>
 
-    <footer class="blog-footer">
-      <p class="disclaimer">
-        Esta política aplica para todas las versiones disponibles en Google Play
-        Store y futuras actualizaciones.
-      </p>
-      <div class="legal-links">
-        <a href="/terms">Términos de Servicio</a>
+    <footer class="border-t border-line pt-6 text-sm text-fg-subtle">
+      <div class="grid max-w-prose gap-3">
+        <p>
+          Esta política aplica para todas las versiones disponibles en Google
+          Play Store y futuras actualizaciones.
+        </p>
+        <p>
+          <a appUiLink routerLink="/terms">Términos de Servicio</a>
+        </p>
       </div>
     </footer>
   </div>

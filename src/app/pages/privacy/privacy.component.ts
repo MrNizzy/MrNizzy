@@ -1,11 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-privacy',
-  imports: [DatePipe, MatIcon],
+  imports: [DatePipe],
   templateUrl: './privacy.component.html',
   styleUrl: './privacy.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

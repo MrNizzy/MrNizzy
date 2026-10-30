@@ -5,13 +5,11 @@ import {
   signal,
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { Project, projects } from '../../pages/home/data';
 
 @Component({
   selector: 'app-project-showcase',
-  imports: [MatIconModule, MatButtonModule, NgOptimizedImage],
+  imports: [NgOptimizedImage],
   templateUrl: './project-showcase.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

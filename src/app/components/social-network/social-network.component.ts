@@ -6,12 +6,18 @@ import {
   ContactChannel,
 } from '@models/contact.model';
 import { UiButtonDirective } from '@shared/ui/button/button.directive';
+import { UiCardDirective } from '@shared/ui/card/card.directive';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
 import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-social-network',
-  imports: [UiButtonDirective, UiIconComponent, UiSectionHeadingComponent],
+  imports: [
+    UiButtonDirective,
+    UiCardDirective,
+    UiIconComponent,
+    UiSectionHeadingComponent,
+  ],
   templateUrl: './social-network.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

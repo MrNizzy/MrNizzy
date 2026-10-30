@@ -16,7 +16,11 @@ const SIZES: Record<ButtonSize, string> = {
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary: 'bg-accent-fill text-white hover:bg-accent-fill-hover',
-  secondary: 'border border-line-strong text-fg hover:bg-fg/5',
+  // Translucent surface: it sits over the animated background, so it must not
+  // be transparent. The hover border keeps a cue on surfaces that are already
+  // the same colour (cards, dialogs).
+  secondary:
+    'border border-line-strong bg-surface/70 text-fg backdrop-blur-sm hover:border-fg-subtle hover:bg-surface',
   ghost: 'text-fg-muted hover:text-fg hover:bg-fg/5',
 };
 

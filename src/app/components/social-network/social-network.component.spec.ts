@@ -27,6 +27,14 @@ describe('SocialNetworkComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('sits on a glass card so its text never lies on the animated background', () => {
+    const section = root.querySelector('section') as HTMLElement;
+
+    expect(section.classList).toContain('bg-surface/60');
+    expect(section.classList).toContain('backdrop-blur-md');
+    expect(section.classList).toContain('rounded-card');
+  });
+
   it('titles the section with a level-2 heading', () => {
     expect(root.querySelector('h2')?.textContent?.trim()).toBe('Connect');
   });

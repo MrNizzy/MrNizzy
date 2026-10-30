@@ -33,6 +33,24 @@ describe('SiteFooterComponent', () => {
     expect(text).toContain(String(component.currentYear()));
   });
 
+  it('is a full-width glass band like the navbar, over the background', () => {
+    const footer = root.querySelector('footer');
+
+    expect(footer?.classList).toContain('w-full');
+    expect(footer?.classList).toContain('border-t');
+    expect(footer?.classList).toContain('border-line');
+    expect(footer?.classList).toContain('bg-canvas/80');
+    expect(footer?.classList).toContain('backdrop-blur-md');
+  });
+
+  it('keeps its content in the page column inside the band', () => {
+    const column = root.querySelector('footer > div');
+
+    expect(column?.classList).toContain('max-w-5xl');
+    expect(column?.classList).toContain('mx-auto');
+    expect(column?.querySelector('nav')).not.toBeNull();
+  });
+
   it('links to the about page and the app privacy policy', () => {
     const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('nav a'));
 

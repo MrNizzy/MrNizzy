@@ -52,7 +52,7 @@ describe('UiButtonDirective', () => {
       expect(classes).not.toContain('border-line-strong');
     });
 
-    it('renders the secondary variant as an outline', () => {
+    it('renders the secondary variant as a bordered translucent surface', () => {
       host.variant.set('secondary');
       fixture.detectChanges();
 
@@ -60,7 +60,21 @@ describe('UiButtonDirective', () => {
       expect(classes).toContain('border');
       expect(classes).toContain('border-line-strong');
       expect(classes).toContain('text-fg');
+      // Over the animated background, so never transparent.
+      expect(classes).toContain('bg-surface/70');
+      expect(classes).toContain('backdrop-blur-sm');
+      expect(classes).toContain('hover:bg-surface');
       expect(classes).not.toContain('bg-accent-fill');
+    });
+
+    it('fills the secondary variant with the surface token, not a fixed colour', () => {
+      host.variant.set('secondary');
+      fixture.detectChanges();
+
+      // Computed style: the tinted fill must really paint.
+      expect(getComputedStyle(el('configurable')).backgroundColor).not.toBe(
+        'rgba(0, 0, 0, 0)'
+      );
     });
 
     it('renders the ghost variant without fill or border', () => {
@@ -72,6 +86,11 @@ describe('UiButtonDirective', () => {
       expect(classes).toContain('hover:bg-fg/5');
       expect(classes).not.toContain('bg-accent-fill');
       expect(classes).not.toContain('border-line-strong');
+      // Ghost stays transparent: it is used on solid surfaces like the navbar.
+      expect(classes).not.toContain('bg-surface/70');
+      expect(getComputedStyle(el('configurable')).backgroundColor).toBe(
+        'rgba(0, 0, 0, 0)'
+      );
     });
 
     it('swaps variant classes instead of accumulating them', () => {

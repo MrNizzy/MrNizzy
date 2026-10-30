@@ -7,7 +7,7 @@ const BASE = 'rounded-card border';
 
 const VARIANTS: Record<CardVariant, string> = {
   surface: 'border-line bg-surface shadow-[var(--ds-shadow-card)]',
-  // Translucent so the animated particle background stays visible behind it.
+  // Translucent so the animated background stays visible behind it.
   glass: 'border-line bg-surface/60 backdrop-blur-md',
 };
 

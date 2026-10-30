@@ -122,6 +122,22 @@ describe('PrivacyComponent', () => {
     expect(paragraph).not.toBeNull();
   });
 
+  it('keeps the whole policy on one glass sheet, off the animated background', () => {
+    const sheet = root.querySelector('section')?.parentElement as HTMLElement;
+
+    expect(sheet.classList).toContain('bg-surface/60');
+    expect(sheet.classList).toContain('backdrop-blur-md');
+    expect(sheet.classList).toContain('rounded-card');
+    // Every section and the closing note live inside it.
+    expect(sheet.querySelectorAll(':scope > section').length).toBe(
+      root.querySelectorAll('section').length
+    );
+    expect(root.querySelector('article > div > footer')).toBe(
+      sheet.querySelector(':scope > footer')
+    );
+    expect(sheet.querySelector(':scope > footer')).not.toBeNull();
+  });
+
   it('shows the update date and reading time as subtle meta text', () => {
     const meta = root.querySelector('time')?.closest('p') as HTMLElement;
 

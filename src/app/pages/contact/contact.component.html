@@ -1,10 +1,19 @@
 <div class="grid gap-6 md:gap-8">
-  <app-ui-section-heading
-    [level]="1"
-    description="Have a project in mind or a question about Angular or NestJS? Pick the channel that works best for you."
-  >
-    Contact
-  </app-ui-section-heading>
+  <!-- The location line sits with the heading, in the top half, so it is never
+       over the tide near the bottom of the screen. -->
+  <div class="grid gap-3">
+    <app-ui-section-heading
+      [level]="1"
+      description="Have a project in mind or a question about Angular or NestJS? Pick the channel that works best for you."
+    >
+      Contact
+    </app-ui-section-heading>
+
+    <p class="flex items-center gap-1.5 text-sm text-fg-subtle">
+      <app-ui-icon name="map-pin" [size]="16" />
+      <span>Based in Colombia (UTC−5)</span>
+    </p>
+  </div>
 
   <!-- Primary channel: email. The token border (important, so it wins over the
        card's own line border) is what sets it apart from the channel cards. -->
@@ -98,9 +107,4 @@
       </li>
     }
   </ul>
-
-  <p class="flex items-center gap-1.5 text-sm text-fg-subtle">
-    <app-ui-icon name="map-pin" [size]="16" />
-    <span>Based in Colombia (UTC−5)</span>
-  </p>
 </div>

@@ -166,6 +166,17 @@ describe('ContactComponent', () => {
     expect(compiled.textContent).toContain('Based in Colombia (UTC−5)');
   });
 
+  it('should keep the location line with the heading, away from the bottom of the screen', () => {
+    const header = compiled.querySelector('h1')?.closest('div.grid');
+
+    expect(header?.textContent).toContain('Based in Colombia (UTC−5)');
+    // It comes before the email card, not after the channel list.
+    const card = compiled.querySelector('section');
+    expect(
+      header?.compareDocumentPosition(card as Node) ?? 0
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
   describe('copy email', () => {
     it('should start with the idle label and an empty live region', () => {
       expect(copyButton().textContent).toContain('Copy email');

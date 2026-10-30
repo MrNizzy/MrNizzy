@@ -21,7 +21,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          @if (registryIcon(channel); as icon) {
+          @if (channel.registryIcon; as icon) {
             <app-ui-icon [name]="icon" />
           } @else {
             <img

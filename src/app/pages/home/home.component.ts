@@ -1,12 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import {
-  experienceItems,
-  tools,
-  projects,
-  ExperienceItem,
-  Tool,
-  Project,
-} from './data';
+import { experienceItems, tools, ExperienceItem, Tool } from './data';
 import { HeroBannerComponent } from '@components/hero-banner/hero-banner.component';
 import { WorkExperienceComponent } from '@components/work-experience/work-experience.component';
 import { LearningExperienceComponent } from '@components/learning-experience/learning-experience.component';
@@ -31,5 +24,4 @@ export class HomeComponent {
   // Señales para los datos
   readonly experience = signal<ExperienceItem[]>(experienceItems);
   readonly toolGroups = signal<Tool[][]>(tools);
-  readonly projectList = signal<Project[]>(projects);
 }

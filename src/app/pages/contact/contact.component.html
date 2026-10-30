@@ -71,7 +71,7 @@
           class="group flex w-full items-center gap-4 outline-hidden"
         >
           <span class="flex size-8 shrink-0 items-center justify-center">
-            @if (registryIcon(channel); as icon) {
+            @if (channel.registryIcon; as icon) {
               <app-ui-icon [name]="icon" [size]="24" class="text-fg" />
             } @else {
               <img

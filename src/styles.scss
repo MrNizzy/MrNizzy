@@ -1,17 +1,146 @@
 @use "tailwindcss";
 
-html {
-  color-scheme: dark;
-  background-color: #121212;
+/*
+ * Design tokens (phase 1).
+ *
+ * Runtime semantic variables (--ds-*) change with the `data-theme` attribute
+ * set on <html> by ThemeService (and by the pre-paint script in index.html).
+ * `@theme inline` exposes them to Tailwind as utilities (bg-canvas, text-fg,
+ * border-line, ring-focus, ...) that follow the runtime variable instead of
+ * freezing its value at build time.
+ */
+
+/* `dark:` follows the data-theme attribute, not the OS media query. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme inline {
+  --color-canvas: var(--ds-canvas);
+  --color-surface: var(--ds-surface);
+  --color-fg: var(--ds-fg);
+  --color-fg-muted: var(--ds-fg-muted);
+  --color-fg-subtle: var(--ds-fg-subtle);
+  --color-accent: var(--ds-accent);
+  --color-accent-fill: var(--ds-accent-fill);
+  --color-accent-fill-hover: var(--ds-accent-fill-hover);
+  --color-line: var(--ds-line);
+  --color-line-strong: var(--ds-line-strong);
+  --color-focus: var(--ds-focus);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Story Script', sans-serif;
+@theme {
+  /* New names on purpose: existing rounded-lg & co. keep their values. */
+  --radius-chip: 8px;
+  --radius-control: 12px;
+  --radius-card: 16px;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale for headings (page title, section title, subsection). */
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --text-display--line-height: 1.05;
+  --text-title: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --text-title--line-height: 1.1;
+  --text-heading: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --text-heading--line-height: 1.25;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
-body {
-  scroll-behavior: smooth;
-  font-family: 'Open Sans', sans-serif;
+@layer base {
+  /*
+   * Dark is the :root default on purpose: the production build inlines
+   * critical CSS that keeps :root but drops the [data-theme] rules, so the
+   * first paint must already be dark. Light only applies via data-theme.
+   */
+  :root,
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    --ds-canvas: #121212;
+    --ds-surface: #1c1c1f;
+    --ds-fg: #f4f4f5;
+    --ds-fg-muted: #b4b4bb;
+    --ds-fg-subtle: #8e8e96;
+    --ds-accent: #f472b6;
+    --ds-accent-fill: #db2777;
+    --ds-accent-fill-hover: #be185d;
+    --ds-line: rgb(255 255 255 / 0.1);
+    --ds-line-strong: rgb(255 255 255 / 0.2);
+    --ds-focus: #f472b6;
+    --ds-shadow-card: none;
+
+    --ds-duration-fast: 150ms;
+    --ds-duration-base: 250ms;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+
+    --ds-canvas: #f7f7f8;
+    --ds-surface: #ffffff;
+    --ds-fg: #18181b;
+    --ds-fg-muted: #52525b;
+    --ds-fg-subtle: #6b6b73;
+    --ds-accent: #be185d;
+    --ds-accent-fill: #db2777;
+    --ds-accent-fill-hover: #be185d;
+    --ds-line: rgb(0 0 0 / 0.1);
+    --ds-line-strong: rgb(0 0 0 / 0.18);
+    --ds-focus: #db2777;
+    --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
+  }
+
+  /*
+   * Background on <html> only: a body background would paint over the fixed
+   * z-index:-1 animated background canvas.
+   */
+  html {
+    background-color: var(--ds-canvas);
+    color: var(--ds-fg);
+  }
+
+  body {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-weight: 800;
+  }
+
+  h2 {
+    font-weight: 700;
+  }
+
+  /* Default keyboard focus ring; utilities (ring-*, outline-*) can override. */
+  :focus-visible {
+    outline: 2px solid var(--ds-focus);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* Overlay animations */
@@ -55,18 +184,20 @@ body {
   }
 }
 
-.overlay-fade-in {
-  animation: overlayFadeIn 0.25s ease forwards;
-}
+@layer components {
+  .overlay-fade-in {
+    animation: overlayFadeIn 0.25s ease forwards;
+  }
 
-.overlay-fade-out {
-  animation: overlayFadeOut 0.25s ease forwards;
-}
+  .overlay-fade-out {
+    animation: overlayFadeOut 0.25s ease forwards;
+  }
 
-.overlay-panel-in {
-  animation: overlayPanelIn 0.25s ease forwards;
-}
+  .overlay-panel-in {
+    animation: overlayPanelIn 0.25s ease forwards;
+  }
 
-.overlay-panel-out {
-  animation: overlayPanelOut 0.25s ease forwards;
+  .overlay-panel-out {
+    animation: overlayPanelOut 0.25s ease forwards;
+  }
 }

@@ -9,7 +9,7 @@
 
     <div class="relative grid gap-6 p-6 sm:p-8">
       <h1
-        class="text-center text-3xl sm:text-4xl font-semibold tracking-wider text-white uppercase"
+        class="text-center text-display font-bold text-white"
       >
         Contact
       </h1>
@@ -37,7 +37,7 @@
           <button
             type="button"
             (click)="copyEmail()"
-            class="inline-flex h-12 min-w-44 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-400/80 to-pink-500/80 px-5 font-semibold tracking-wide text-white shadow cursor-pointer transition-all duration-300 hover:from-pink-500 hover:to-pink-400 motion-safe:hover:scale-105 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+            class="inline-flex h-12 min-w-44 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-400/80 to-pink-500/80 px-5 font-semibold tracking-wide text-white shadow cursor-pointer transition-all duration-300 hover:from-pink-500 hover:to-pink-400 motion-safe:hover:scale-105 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
           >
             @switch (copyState()) {
               @case ('copied') {
@@ -87,7 +87,7 @@
 
           <a
             [href]="mailtoHref"
-            class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-pink-400/40 px-5 font-semibold tracking-wide text-pink-200 transition-colors duration-300 hover:border-pink-400/70 hover:bg-pink-400/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+            class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-pink-400/40 px-5 font-semibold tracking-wide text-pink-200 transition-colors duration-300 hover:border-pink-400/70 hover:bg-pink-400/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-300 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +118,7 @@
               [href]="channel.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="group/channel flex h-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:border-pink-400/40 hover:bg-white/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+              class="group/channel flex h-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:border-pink-400/40 hover:bg-white/10 motion-reduce:transition-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
             >
               <img
                 [src]="channel.icon"

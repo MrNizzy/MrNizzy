@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-<html lang="es">
+<!--
+  Dark is the static default (also the :root tokens in styles.scss) so the
+  inlined critical CSS paints dark first. Once LIGHT_THEME_ENABLED is true,
+  revisit critical CSS inlining so light users don't get a dark first paint.
+-->
+<html lang="es" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <title>mrnizzy</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="mrnizzy.webp" />
+    <script>
+      // Pre-paint theme: sets data-theme on <html> before the first paint.
+      // Keep this logic and the flag in sync with ThemeService
+      // (src/app/core/services/theme.service.ts).
+      (function () {
+        var LIGHT_THEME_ENABLED = false;
+        var theme = 'dark';
+        if (LIGHT_THEME_ENABLED) {
+          var pref = 'system';
+          try {
+            var stored = localStorage.getItem('theme');
+            if (stored === 'light' || stored === 'dark') pref = stored;
+          } catch (e) {}
+          theme =
+            pref === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : pref;
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Story+Script&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Open+Sans:wght@400..700&display=swap"
       rel="stylesheet"
     />
   </head>

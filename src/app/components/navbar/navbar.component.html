@@ -1,203 +1,121 @@
-<nav
-  class="fixed top-0 z-50 w-full backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.025)] before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:to-transparent"
+<header
+  class="fixed inset-x-0 top-0 z-50 border-b border-line bg-canvas/80 backdrop-blur-md"
 >
   <div
-    class="container mx-auto flex justify-between items-center p-4 md:p-6 lg:p-8"
+    class="mx-auto flex h-18 w-full max-w-5xl items-center justify-between px-4 sm:px-6"
   >
-    <a
-      routerLink="/"
-      [routerLinkActive]="'opacity-100'"
-      [routerLinkActiveOptions]="{
-        exact: true
-      }"
-      class="flex items-center gap-2 opacity-75 hover:opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
-    >
+    <a routerLink="/" [class]="brandClasses">
       <picture>
         <source srcset="mrnizzy.webp" type="image/webp" />
         <img src="mrnizzy.png" alt="" width="42" height="42" />
       </picture>
-      <span class="font-display font-extrabold text-3xl tracking-tight">MrNizzy</span>
+      <span class="font-display text-3xl font-extrabold tracking-tight text-fg">
+        MrNizzy
+      </span>
     </a>
 
-    <ul
-      class="hidden md:flex gap-4 md:gap-6 lg:gap-8 text-xl font-semibold items-center"
-    >
-      <li>
-        <a
-          class="bg-white/80 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-400 bg-clip-text text-transparent transition-all duration-300 uppercase tracking-wider"
-          routerLink="/"
-          [routerLinkActive]="'bg-gradient-to-r from-pink-400 to-pink-500'"
-          [routerLinkActiveOptions]="{
-            exact: true
-          }"
-        >
-          Home
-        </a>
-      </li>
-      <li>
-        <a
-          class="bg-white/80 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-400 bg-clip-text text-transparent transition-all duration-300 uppercase tracking-wider"
-          routerLink="/projects"
-          [routerLinkActive]="'bg-gradient-to-r from-pink-400 to-pink-500'"
-          [routerLinkActiveOptions]="{
-            exact: true
-          }"
-        >
-          Projects
-        </a>
-      </li>
-      <li>
-        <a
-          class="bg-white/80 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-400 bg-clip-text text-transparent transition-all duration-300 uppercase tracking-wider"
-          routerLink="/resources"
-          [routerLinkActive]="'bg-gradient-to-r from-pink-400 to-pink-500'"
-          [routerLinkActiveOptions]="{
-            exact: true
-          }"
-        >
-          Resources
-        </a>
-      </li>
-      <li>
-        <a
-          class="bg-white/80 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-400 bg-clip-text text-transparent transition-all duration-300 uppercase tracking-wider"
-          routerLink="/contact"
-          [routerLinkActive]="'bg-gradient-to-r from-pink-400 to-pink-500'"
-          [routerLinkActiveOptions]="{
-            exact: true
-          }"
-        >
-          Contact
-        </a>
-      </li>
-    </ul>
-    <button
-      class="md:hidden cursor-pointer hover:text-pink-500"
-      aria-label="Toggle menu"
-      cdkOverlayOrigin
-      #menuOrigin="cdkOverlayOrigin"
-      (click)="toggle()"
-    >
-      <!-- burger -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        width="32"
-        height="32"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-        />
-      </svg>
-    </button>
-
-    <!-- Mobile full-screen overlay menu -->
-    <ng-template
-      cdkConnectedOverlay
-      [cdkConnectedOverlayOrigin]="menuOrigin"
-      [cdkConnectedOverlayOpen]="isMenuOpen()"
-      [cdkConnectedOverlayHasBackdrop]="true"
-      (backdropClick)="close()"
-      (detach)="close()"
-    >
-      <div class="fixed inset-0 z-[60] grid place-items-center">
-        <!-- Backplate (click-through handled by backdrop) -->
-        <div
-          class="absolute inset-0 bg-black/70 backdrop-blur-xl"
-          [class.overlay-fade-out]="isClosing()"
-          [class.overlay-fade-in]="!isClosing()"
-          aria-hidden="true"
-        ></div>
-
-        <!-- Menu panel -->
-        <nav
-          class="flex flex-col justify-center items-center relative w-full rounded-2xl border border-black/10 bg-black/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] h-screen"
-          [class.overlay-panel-out]="isClosing()"
-          [class.overlay-panel-in]="!isClosing()"
-          role="dialog"
-          aria-label="Mobile navigation"
-        >
-          <ul
-            class="grid gap-12 text-5xl font-semibold tracking-wider uppercase"
-          >
-            <li>
-              <a
-                routerLink="/"
-                routerLinkActive="text-pink-500"
-                [routerLinkActiveOptions]="{
-                  exact: true
-                }"
-                (click)="close()"
-                class="hover:text-pink-500"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="/projects"
-                routerLinkActive="text-pink-500"
-                [routerLinkActiveOptions]="{
-                  exact: true
-                }"
-                (click)="close()"
-                class="hover:text-pink-500"
-              >
-                Projects
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="/resources"
-                routerLinkActive="text-pink-500"
-                [routerLinkActiveOptions]="{
-                  exact: true
-                }"
-                (click)="close()"
-                class="hover:text-pink-500"
-              >
-                Resources
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="/contact"
-                routerLinkActive="text-pink-500"
-                [routerLinkActiveOptions]="{
-                  exact: true
-                }"
-                (click)="close()"
-                class="hover:text-pink-500"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-          <button
-            type="button"
-            class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/30 bg-black/10 hover:bg-black/20 cursor-pointer hover:text-pink-500"
-            aria-label="Close menu"
-            (click)="close()"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="currentColor"
+    <div class="flex items-center gap-1 lg:gap-2">
+      <nav aria-label="Main" class="hidden md:block">
+        <ul class="flex items-center gap-2 lg:gap-4">
+          @for (link of links; track link.path) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              routerLinkActive
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="exactMatch"
+              [class]="desktopLinkClasses"
             >
-              <path
-                d="M6.225 4.811a1 1 0 0 0-1.414 1.414L10.586 12l-5.775 5.775a1 1 0 1 0 1.414 1.414L12 13.414l5.775 5.775a1 1 0 0 0 1.414-1.414L13.414 12l5.775-5.775a1 1 0 1 0-1.414-1.414L12 10.586 6.225 4.811Z"
-              />
-            </svg>
-          </button>
-        </nav>
-      </div>
-    </ng-template>
+              {{ link.label }}
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+
+      <app-theme-toggle class="hidden md:flex" />
+
+      <button
+        #burger
+        type="button"
+        cdkOverlayOrigin
+        #menuOrigin="cdkOverlayOrigin"
+        class="md:hidden"
+        [class]="iconButtonClasses"
+        [attr.aria-label]="isExpanded() ? 'Close menu' : 'Open menu'"
+        [attr.aria-expanded]="isExpanded()"
+        aria-controls="mobile-menu"
+        (click)="toggle()"
+      >
+        <app-ui-icon [name]="isExpanded() ? 'close' : 'menu'" [size]="24" />
+      </button>
+    </div>
   </div>
-</nav>
+</header>
+
+<!-- Mobile full-screen menu -->
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="menuOrigin"
+  [cdkConnectedOverlayOpen]="isMenuOpen()"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayDisableClose]="true"
+  (backdropClick)="close()"
+  (overlayKeydown)="onOverlayKeydown($event)"
+>
+  <div
+    id="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu"
+    cdkTrapFocus
+    cdkTrapFocusAutoCapture
+    class="fixed inset-0"
+  >
+    <!-- Backplate -->
+    <div
+      class="absolute inset-0 bg-canvas/95 backdrop-blur-md"
+      [class.overlay-fade-out]="isClosing()"
+      [class.overlay-fade-in]="!isClosing()"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Menu panel -->
+    <div
+      class="relative flex h-full flex-col items-center justify-center px-4"
+      [class.overlay-panel-out]="isClosing()"
+      [class.overlay-panel-in]="!isClosing()"
+    >
+      <nav aria-label="Main">
+        <ul class="grid gap-4 text-center">
+          @for (link of links; track link.path) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              routerLinkActive
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="exactMatch"
+              [class]="mobileLinkClasses"
+              (click)="close()"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+
+      <app-theme-toggle class="mt-8 flex" />
+
+      <button
+        type="button"
+        class="absolute right-4 top-3.5 sm:right-6"
+        [class]="iconButtonClasses"
+        aria-label="Close menu"
+        (click)="close()"
+      >
+        <app-ui-icon name="close" [size]="24" />
+      </button>
+    </div>
+  </div>
+</ng-template>

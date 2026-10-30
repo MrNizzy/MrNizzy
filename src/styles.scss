@@ -48,52 +48,94 @@
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
+/*
+ * Theme palettes as mixins so each one is written once but emitted from the
+ * several selectors that need it (see the `@layer base` block below).
+ */
+@mixin ds-dark-tokens {
+  color-scheme: dark;
+
+  --ds-canvas: #121212;
+  --ds-surface: #1c1c1f;
+  --ds-fg: #f4f4f5;
+  --ds-fg-muted: #b4b4bb;
+  --ds-fg-subtle: #8e8e96;
+  --ds-accent: #f472b6;
+  --ds-accent-fill: #db2777;
+  --ds-accent-fill-hover: #be185d;
+  --ds-line: rgb(255 255 255 / 0.1);
+  --ds-line-strong: rgb(255 255 255 / 0.2);
+  --ds-focus: #f472b6;
+  --ds-danger: #f87171;
+  --ds-sheen: rgb(255 255 255 / 0.1);
+  /* Transparent shadow, not `none`: Tailwind composes box-shadow as a list
+     (shadow + ring), and `none` would invalidate the focus ring too. */
+  --ds-shadow-card: 0 0 #0000;
+}
+
+@mixin ds-light-tokens {
+  color-scheme: light;
+
+  --ds-canvas: #f7f7f8;
+  --ds-surface: #ffffff;
+  --ds-fg: #18181b;
+  --ds-fg-muted: #52525b;
+  --ds-fg-subtle: #6b6b73;
+  --ds-accent: #be185d;
+  --ds-accent-fill: #db2777;
+  --ds-accent-fill-hover: #be185d;
+  --ds-line: rgb(0 0 0 / 0.1);
+  --ds-line-strong: rgb(0 0 0 / 0.18);
+  --ds-focus: #db2777;
+  --ds-danger: #b91c1c;
+  /* A white band would vanish on a white card, so light uses an accent tint. */
+  --ds-sheen: rgb(219 39 119 / 0.07);
+  --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
+}
+
 @layer base {
   /*
-   * Dark is the :root default on purpose: the production build inlines
-   * critical CSS that keeps :root but drops the [data-theme] rules, so the
-   * first paint must already be dark. Light only applies via data-theme.
+   * Which palette applies, in cascade order (later wins at equal or higher
+   * specificity):
+   *
+   * 1. `:root` is dark. This is the default, and also what an explicit
+   *    `data-theme="dark"` selects (including a dark scope nested in a light
+   *    page).
+   * 2. On an OS that prefers light, `<html>` is light unless it was explicitly
+   *    marked dark. A safety net for when the pre-paint script in index.html
+   *    did not run; with it, `data-theme` is always set and rule 3 decides.
+   * 3. An explicit `data-theme="light"`: on `<html>`, or on a light scope nested
+   *    inside a dark page.
+   *
+   * Critical CSS: the production build inlines the rules needed for the first
+   * paint (Beasties) and keeps only the rules that match the STATIC index.html,
+   * whose <html> has no `data-theme` (the pre-paint script sets it at runtime).
+   * Rule 1 survives through `:root`. Rule 2 does not survive: Beasties strips
+   * `:not(...)` and drops what is left. Rule 3 only survives because index.html
+   * carries an inert `<template data-theme="light">`, which makes the selector
+   * "used". Without that element the inlined CSS would be dark-only and light
+   * users would see a dark flash. Check the built index.html after touching
+   * these selectors or that element.
    */
   :root,
   [data-theme="dark"] {
-    color-scheme: dark;
+    @include ds-dark-tokens;
+  }
 
-    --ds-canvas: #121212;
-    --ds-surface: #1c1c1f;
-    --ds-fg: #f4f4f5;
-    --ds-fg-muted: #b4b4bb;
-    --ds-fg-subtle: #8e8e96;
-    --ds-accent: #f472b6;
-    --ds-accent-fill: #db2777;
-    --ds-accent-fill-hover: #be185d;
-    --ds-line: rgb(255 255 255 / 0.1);
-    --ds-line-strong: rgb(255 255 255 / 0.2);
-    --ds-focus: #f472b6;
-    --ds-danger: #f87171;
-    /* Transparent shadow, not `none`: Tailwind composes box-shadow as a list
-       (shadow + ring), and `none` would invalidate the focus ring too. */
-    --ds-shadow-card: 0 0 #0000;
-
-    --ds-duration-fast: 150ms;
-    --ds-duration-base: 250ms;
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      @include ds-light-tokens;
+    }
   }
 
   [data-theme="light"] {
-    color-scheme: light;
+    @include ds-light-tokens;
+  }
 
-    --ds-canvas: #f7f7f8;
-    --ds-surface: #ffffff;
-    --ds-fg: #18181b;
-    --ds-fg-muted: #52525b;
-    --ds-fg-subtle: #6b6b73;
-    --ds-accent: #be185d;
-    --ds-accent-fill: #db2777;
-    --ds-accent-fill-hover: #be185d;
-    --ds-line: rgb(0 0 0 / 0.1);
-    --ds-line-strong: rgb(0 0 0 / 0.18);
-    --ds-focus: #db2777;
-    --ds-danger: #b91c1c;
-    --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
+  /* Theme independent. */
+  :root {
+    --ds-duration-fast: 150ms;
+    --ds-duration-base: 250ms;
   }
 
   /*
@@ -190,6 +232,60 @@
 }
 
 @layer components {
+  /*
+   * Hover sheen: a diagonal band of light that sweeps across a clickable card.
+   * Applied by `[appUiCard] interactive` and drawn with ::after, so templates
+   * need no extra element.
+   *
+   * - `isolation: isolate` keeps the band's negative z-index inside the card:
+   *   it paints above the card background but below the card content, so text,
+   *   icons and stretched-link overlays stay on top and keep receiving clicks.
+   * - The band starts off the left edge and ends off the right edge, so nothing
+   *   is left behind while the pointer rests on the card.
+   * - It also plays on keyboard focus, on the card or inside it
+   *   (:focus-visible / :has(:focus-visible)), but not after a mouse click.
+   */
+  .ui-sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -50%;
+      bottom: -50%;
+      left: -50%;
+      width: 50%;
+      pointer-events: none;
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--ds-sheen),
+        transparent
+      );
+      opacity: 0;
+      transform: translateX(-120%) skewX(-12deg);
+      transition:
+        transform 700ms var(--ease-standard),
+        opacity 700ms var(--ease-standard);
+    }
+
+    &:hover::after,
+    &:focus-visible::after,
+    &:has(:focus-visible)::after {
+      opacity: 1;
+      transform: translateX(320%) skewX(-12deg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::after {
+        display: none;
+      }
+    }
+  }
+
   .overlay-fade-in {
     animation: overlayFadeIn 0.25s ease forwards;
   }

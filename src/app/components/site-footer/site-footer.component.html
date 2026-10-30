@@ -1,13 +1,26 @@
-<footer class="container p-4 text-center mx-auto grid gap-4 mt-12 opacity-75">
-  <p>
-    Creado con ❤️ por
-    <span class="font-semibold text-pink-500 tracking-wider lowercase">
-      {{ author() }}
-    </span>
-    usando Angular.
-    <br />
-    <span class="font-semibold text-pink-500 tracking-wider lowercase">
-      &copy; {{ currentYear() }}
-    </span>
-  </p>
+<footer class="mx-auto mt-16 w-full max-w-5xl px-4 pb-8 sm:px-6">
+  <div
+    class="flex flex-col gap-4 border-t border-line pt-6 text-sm text-fg-subtle sm:flex-row sm:items-start sm:justify-between"
+  >
+    <div class="grid gap-1">
+      <p>
+        Designed and built by
+        <span class="font-medium text-fg-muted">{{ author() }}</span>
+        with Angular.
+      </p>
+      <p>&copy; {{ currentYear() }} {{ author() }}</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul role="list" class="flex flex-wrap gap-x-6 gap-y-1">
+        @for (link of links; track link.path) {
+          <li>
+            <a appUiLink class="inline-block py-1" [routerLink]="link.path">{{
+              link.label
+            }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
 </footer>

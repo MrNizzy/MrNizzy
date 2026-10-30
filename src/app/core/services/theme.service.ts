@@ -13,11 +13,14 @@ export type ResolvedTheme = 'light' | 'dark';
 
 /**
  * Kill switch for the light theme. While `false`, the resolved theme is always
- * 'dark' regardless of the stored preference or the OS setting.
+ * 'dark' regardless of the stored preference or the OS setting, and the theme
+ * toggle hides itself.
  *
- * Keep in sync with the pre-paint script in `src/index.html`.
+ * Keep in sync with the pre-paint script in `src/index.html`. The token CSS in
+ * `src/styles.scss` also follows `prefers-color-scheme: light` on its own, so
+ * switching this off needs that media block removed as well.
  */
-export const LIGHT_THEME_ENABLED = false;
+export const LIGHT_THEME_ENABLED = true;
 
 /** Injectable copy of the flag so tests can override it. */
 export const LIGHT_THEME_ENABLED_TOKEN = new InjectionToken<boolean>(
@@ -40,6 +43,9 @@ export class ThemeService {
     this.readStoredPreference()
   );
   private readonly systemPrefersDark = signal(this.mediaQuery?.matches ?? true);
+
+  /** Whether the light theme (and so the theme toggle) is available. */
+  readonly lightThemeEnabled = this.lightEnabled;
 
   /** The user's choice: 'system', 'light' or 'dark'. */
   readonly preference = this.preferenceState.asReadonly();

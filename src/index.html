@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!--
-  Dark is the static default (also the :root tokens in styles.scss) so the
-  inlined critical CSS paints dark first. Once LIGHT_THEME_ENABLED is true,
-  revisit critical CSS inlining so light users don't get a dark first paint.
+  No static data-theme on <html>: the pre-paint script below sets it before the
+  first paint. The production build inlines critical CSS and keeps only the
+  rules that match this static markup (see the comment in styles.scss).
 -->
-<html lang="es" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>mrnizzy</title>
@@ -16,7 +16,7 @@
       // Keep this logic and the flag in sync with ThemeService
       // (src/app/core/services/theme.service.ts).
       (function () {
-        var LIGHT_THEME_ENABLED = false;
+        var LIGHT_THEME_ENABLED = true;
         var theme = 'dark';
         if (LIGHT_THEME_ENABLED) {
           var pref = 'system';
@@ -34,6 +34,12 @@
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
+    <!--
+      Inert, never rendered. It exists so the [data-theme="light"] palette
+      matches something in this static markup and therefore stays in the
+      inlined critical CSS; without it a light first paint would flash dark.
+    -->
+    <template data-theme="light"></template>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,7 +47,7 @@
       rel="stylesheet"
     />
   </head>
-  <body class="selection:bg-pink-500 selection:text-white">
+  <body class="selection:bg-accent-fill selection:text-white">
     <app-root></app-root>
   </body>
 </html>

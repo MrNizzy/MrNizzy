@@ -57,9 +57,45 @@ describe('ThemeService', () => {
     root().removeAttribute('data-theme');
   });
 
-  it('ships with the light theme disabled', () => {
-    expect(LIGHT_THEME_ENABLED).toBeFalse();
-    expect(TestBed.inject(LIGHT_THEME_ENABLED_TOKEN)).toBeFalse();
+  it('ships with the light theme enabled', () => {
+    expect(LIGHT_THEME_ENABLED).toBeTrue();
+    expect(TestBed.inject(LIGHT_THEME_ENABLED_TOKEN)).toBeTrue();
+  });
+
+  describe('with the shipped configuration', () => {
+    it('follows an OS that prefers light', () => {
+      systemDark = false;
+      const service = TestBed.inject(ThemeService);
+
+      expect(service.lightThemeEnabled).toBeTrue();
+      expect(service.preference()).toBe('system');
+      expect(service.resolved()).toBe('light');
+      expect(root().getAttribute('data-theme')).toBe('light');
+    });
+
+    it('follows an OS that prefers dark', () => {
+      const service = TestBed.inject(ThemeService);
+
+      expect(service.resolved()).toBe('dark');
+      expect(root().getAttribute('data-theme')).toBe('dark');
+    });
+
+    it('honours an explicit stored light choice on a dark OS', () => {
+      localStorage.setItem(THEME_STORAGE_KEY, 'light');
+      const service = TestBed.inject(ThemeService);
+
+      expect(service.resolved()).toBe('light');
+      expect(root().getAttribute('data-theme')).toBe('light');
+    });
+
+    it('honours an explicit stored dark choice on a light OS', () => {
+      systemDark = false;
+      localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+      const service = TestBed.inject(ThemeService);
+
+      expect(service.resolved()).toBe('dark');
+      expect(root().getAttribute('data-theme')).toBe('dark');
+    });
   });
 
   describe('with the light theme disabled', () => {
@@ -67,6 +103,7 @@ describe('ThemeService', () => {
       systemDark = false;
       const service = createService(false);
 
+      expect(service.lightThemeEnabled).toBeFalse();
       expect(service.resolved()).toBe('dark');
       expect(root().getAttribute('data-theme')).toBe('dark');
     });

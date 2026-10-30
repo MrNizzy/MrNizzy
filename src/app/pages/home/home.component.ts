@@ -1,13 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
-  profileInfo,
   experienceItems,
-  socialLinks,
   tools,
   projects,
-  ProfileInfo,
   ExperienceItem,
-  SocialLink,
   Tool,
   Project,
 } from './data';
@@ -29,14 +25,11 @@ import { SocialNetworkComponent } from '@app/components/social-network/social-ne
     SocialNetworkComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   // Señales para los datos
-  readonly profile = signal<ProfileInfo>(profileInfo);
   readonly experience = signal<ExperienceItem[]>(experienceItems);
-  readonly social = signal<SocialLink[]>(socialLinks);
   readonly toolGroups = signal<Tool[][]>(tools);
   readonly projectList = signal<Project[]>(projects);
 }

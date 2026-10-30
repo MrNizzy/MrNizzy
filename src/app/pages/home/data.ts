@@ -1,9 +1,3 @@
-export interface ProfileInfo {
-  title: string;
-  subtitle: string;
-  description: string;
-}
-
 export interface ExperienceItem {
   icon: string;
   text: string;
@@ -13,22 +7,27 @@ export interface ExperienceItem {
   };
 }
 
-export interface SocialLink {
-  name: string;
-  url: string;
-  icon: string;
-}
-
 export interface Tool {
   name: string;
   icon: string;
   url: string;
+  /**
+   * The icon is a single-colour glyph authored in white. It is drawn as a mask
+   * filled with the text colour so it stays visible in both themes.
+   */
+  monochrome?: boolean;
 }
 
 export interface Project {
   title: string;
   images: string[];
   icon?: string;
+  /**
+   * The icon is dark artwork on a transparent background (for example a logo
+   * with a dark wordmark). It is drawn on a light plate so it stays legible in
+   * the dark theme.
+   */
+  iconOnLight?: boolean;
   description?: string;
   details?: string[];
   // optional metadata for filtering and chips
@@ -43,18 +42,15 @@ export interface Project {
 export interface WorkExperience {
   position: string;
   company: string;
-  period: string;
+  /** First month of the role. */
+  start: Date;
+  /** Last month of the role. Omitted while the role is current. */
+  end?: Date;
+  /** Duration shown next to the dates. */
+  months: number;
   description: string;
   readMoreLink?: string;
 }
-
-// Información del perfil
-export const profileInfo: ProfileInfo = {
-  title: 'Hola 👋, Soy MrNizzy',
-  subtitle: 'Ingeniero de sistemas / creador digital / escritor de Colombia',
-  description:
-    'Desarrollador con 3 años de experiencia en Angular, NestJS y bases de datos SQL. Lideré la migración de sistemas a arquitecturas desacopladas, mejorando rendimiento y escalabilidad en un 50%. Experto en diseño responsivo, optimización de procesos y desarrollo ágil.',
-};
 
 // Experiencia profesional
 export const experienceItems: ExperienceItem[] = [
@@ -101,40 +97,6 @@ export const experienceItems: ExperienceItem[] = [
   {
     icon: './icons/Smiling Face with Heart-Eyes.png',
     text: 'Love the science and cats 😺',
-  },
-];
-
-// Enlaces a redes sociales
-export const socialLinks: SocialLink[] = [
-  {
-    name: 'GitHub',
-    url: 'https://github.com/MrNizzy',
-    icon: './icons/github.svg',
-  },
-  {
-    name: 'LinkedIn',
-    url: 'https://linkedin.com/in/mrnizzy',
-    icon: './icons/linkedin.svg',
-  },
-  {
-    name: 'YouTube',
-    url: 'https://www.youtube.com/@MrNizzy',
-    icon: './icons/youtube.svg',
-  },
-  {
-    name: 'Instagram',
-    url: 'https://instagram.com/mr.nizzy',
-    icon: './icons/instagram.svg',
-  },
-  {
-    name: 'YouTube',
-    url: 'https://www.youtube.com/channel/UCyGeNSYTlHkZPCx08vtozVg',
-    icon: './icons/youtube.svg',
-  },
-  {
-    name: 'Telegram',
-    url: 'https://t.me/mrnizzy',
-    icon: './icons/telegram.svg',
   },
 ];
 
@@ -270,16 +232,19 @@ export const tools: Tool[][] = [
       name: 'Three.js',
       icon: './icons/threejs.svg',
       url: 'https://threejs.org',
+      monochrome: true,
     },
     {
       name: 'Shadcn UI',
       icon: './icons/shadcn-ui.svg',
       url: 'https://ui.shadcn.com',
+      monochrome: true,
     },
     {
       name: 'Windsurf',
       icon: './icons/windsurf.svg',
       url: 'https://windsurf.com/editor',
+      monochrome: true,
     },
     {
       name: 'Warp',
@@ -315,6 +280,7 @@ export const projects: Project[] = [
     title: 'Repos Trackr',
     images: ['./screenshots/repos-trackr.png'],
     icon: './icons/repos-trackr.png',
+    iconOnLight: true,
     categories: ['Web', 'Open Source'],
     tags: ['Angular', 'NestJS', 'GitHub API', 'Laravel Proxy'],
     description:

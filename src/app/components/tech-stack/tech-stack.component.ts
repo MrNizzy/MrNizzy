@@ -1,16 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-} from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { UiCardDirective } from '@shared/ui/card/card.directive';
+import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 import { Tool } from '../../pages/home/data';
 
 @Component({
   selector: 'app-tech-stack',
-  imports: [],
+  imports: [UiCardDirective, UiSectionHeadingComponent],
   templateUrl: './tech-stack.component.html',
-  styleUrl: './tech-stack.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechStackComponent {

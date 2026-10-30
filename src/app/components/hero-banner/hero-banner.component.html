@@ -1,47 +1,41 @@
 <section
-  class="min-h-[calc(100dvh-8rem)] flex flex-col justify-center items-start align-center text-start mx-4"
+  aria-labelledby="hero-title"
+  class="grid items-center gap-10 py-8 lg:min-h-[calc(100dvh-16rem)] lg:grid-cols-[1fr_20rem] lg:gap-16"
 >
-  <div
-    class="grid grid-cols-1 xl:grid-cols-[1fr_450px] rounded-2xl gap-6 backdrop-blur-xl backdrop-saturate-150 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:to-transparent p-6 md:p-12 align-center items-center"
-  >
-    <div class="flex flex-col gap-6">
-      <h1
-        class="text-display font-bold text-pretty"
-      >
-        <!-- gradient text -->
-        <span
-          class="bg-gradient-to-r from-pink-400 to-pink-500 bg-clip-text text-transparent"
-        >
-          System's Engineer
-        </span>
-        and passionate developer
-      </h1>
-      <p
-        class="text-lg md:text-xl lg:text-2xl max-w-3xl text-pretty tracking-wider leading-relaxed"
-      >
-        Crafting seamless digital experiences with a blend of creativity and
-        technical expertise.
-      </p>
+  <div class="grid gap-6">
+    <h1 id="hero-title" class="font-display text-display text-fg text-balance">
+      <span class="text-accent">System's Engineer</span>
+      and passionate developer
+    </h1>
+
+    <p class="max-w-prose text-lg text-pretty text-fg-muted md:text-xl">
+      Crafting seamless digital experiences with a blend of creativity and
+      technical expertise.
+    </p>
+
+    <div class="flex flex-wrap gap-3 pt-2">
+      <a appUiButton routerLink="/projects">View projects</a>
+      <a appUiButton variant="secondary" routerLink="/contact">Contact me</a>
     </div>
-    <a
-      href="https://github.com/MrNizzy"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="group w-2/3 mx-auto"
-      title="MrNizzy GitHub"
-      aria-label="MrNizzy GitHub"
-    >
-      <picture>
-        <source srcset="mrnizzy.webp" type="image/webp" />
-        <img
-          src="mrnizzy.png"
-          alt="Logo MrNizzy"
-          width="256"
-          height="256"
-          class="w-full mx-auto hidden xl:block group-hover:scale-110 transition-all duration-300"
-          loading="lazy"
-        />
-      </picture>
-    </a>
   </div>
+
+  <a
+    href="https://github.com/MrNizzy"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="order-first w-28 rounded-full outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:w-36 lg:order-none lg:w-full lg:justify-self-end"
+  >
+    <picture>
+      <source srcset="mrnizzy.webp" type="image/webp" />
+      <img
+        src="mrnizzy.png"
+        alt="MrNizzy"
+        width="256"
+        height="256"
+        class="w-full"
+        decoding="async"
+      />
+    </picture>
+    <span class="sr-only">on GitHub (opens in a new tab)</span>
+  </a>
 </section>

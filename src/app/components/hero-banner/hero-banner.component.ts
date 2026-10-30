@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ProfileInfo } from '../../pages/home/data';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { UiButtonDirective } from '@shared/ui/button/button.directive';
 
 @Component({
   selector: 'app-hero-banner',
-  imports: [],
+  imports: [RouterLink, UiButtonDirective],
   templateUrl: './hero-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroBannerComponent {
-  public readonly profileInfo = input.required<ProfileInfo>();
-}
+export class HeroBannerComponent {}

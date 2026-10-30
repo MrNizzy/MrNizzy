@@ -1,6 +1,6 @@
-<app-hero-banner [profileInfo]="profile()" appScrollFadeIn />
+<div class="grid gap-16 md:gap-24">
+  <app-hero-banner appScrollFadeIn />
 
-<section class="grid gap-12">
   <app-work-experience appScrollFadeIn />
 
   <app-tech-stack [tools]="toolGroups()" appScrollFadeIn />
@@ -9,6 +9,6 @@
     [learningExperiences]="experience()"
     appScrollFadeIn
   />
-</section>
 
-<app-social-network appScrollFadeIn />
+  <app-social-network appScrollFadeIn />
+</div>

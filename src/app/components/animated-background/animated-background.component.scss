@@ -1,3 +1,5 @@
+// Decorative and behind the page: never takes pointer input. The page colour
+// is on <html>, so the (transparent) canvas must stay the only thing here.
 .animated-background-container {
   position: fixed;
   top: 0;
@@ -6,4 +8,21 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
+  pointer-events: none;
+  // The tide lives in the lower part of the screen. This mask fades whatever
+  // rises above it, so the top half, where the navbar and the hero heading
+  // are, is always plain canvas. Tune it together with VIEW_SHIFT in
+  // tide.config.ts.
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 30%,
+    black 70%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 30%,
+    black 70%
+  );
 }

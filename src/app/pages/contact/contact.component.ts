@@ -13,16 +13,34 @@ import {
   CONTACT_EMAIL_SUBJECT,
   ContactChannel,
 } from '@models/contact.model';
+import { UiButtonDirective } from '@shared/ui/button/button.directive';
+import { UiCardDirective } from '@shared/ui/card/card.directive';
+import { UiIconComponent } from '@shared/ui/icon/icon.component';
+import { IconName } from '@shared/ui/icon/icon.registry';
+import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 
 export type CopyState = 'idle' | 'copied' | 'failed';
 
 const COPY_FEEDBACK_MS = 2000;
 
+/**
+ * Channels whose brand mark is a single-colour glyph. They use the icon
+ * registry (drawn in `currentColor`) instead of the white SVG asset, which
+ * would disappear on a light surface.
+ */
+const REGISTRY_ICONS: Readonly<Record<string, IconName>> = {
+  GitHub: 'github',
+};
+
 @Component({
   selector: 'app-contact',
-  imports: [],
+  imports: [
+    UiButtonDirective,
+    UiCardDirective,
+    UiIconComponent,
+    UiSectionHeadingComponent,
+  ],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent {
@@ -61,6 +79,10 @@ export class ContactComponent {
       this.resetTimer = null;
       this.copyState.set('idle');
     }, COPY_FEEDBACK_MS);
+  }
+
+  protected registryIcon(channel: ContactChannel): IconName | null {
+    return REGISTRY_ICONS[channel.name] ?? null;
   }
 
   private clearResetTimer(): void {

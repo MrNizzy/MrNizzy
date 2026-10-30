@@ -68,11 +68,25 @@ describe('ContactComponent', () => {
     );
   });
 
+  it('should have exactly one h1, with no heading levels below it', () => {
+    expect(compiled.querySelectorAll('h1').length).toBe(1);
+    expect(compiled.querySelectorAll('h2, h3, h4, h5, h6').length).toBe(0);
+  });
+
+  it('should not wrap the page title in a card', () => {
+    const heading = compiled.querySelector('h1') as HTMLElement;
+
+    expect(heading.closest('[class*="rounded-card"]')).toBeNull();
+  });
+
   it('should render the email address in the primary card', () => {
-    expect(compiled.textContent).toContain('Email is the fastest way to reach me');
-    expect(compiled.querySelector('.font-mono')?.textContent?.trim()).toBe(
-      EMAIL
+    const emailLine = Array.from(compiled.querySelectorAll('p')).find(
+      (line) => line.textContent?.trim() === EMAIL
     );
+
+    expect(compiled.textContent).toContain('Email is the fastest way to reach me');
+    expect(emailLine).toBeDefined();
+    expect(emailLine?.closest('[class*="rounded-card"]')).not.toBeNull();
   });
 
   it('should render one external link per channel with the correct href and rel', () => {
@@ -98,6 +112,42 @@ describe('ContactComponent', () => {
       expect(links[index].textContent).toContain(channel.name);
       expect(links[index].textContent).toContain(channel.purpose);
     });
+  });
+
+  it('should announce that each channel link opens in a new tab', () => {
+    const links = Array.from(
+      compiled.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]')
+    );
+
+    links.forEach((link) => {
+      expect(link.querySelector('.sr-only')?.textContent).toContain(
+        '(opens in a new tab)'
+      );
+    });
+  });
+
+  it('should render a decorative brand icon for every channel', () => {
+    const links = Array.from(
+      compiled.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]')
+    );
+
+    links.forEach((link) => {
+      const image = link.querySelector('img');
+      const glyph = link.querySelector('app-ui-icon svg[aria-hidden="true"]');
+
+      // A channel draws either its SVG asset or a registry glyph, never both.
+      expect(image !== null || glyph !== null).toBeTrue();
+      if (image) expect(image.getAttribute('alt')).toBe('');
+    });
+  });
+
+  it('should draw the GitHub mark with the icon registry so it follows the theme', () => {
+    const github = Array.from(
+      compiled.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]')
+    ).find((link) => link.textContent?.includes('GitHub'));
+
+    expect(github?.querySelector('img')).toBeNull();
+    expect(github?.querySelector('app-ui-icon svg')).not.toBeNull();
   });
 
   it('should render a mailto link with the encoded subject', () => {

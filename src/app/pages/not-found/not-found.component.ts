@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { UiButtonDirective } from '@shared/ui/button/button.directive';
+import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-not-found',
-  imports: [],
+  imports: [RouterLink, UiButtonDirective, UiSectionHeadingComponent],
   templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotFoundComponent {
-
-}
+export class NotFoundComponent {}

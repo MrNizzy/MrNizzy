@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { environment } from '@env/environment';
+import { devRoutes } from './dev-routes';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,9 @@ export const routes: Routes = [
       ),
     title: `Privacy - ${environment.appName}`,
   },
+  // Development-only pages. Empty in production builds (see dev-routes.ts).
+  ...devRoutes,
+  // Keep the wildcard last so it never shadows another route.
   {
     path: '**',
     loadComponent: () =>

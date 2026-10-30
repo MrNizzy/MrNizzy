@@ -25,6 +25,7 @@
   --color-line: var(--ds-line);
   --color-line-strong: var(--ds-line-strong);
   --color-focus: var(--ds-focus);
+  --color-danger: var(--ds-danger);
 }
 
 @theme {
@@ -68,7 +69,10 @@
     --ds-line: rgb(255 255 255 / 0.1);
     --ds-line-strong: rgb(255 255 255 / 0.2);
     --ds-focus: #f472b6;
-    --ds-shadow-card: none;
+    --ds-danger: #f87171;
+    /* Transparent shadow, not `none`: Tailwind composes box-shadow as a list
+       (shadow + ring), and `none` would invalidate the focus ring too. */
+    --ds-shadow-card: 0 0 #0000;
 
     --ds-duration-fast: 150ms;
     --ds-duration-base: 250ms;
@@ -88,6 +92,7 @@
     --ds-line: rgb(0 0 0 / 0.1);
     --ds-line-strong: rgb(0 0 0 / 0.18);
     --ds-focus: #db2777;
+    --ds-danger: #b91c1c;
     --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
   }
 

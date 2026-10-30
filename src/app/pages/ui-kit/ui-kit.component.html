@@ -1,0 +1,233 @@
+<div class="grid gap-12 pb-16">
+  <app-ui-section-heading
+    [level]="1"
+    description="Development-only catalogue of the design system primitives. Not included in production builds."
+  >
+    UI kit
+  </app-ui-section-heading>
+
+  <!-- Active theme -->
+  <div class="grid gap-10">
+    <h2 class="text-heading text-fg">Active theme</h2>
+    <ng-container [ngTemplateOutlet]="kit" />
+  </div>
+
+  <!-- Light tokens, scoped to a wrapper so they can be reviewed while the light theme is disabled globally -->
+  <div
+    data-theme="light"
+    class="grid gap-10 rounded-card border border-line bg-canvas p-6 text-fg md:p-8"
+  >
+    <h2 class="text-heading text-fg">Light theme preview</h2>
+    <ng-container [ngTemplateOutlet]="kit" />
+  </div>
+</div>
+
+<ng-template #kit>
+  <!-- Section heading -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Section heading
+    </h3>
+    <app-ui-section-heading [level]="1" description="Level 1 with an icon and a description.">
+      <app-ui-icon icon name="github" [size]="24" />
+      Page title
+    </app-ui-section-heading>
+    <app-ui-section-heading description="Level 2 (default) without an icon.">
+      Section title
+    </app-ui-section-heading>
+  </section>
+
+  <!-- Buttons -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Button
+    </h3>
+    @for (size of buttonSizes; track size) {
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="w-10 text-sm text-fg-subtle">{{ size }}</span>
+        @for (variant of buttonVariants; track variant) {
+          <button appUiButton [variant]="variant" [size]="size">
+            {{ variant }}
+          </button>
+        }
+        <button appUiButton variant="primary" [size]="size">
+          <app-ui-icon name="mail" [size]="16" />
+          With icon
+        </button>
+        <button appUiButton variant="secondary" [size]="size" disabled>
+          Disabled
+        </button>
+        <a appUiButton variant="secondary" [size]="size" href="https://github.com/MrNizzy">
+          As a link
+          <app-ui-icon name="arrow-up-right" [size]="16" />
+        </a>
+      </div>
+    }
+  </section>
+
+  <!-- Links -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Link
+    </h3>
+    <p class="text-fg-muted">
+      Read the
+      <a appUiLink href="/about">about page</a>
+      or follow the work on
+      <a appUiLink external href="https://github.com/MrNizzy">
+        GitHub
+        <app-ui-icon name="external-link" [size]="16" class="align-middle" />
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>.
+    </p>
+  </section>
+
+  <!-- Cards -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Card
+    </h3>
+    <div class="grid gap-4 md:grid-cols-2">
+      @for (variant of cardVariants; track variant) {
+        <article appUiCard [variant]="variant">
+          <h4 class="text-heading text-fg">{{ variant }}</h4>
+          <p class="mt-2 text-fg-muted">
+            @if (variant === 'glass') {
+              Translucent and blurred, so the animated background stays visible behind it.
+            } @else {
+              Opaque surface with the card shadow on the light theme.
+            }
+          </p>
+        </article>
+      }
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (padding of cardPaddings; track padding) {
+        <div appUiCard variant="surface" [padding]="padding">
+          <p class="text-sm text-fg-muted">padding: {{ padding }}</p>
+        </div>
+      }
+    </div>
+    <article appUiCard interactive class="flex items-center justify-between gap-4">
+      <div>
+        <h4 class="text-heading text-fg">Interactive card</h4>
+        <p class="mt-1 text-fg-muted">Hover it, or tab to the button to see focus-within.</p>
+      </div>
+      <button appUiButton variant="secondary" size="sm">Action</button>
+    </article>
+  </section>
+
+  <!-- Chips -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Chip
+    </h3>
+    <div class="flex flex-wrap items-center gap-2">
+      <span appUiChip>Static</span>
+      <span appUiChip>
+        <app-ui-icon name="map-pin" [size]="16" />
+        With icon
+      </span>
+      <a appUiChip href="/projects">Link chip</a>
+    </div>
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Topics">
+      @for (topic of topics; track topic) {
+        <button
+          appUiChip
+          [selected]="activeTopics().has(topic)"
+          (click)="toggleTopic(topic)"
+        >
+          @if (activeTopics().has(topic)) {
+            <app-ui-icon name="check" [size]="16" />
+          }
+          {{ topic }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Inputs -->
+  <section class="grid max-w-xl gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Input
+    </h3>
+    <label class="grid gap-1.5 text-sm text-fg-muted">
+      Default
+      <input appUiInput type="text" placeholder="Type something" />
+    </label>
+    <label class="grid gap-1.5 text-sm text-fg-muted">
+      Invalid
+      <input
+        appUiInput
+        type="email"
+        value="not-an-email"
+        aria-invalid="true"
+      />
+      <span class="text-danger">Enter a valid email address.</span>
+    </label>
+    <label class="grid gap-1.5 text-sm text-fg-muted">
+      Disabled
+      <input appUiInput type="text" value="Read only value" disabled />
+    </label>
+    <label class="grid gap-1.5 text-sm text-fg-muted">
+      Textarea
+      <textarea appUiInput rows="3" placeholder="Tell me about your project"></textarea>
+    </label>
+  </section>
+
+  <!-- Select -->
+  <section class="grid max-w-xl gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Select
+    </h3>
+    <app-ui-select
+      label="Topic"
+      placeholder="Pick a topic"
+      [options]="topics"
+      [value]="selectedTopic()"
+      (valueChange)="selectedTopic.set($event)"
+    />
+    <p class="text-sm text-fg-muted">
+      Open it with Arrow Down, Enter or Space. Arrow keys, Home, End and typing
+      move between options; Escape closes it.
+      Selected: <span class="text-fg">{{ selectedTopic() }}</span>
+    </p>
+  </section>
+
+  <!-- Dialog -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Dialog
+    </h3>
+    <div class="flex flex-wrap items-center gap-3">
+      <button appUiButton variant="primary" (click)="openDialog()">
+        Open dialog
+      </button>
+      <p class="text-sm text-fg-muted" aria-live="polite">
+        Last result:
+        <span class="text-fg">{{ dialogResult() ?? 'none yet' }}</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Icons -->
+  <section class="grid gap-4">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-fg-subtle">
+      Icon
+    </h3>
+    <ul role="list" class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      @for (name of icons; track name) {
+        <li appUiCard padding="sm" class="flex items-center gap-3 text-fg">
+          @for (size of iconSizes; track size) {
+            <app-ui-icon [name]="name" [size]="size" />
+          }
+          <span class="text-sm text-fg-muted">{{ name }}</span>
+        </li>
+      }
+    </ul>
+    <p class="flex items-center gap-2 text-sm text-fg-muted">
+      <app-ui-icon name="mail" label="Email" class="text-accent" />
+      Labelled icons expose role="img" with an accessible name.
+    </p>
+  </section>
+</ng-template>

@@ -8,7 +8,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ResourceApi } from './resource-api';
 import type { Resource } from './resource.model';
-import { UiSelectComponent } from '@app/components/ui-select/ui-select.component';
+import { UiSelectComponent } from '@shared/ui/select/select.component';
 import { ResourceDialogComponent } from './resource-dialog.component';
 
 @Component({

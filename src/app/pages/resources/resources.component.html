@@ -1,159 +1,269 @@
-<h1
-  class="text-display font-bold flex items-center gap-4 mb-12 rounded-2xl border border-white/5 bg-black/5 dark:bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300 cursor-default p-6"
->
-  Resources
-</h1>
-
-<!-- Resources View -->
-
-<section
-  class="flex flex-col gap-6 rounded-2xl border border-white/5 bg-black/5 dark:bg-black/5 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(0,0,0,0.06)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-black/20 transition-all duration-300 cursor-default p-6"
->
-  @if (resources.isLoading()) {
-  <!-- Skeleton Loader: 3 items -->
-  <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    @for (i of [0,1,2]; track i) {
-    <li class="rounded-2xl border border-white/5 bg-black/20 p-4 animate-pulse">
-      <div class="flex items-start gap-4">
-        <div class="h-16 w-16 rounded-xl bg-white/10"></div>
-        <div class="flex-1 space-y-2">
-          <div class="h-5 w-2/3 rounded bg-white/10"></div>
-          <div class="h-4 w-full rounded bg-white/10"></div>
-          <div class="h-4 w-5/6 rounded bg-white/10"></div>
-          <div class="mt-3 flex gap-2">
-            <span class="h-6 w-12 rounded-full bg-white/10"></span>
-            <span class="h-6 w-16 rounded-full bg-white/10"></span>
-            <span class="h-6 w-10 rounded-full bg-white/10"></span>
-          </div>
-        </div>
-      </div>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="h-8 w-24 rounded-lg bg-white/10"></div>
-        <div class="flex gap-4">
-          <span class="h-4 w-10 rounded bg-white/10"></span>
-          <span class="h-4 w-10 rounded bg-white/10"></span>
-          <span class="h-4 w-10 rounded bg-white/10"></span>
-        </div>
-      </div>
-    </li>
-    }
-  </ul>
-  } @else if (resources.error(); as err) {
-  <div
-    class="text-red-400 bg-red-400/10 border border-red-400/30 rounded-xl p-4"
+<div class="grid gap-6 md:gap-8">
+  <app-ui-section-heading
+    [level]="1"
+    description="Tools, libraries and learning material worth bookmarking. Search by name or tag, or filter by type and category."
   >
-    <p class="font-semibold">Failed to load resources</p>
-    <p class="text-sm opacity-80 break-all">{{ err?.message ?? err }}</p>
-  </div>
-  } @else {
-  <!-- Filters Bar -->
-  <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-end">
-    <label class="flex-1">
-      <span class="block text-xs uppercase opacity-70 mb-1">Search</span>
-      <input
-        type="text"
-        class="w-full px-3 py-2 rounded-lg border border-white/10 bg-black/30 focus:outline-none focus:ring-2 focus:ring-white/20"
-        placeholder="Search by name, description or tag..."
-        [ngModel]="search()"
-        (ngModelChange)="search.set($event)"
-      />
-    </label>
-    <div class="w-full lg:w-60">
-      <app-ui-select
-        [label]="'Type'"
-        [options]="types()"
-        [value]="type()"
-        (valueChange)="type.set($event)"
-      />
-    </div>
-    <div class="w-full lg:w-60">
-      <app-ui-select
-        [label]="'Category'"
-        [options]="categories()"
-        [value]="category()"
-        (valueChange)="category.set($event)"
-      />
-    </div>
-  </div>
+    Resources
+  </app-ui-section-heading>
 
-  <div class="flex items-center justify-between gap-4">
-    <p class="text-sm opacity-70">Total: {{ resources.value().count }}</p>
-    <p class="text-sm opacity-70">Showing: {{ filteredItems().length }}</p>
-  </div>
-
-  @if (filteredItems().length === 0) {
-  <div class="text-base opacity-80">No resources found.</div>
-  } @else {
-  <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    @for (r of filteredItems(); track r.resource_id) {
-    <li
-      class="rounded-2xl border border-white/5 bg-black/20 hover:bg-black/30 transition-colors p-4 flex flex-col gap-4"
-    >
-      <button
-        type="button"
-        class="flex items-start gap-4 group text-left cursor-pointer"
-        (click)="openResource(r)"
-        aria-label="Open details for {{ r.name }}"
-      >
-        <img
-          [src]="r.url_image"
-          [alt]="r.name"
-          [title]="r.name"
-          class="h-16 w-16 rounded-xl object-cover border border-white/10 bg-black/30 flex-shrink-0"
-          loading="lazy"
-        />
-        <div class="flex-1 min-w-0">
-          <h2
-            class="text-xl font-semibold tracking-wide group-hover:underline underline-offset-4"
-          >
-            {{ r.name }}
-          </h2>
-          <p class="text-sm opacity-80 line-clamp-3">
-            {{ r.description }}
-          </p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            @for (t of r.tags; track t) {
-            <span
-              class="text-xs px-2 py-1 rounded-full border border-white/10 bg-black/30"
+  @switch (view()) {
+    @case ('loading') {
+      <div class="grid gap-4 md:gap-6" aria-busy="true">
+        <p
+          #loadingRegion
+          tabindex="-1"
+          role="status"
+          class="text-sm text-fg-subtle outline-hidden"
+        >
+          Loading resources…
+        </p>
+        <ul class="grid gap-4 md:grid-cols-2 md:gap-6" aria-hidden="true">
+          @for (n of skeletons; track n) {
+            <li
+              appUiCard
+              variant="glass"
+              class="grid content-start gap-4 motion-safe:animate-pulse"
             >
-              {{ t }}
-            </span>
-            }
-          </div>
-        </div>
-      </button>
-
-      <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-          @if (r.url) {
-          <a
-            [href]="r.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm px-3 py-1.5 rounded-lg border border-white/10 bg-black/30 hover:bg-black/40 transition-colors cursor-pointer"
-            >Website</a
-          >
-          } @if (r.url_repository) {
-          <a
-            [href]="r.url_repository"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm px-3 py-1.5 rounded-lg border border-white/10 bg-black/30 hover:bg-black/40 transition-colors cursor-pointer"
-            >Repository</a
-          >
+              <div class="flex items-start gap-4">
+                <div class="size-14 shrink-0 rounded-control bg-fg/10"></div>
+                <div class="grid flex-1 gap-2">
+                  <div class="h-6 w-2/3 rounded-chip bg-fg/10"></div>
+                  <div class="h-4 w-full rounded-chip bg-fg/10"></div>
+                  <div class="h-4 w-5/6 rounded-chip bg-fg/10"></div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <div class="h-6 w-14 rounded-chip bg-fg/10"></div>
+                <div class="h-6 w-20 rounded-chip bg-fg/10"></div>
+                <div class="h-6 w-12 rounded-chip bg-fg/10"></div>
+              </div>
+            </li>
           }
-        </div>
-        <div class="text-xs opacity-80 flex items-center gap-4">
-          <span title="Views">👁️ {{ r.view_count }}</span>
-          <span title="Upvotes">👍 {{ r.upvotes }}</span>
-          <span title="Clicks">🖱️ {{ r.click_count }}</span>
-        </div>
+        </ul>
       </div>
-    </li>
     }
-  </ul>
-  } @if (selectedId(); as id) {
-    <app-resource-dialog [id]="id" (closed)="closeResource()" />
+
+    @case ('error') {
+      <div
+        appUiCard
+        variant="glass"
+        padding="lg"
+        role="alert"
+        class="grid justify-items-start gap-4"
+      >
+        <div class="grid gap-2">
+          <h2 class="text-heading text-danger">Couldn't load the resources</h2>
+          <p class="max-w-prose text-pretty text-fg-muted">
+            {{ errorMessage() }} It's most likely temporary, so give it another
+            go.
+          </p>
+        </div>
+        <button appUiButton variant="secondary" (click)="retry()">
+          Try again
+        </button>
+      </div>
+    }
+
+    @case ('empty') {
+      <div
+        appUiCard
+        variant="glass"
+        padding="lg"
+        class="grid justify-items-start gap-4"
+      >
+        <div class="grid gap-2">
+          <h2 class="text-heading text-fg">Nothing here yet</h2>
+          <p class="max-w-prose text-pretty text-fg-muted">
+            I'm still putting this list together. Check back soon for tools,
+            libraries and learning material, or see what I've built in the
+            meantime.
+          </p>
+        </div>
+        <a appUiButton variant="secondary" routerLink="/projects">
+          See my projects
+        </a>
+      </div>
+    }
+
+    @default {
+      <div class="grid gap-3">
+        <div
+          role="search"
+          aria-label="Filter resources"
+          class="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_14rem_14rem] lg:items-end"
+        >
+          <div class="sm:col-span-2 lg:col-span-1">
+            <label
+              for="resources-search"
+              class="mb-1 block text-xs uppercase text-fg-muted"
+            >
+              Search
+            </label>
+            <div class="relative">
+              <!-- The native clear button looks different in every browser,
+                   so it is swapped for one drawn with the design system. -->
+              <input
+                #searchInput
+                id="resources-search"
+                appUiInput
+                type="search"
+                name="search"
+                autocomplete="off"
+                placeholder="Name, description or tag"
+                class="pe-11 [&::-webkit-search-cancel-button]:appearance-none"
+                [value]="search()"
+                (input)="search.set(searchInput.value)"
+              />
+              @if (search()) {
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  class="absolute end-1.5 top-1/2 inline-flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-chip text-fg-subtle outline-hidden hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-focus motion-safe:transition-colors"
+                  (click)="clearSearch()"
+                >
+                  <app-ui-icon name="close" [size]="16" />
+                </button>
+              }
+            </div>
+          </div>
+          <app-ui-select label="Type" [options]="types()" [(value)]="type" />
+          <app-ui-select
+            label="Category"
+            [options]="categories()"
+            [(value)]="category"
+          />
+        </div>
+
+        <p
+          class="text-sm text-fg-subtle"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {{ resultsLabel() }}
+        </p>
+      </div>
+
+      @if (filteredItems().length > 0) {
+        <ul class="grid gap-4 md:grid-cols-2 md:gap-6">
+          @for (r of filteredItems(); track r.resource_id) {
+            <!-- The heading button is stretched over the whole card (the
+                 ::after overlay); links sit above it with `relative z-10`. -->
+            <li
+              appUiCard
+              variant="glass"
+              interactive
+              class="relative flex flex-col gap-4"
+            >
+              <div class="flex items-start gap-4">
+                @if (r.url_image) {
+                  <img
+                    [src]="r.url_image"
+                    alt=""
+                    width="56"
+                    height="56"
+                    loading="lazy"
+                    decoding="async"
+                    class="size-14 shrink-0 rounded-control border border-line bg-canvas object-cover"
+                  />
+                }
+                <div class="grid min-w-0 gap-2">
+                  <h2 class="break-words text-heading text-fg">
+                    <button
+                      type="button"
+                      aria-haspopup="dialog"
+                      class="cursor-pointer text-left outline-hidden after:absolute after:inset-0 after:rounded-card after:content-['']"
+                      (click)="openResource(r)"
+                    >
+                      {{ r.name }}
+                    </button>
+                  </h2>
+                  <p class="line-clamp-3 text-pretty text-fg-muted">
+                    {{ r.description }}
+                  </p>
+                </div>
+              </div>
+
+              <ul class="flex flex-wrap gap-2 empty:hidden" aria-label="Tags">
+                @for (tag of r.tags; track tag) {
+                  <li appUiChip>{{ tag }}</li>
+                }
+              </ul>
+
+              <div class="mt-auto grid gap-3">
+                <ul class="flex flex-wrap gap-x-6 gap-y-2 empty:hidden">
+                  @if (r.url) {
+                    <li>
+                      <a
+                        appUiLink
+                        external
+                        class="relative z-10 whitespace-nowrap"
+                        [href]="r.url"
+                        >Website<span class="sr-only"> for {{ r.name }}</span
+                        ><app-ui-icon
+                          name="external-link"
+                          [size]="16"
+                          class="ml-1 align-middle"
+                        /><span class="sr-only"> (opens in a new tab)</span></a
+                      >
+                    </li>
+                  }
+                  @if (r.url_repository) {
+                    <li>
+                      <a
+                        appUiLink
+                        external
+                        class="relative z-10 whitespace-nowrap"
+                        [href]="r.url_repository"
+                        >Repository<span class="sr-only"> for {{ r.name }}</span
+                        ><app-ui-icon
+                          name="external-link"
+                          [size]="16"
+                          class="ml-1 align-middle"
+                        /><span class="sr-only"> (opens in a new tab)</span></a
+                      >
+                    </li>
+                  }
+                </ul>
+
+                <ul
+                  class="flex flex-wrap gap-x-4 text-sm text-fg-subtle"
+                  aria-label="Activity"
+                >
+                  <li>
+                    {{ r.view_count }} {{ r.view_count === 1 ? 'view' : 'views' }}
+                  </li>
+                  <li>
+                    {{ r.upvotes }} {{ r.upvotes === 1 ? 'upvote' : 'upvotes' }}
+                  </li>
+                  <li>
+                    {{ r.click_count }}
+                    {{ r.click_count === 1 ? 'click' : 'clicks' }}
+                  </li>
+                </ul>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div
+          appUiCard
+          variant="glass"
+          padding="lg"
+          class="grid justify-items-start gap-4"
+        >
+          <div class="grid gap-2">
+            <h2 class="text-heading text-fg">No resources match</h2>
+            <p class="max-w-prose text-pretty text-fg-muted">
+              Nothing fits the current search and filters. Try fewer filters or
+              a different search term.
+            </p>
+          </div>
+          <button appUiButton variant="secondary" (click)="clearFilters()">
+            Clear filters
+          </button>
+        </div>
+      }
+    }
   }
-  }
-  </section>
+</div>

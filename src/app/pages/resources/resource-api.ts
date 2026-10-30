@@ -46,3 +46,15 @@ export class ResourceApi {
     });
   }
 }
+
+/**
+ * Plain-language reason a request failed, safe to show to visitors.
+ *
+ * `status` is 0 when the request never got an answer (offline, API down).
+ */
+export function describeLoadError(error: unknown): string {
+  const status = (error as { status?: unknown } | null)?.status;
+  return typeof status === 'number' && status > 0
+    ? `The server answered with an error (${status}).`
+    : "The server couldn't be reached.";
+}

@@ -1,102 +1,71 @@
+import { DIALOG_DATA } from '@angular/cdk/dialog';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
-  output,
-  input,
   signal,
-  effect,
 } from '@angular/core';
-import { ResourceApi } from './resource-api';
+import { UiButtonDirective } from '@shared/ui/button/button.directive';
+import { UiChipDirective } from '@shared/ui/chip/chip.directive';
+import { UiDialogComponent } from '@shared/ui/dialog/dialog.component';
+import { UiIconComponent } from '@shared/ui/icon/icon.component';
+import { ResourceApi, describeLoadError } from './resource-api';
 
+/** What the list hands over when it opens the dialog. */
+export interface ResourceDialogData {
+  readonly id: string;
+  /** Shown as the title right away, before the details arrive. */
+  readonly name: string;
+}
+
+/** Content of the dialog opened with `UiDialog.open` from the resources list. */
 @Component({
   selector: 'app-resource-dialog',
+  imports: [UiButtonDirective, UiChipDirective, UiDialogComponent, UiIconComponent],
   templateUrl: './resource-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      @keyframes fade-in {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      @keyframes scale-in {
-        from {
-          opacity: 0;
-          transform: translateY(10px) scale(0.97);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-      @keyframes pop {
-        0% {
-          transform: scale(1);
-        }
-        40% {
-          transform: scale(1.12);
-        }
-        70% {
-          transform: scale(0.98);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      .animate-fade-in {
-        animation: fade-in 160ms ease-out forwards;
-      }
-      .animate-scale-in {
-        animation: scale-in 180ms ease-out forwards;
-      }
-      .animate-pop {
-        animation: pop 260ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      }
-    `,
-  ],
 })
 export class ResourceDialogComponent {
   private readonly api = inject(ResourceApi);
 
-  // Resource ID provided by parent component
-  readonly id = input.required<string>();
-
-  // Close event emitter for parent to react (avoid DOM event name conflicts)
-  readonly closed = output<void>();
+  readonly data = inject<ResourceDialogData>(DIALOG_DATA);
 
   // Fetch resource by ID; API also auto-increments view_count
-  readonly resource = this.api.getResource(this.id);
+  readonly resource = this.api.getResource(signal(this.data.id).asReadonly());
 
   // Optimistic UI deltas
   readonly upvoteDelta = signal(0);
   readonly clickDelta = signal(0);
   readonly viewDelta = signal(0);
 
-  // UI state for animations
-  readonly upvoting = signal(false);
+  /** Confirmation for screen readers (and a visible hint) after an upvote. */
+  readonly upvoteMessage = signal('');
 
-  // Trigger a view once when dialog opens (per creation) and reflect optimistically
-  readonly onOpenView = effect(() => {
-    const rid = this.id();
-    // optimistic increment
-    this.viewDelta.update((v) => v + 1);
-    // fire-and-forget
-    this.api.view(rid).catch((e) => console.error('Failed to record view', e));
+  readonly state = computed<'loading' | 'error' | 'ready'>(() => {
+    if (this.resource.isLoading()) return 'loading';
+    return this.resource.error() ? 'error' : 'ready';
   });
+
+  /** Only read once the details have loaded. */
+  readonly tags = computed<string[]>(() => this.resource.value().tags ?? []);
+
+  readonly errorMessage = computed(() =>
+    describeLoadError(this.resource.error())
+  );
+
+  constructor() {
+    this.recordView();
+  }
 
   async upvote(resourceId: string) {
     try {
       // optimistic increment
       this.upvoteDelta.update((u) => u + 1);
-      // trigger pop animation
-      this.upvoting.set(false); // restart animation if clicked fast
-      // In next microtask toggle to true so class re-applies
-      queueMicrotask(() => this.upvoting.set(true));
-      setTimeout(() => this.upvoting.set(false), 300);
+      const total = this.resource.value().upvotes + this.upvoteDelta();
+      this.upvoteMessage.set(
+        `Thanks for the upvote. ${total} ${total === 1 ? 'upvote' : 'upvotes'} in total.`
+      );
       await this.api.upvote(resourceId);
     } catch (e) {
       console.error('Failed to upvote', e);
@@ -111,5 +80,15 @@ export class ResourceDialogComponent {
     } catch (e) {
       console.error('Failed to track click', e);
     }
+  }
+
+  /** Trigger a view once when the dialog opens and reflect it optimistically. */
+  private recordView() {
+    // optimistic increment
+    this.viewDelta.update((v) => v + 1);
+    // fire-and-forget
+    this.api
+      .view(this.data.id)
+      .catch((e) => console.error('Failed to record view', e));
   }
 }

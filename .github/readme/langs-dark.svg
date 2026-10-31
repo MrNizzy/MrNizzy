@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" width="480" height="200" role="img" aria-label="Most used languages: HTML 31.3%, TypeScript 23.7%, PHP 11.7%, CSS 7.4%, SCSS 5.9%, Other 20.0%.">
-  <title>Most used languages: HTML 31.3%, TypeScript 23.7%, PHP 11.7%, CSS 7.4%, SCSS 5.9%, Other 20.0%.</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" width="480" height="200" role="img" aria-label="Most used languages: TypeScript 32.1%, HTML 28.0%, PHP 10.4%, CSS 6.6%, SCSS 4.9%, Other 17.9%.">
+  <title>Most used languages: TypeScript 32.1%, HTML 28.0%, PHP 10.4%, CSS 6.6%, SCSS 4.9%, Other 17.9%.</title>
   <defs>
     <style>.num { font-variant-numeric: tabular-nums; }</style>
     <clipPath id="bar-clip"><rect x="24" y="62" width="432" height="10" rx="5" /></clipPath>
@@ -8,30 +8,30 @@
   <g font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif">
     <text x="24" y="40" font-size="18" font-weight="600" fill="#F472A6">Most used languages</text>
     <g clip-path="url(#bar-clip)">
-      <rect x="24" y="62" width="133.2" height="10" fill="#DB2777" />
-      <rect x="159.2" y="62" width="100.43" height="10" fill="#0891B2" />
-      <rect x="261.63" y="62" width="48.35" height="10" fill="#7C3AED" />
-      <rect x="311.97" y="62" width="29.93" height="10" fill="#059669" />
-      <rect x="343.9" y="62" width="23.7" height="10" fill="#EA580C" />
-      <rect x="369.6" y="62" width="86.4" height="10" fill="#8B949E" />
+      <rect x="24" y="62" width="136.67" height="10" fill="#DB2777" />
+      <rect x="162.67" y="62" width="118.99" height="10" fill="#0891B2" />
+      <rect x="283.66" y="62" width="43.11" height="10" fill="#7C3AED" />
+      <rect x="328.77" y="62" width="26.61" height="10" fill="#059669" />
+      <rect x="357.37" y="62" width="19.22" height="10" fill="#EA580C" />
+      <rect x="378.59" y="62" width="77.41" height="10" fill="#8B949E" />
     </g>
     <circle cx="29" cy="103" r="5" fill="#DB2777" />
-    <text x="43" y="108" font-size="14" fill="#E6EDF3">HTML</text>
-    <text class="num" x="224" y="108" text-anchor="end" font-size="14" fill="#8B949E">31.3%</text>
+    <text x="43" y="108" font-size="14" fill="#E6EDF3">TypeScript</text>
+    <text class="num" x="224" y="108" text-anchor="end" font-size="14" fill="#8B949E">32.1%</text>
     <circle cx="29" cy="131" r="5" fill="#0891B2" />
-    <text x="43" y="136" font-size="14" fill="#E6EDF3">TypeScript</text>
-    <text class="num" x="224" y="136" text-anchor="end" font-size="14" fill="#8B949E">23.7%</text>
+    <text x="43" y="136" font-size="14" fill="#E6EDF3">HTML</text>
+    <text class="num" x="224" y="136" text-anchor="end" font-size="14" fill="#8B949E">28.0%</text>
     <circle cx="29" cy="159" r="5" fill="#7C3AED" />
     <text x="43" y="164" font-size="14" fill="#E6EDF3">PHP</text>
-    <text class="num" x="224" y="164" text-anchor="end" font-size="14" fill="#8B949E">11.7%</text>
+    <text class="num" x="224" y="164" text-anchor="end" font-size="14" fill="#8B949E">10.4%</text>
     <circle cx="253" cy="103" r="5" fill="#059669" />
     <text x="267" y="108" font-size="14" fill="#E6EDF3">CSS</text>
-    <text class="num" x="456" y="108" text-anchor="end" font-size="14" fill="#8B949E">7.4%</text>
+    <text class="num" x="456" y="108" text-anchor="end" font-size="14" fill="#8B949E">6.6%</text>
     <circle cx="253" cy="131" r="5" fill="#EA580C" />
     <text x="267" y="136" font-size="14" fill="#E6EDF3">SCSS</text>
-    <text class="num" x="456" y="136" text-anchor="end" font-size="14" fill="#8B949E">5.9%</text>
+    <text class="num" x="456" y="136" text-anchor="end" font-size="14" fill="#8B949E">4.9%</text>
     <circle cx="253" cy="159" r="5" fill="#8B949E" />
     <text x="267" y="164" font-size="14" fill="#E6EDF3">Other</text>
-    <text class="num" x="456" y="164" text-anchor="end" font-size="14" fill="#8B949E">20.0%</text>
+    <text class="num" x="456" y="164" text-anchor="end" font-size="14" fill="#8B949E">17.9%</text>
   </g>
 </svg>

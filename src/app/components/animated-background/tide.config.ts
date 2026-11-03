@@ -1,4 +1,5 @@
 import type { ResolvedTheme } from '@services/theme.service';
+import type { WebGLRendererParameters } from 'three';
 
 /** Colours of the tide for one theme (sRGB hex). */
 export interface TidePalette {
@@ -139,3 +140,51 @@ export const STILL_TIME = 12;
 export const MAX_FRAME_STEP = 0.1;
 
 export const COMPACT_MAX_WIDTH = 768;
+
+/**
+ * Options for the tide's WebGL renderer. `failIfMajorPerformanceCaveat` makes
+ * the browser refuse a context that would run on a software renderer
+ * (SwiftShader, llvmpipe, a blocklisted GPU): a decoration is not worth
+ * saturating the CPU, so the page stays plain and switches to its solid
+ * surfaces instead.
+ */
+export function tideRendererOptions(compact: boolean): WebGLRendererParameters {
+  return {
+    alpha: true,
+    // The squares are axis-aligned and small; skip MSAA where fill is dear.
+    antialias: !compact,
+    // A decoration should not wake the discrete GPU.
+    powerPreference: 'low-power',
+    failIfMajorPerformanceCaveat: true,
+  };
+}
+
+/**
+ * The WebGL2 context attributes three.js (r176) builds from renderer options:
+ * its defaults, with `alpha` always requested. The component asks for the
+ * context itself, with exactly these, so that a refusal never reaches three.js
+ * (see `createRenderer`).
+ */
+export function tideContextAttributes(
+  options: WebGLRendererParameters
+): WebGLContextAttributes {
+  const {
+    depth = true,
+    stencil = false,
+    antialias = false,
+    premultipliedAlpha = true,
+    preserveDrawingBuffer = false,
+    powerPreference = 'default',
+    failIfMajorPerformanceCaveat = false,
+  } = options;
+  return {
+    alpha: true,
+    depth,
+    stencil,
+    antialias,
+    premultipliedAlpha,
+    preserveDrawingBuffer,
+    powerPreference,
+    failIfMajorPerformanceCaveat,
+  };
+}

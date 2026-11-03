@@ -33,7 +33,7 @@ describe('WorkExperienceComponent', () => {
     expect(items.length).toBe(component.works().length);
     items.forEach((item) => {
       expect(item.classList).toContain('rounded-card');
-      expect(item.classList).toContain('bg-surface/60');
+      expect(item.classList).toContain('glass-panel');
     });
   });
 

@@ -130,7 +130,7 @@ describe('ProjectShowcaseComponent', () => {
       expect(cards().length).toBe(projects.length);
       cards().forEach((card) => {
         expect(card.classList).toContain('rounded-card');
-        expect(card.classList).toContain('bg-surface/60');
+        expect(card.classList).toContain('glass-panel');
         expect(card.classList).not.toContain('hover:border-line-strong');
       });
     });

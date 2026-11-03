@@ -1,4 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  PERFORMANCE_ATTRIBUTE,
+  PERFORMANCE_SIGNALS,
+  PERFORMANCE_STORAGE_KEY,
+  PerformanceTierService,
+} from '@services/performance-tier.service';
 import { THEME_STORAGE_KEY, ThemeService } from '@services/theme.service';
 import * as THREE from 'three';
 
@@ -20,7 +26,9 @@ import {
   TIDE_ROWS_COMPACT,
   WARMUP_FRAMES,
   tideColumns,
+  tideContextAttributes,
   tideDepth,
+  tideRendererOptions,
 } from './tide.config';
 
 /** The private state the specs inspect and drive. */
@@ -60,6 +68,14 @@ interface RendererFactory {
   createRenderer(compact: boolean): THREE.WebGLRenderer;
 }
 
+/** One signature of `getContext`, so it can be spied on and faked. */
+interface ContextFactory {
+  getContext(
+    contextId: string,
+    attributes?: WebGLContextAttributes
+  ): RenderingContext | null;
+}
+
 /** The slice of WebGLRenderer the component touches, for specs without a GPU. */
 function createFakeRenderer() {
   return {
@@ -71,6 +87,12 @@ function createFakeRenderer() {
     dispose: jasmine.createSpy('dispose'),
     forceContextLoss: jasmine.createSpy('forceContextLoss'),
   };
+}
+
+/** Forgets any low-performance decision, in the page and in the session. */
+function resetPerformanceTier(): void {
+  document.documentElement.removeAttribute(PERFORMANCE_ATTRIBUTE);
+  sessionStorage.removeItem(PERFORMANCE_STORAGE_KEY);
 }
 
 function isWebGlAvailable(): boolean {
@@ -137,6 +159,7 @@ describe('AnimatedBackgroundComponent', () => {
     now = 0;
     localStorage.removeItem(THEME_STORAGE_KEY);
     document.documentElement.removeAttribute('data-theme');
+    resetPerformanceTier();
 
     motion = {
       matches: false,
@@ -175,6 +198,14 @@ describe('AnimatedBackgroundComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [AnimatedBackgroundComponent],
+      // A capable machine, whatever runs the specs: low mode must come from
+      // the tide itself here.
+      providers: [
+        {
+          provide: PERFORMANCE_SIGNALS,
+          useValue: { deviceMemory: 8, hardwareConcurrency: 8 },
+        },
+      ],
     }).compileComponents();
   });
 
@@ -182,6 +213,7 @@ describe('AnimatedBackgroundComponent', () => {
     localStorage.removeItem(THEME_STORAGE_KEY);
     document.documentElement.removeAttribute('data-theme');
     document.documentElement.style.removeProperty('--ds-canvas');
+    resetPerformanceTier();
   });
 
   it('should create', () => {
@@ -225,6 +257,27 @@ describe('AnimatedBackgroundComponent', () => {
       expect(() => create()).not.toThrow();
       expect(requestFrame).not.toHaveBeenCalled();
       expect(() => fixture.destroy()).not.toThrow();
+    });
+
+    it('switches to low-performance mode when WebGL is missing or software only', () => {
+      createRenderer.and.throwError('Error creating WebGL context.');
+
+      create();
+
+      const tier = TestBed.inject(PerformanceTierService);
+      expect(tier.reason()).toBe('no-hardware-webgl');
+      expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        'low'
+      );
+    });
+
+    it('stays in normal mode when the renderer starts', () => {
+      create();
+
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
     });
 
     it('adds its listeners on init and removes the same ones on destroy', () => {
@@ -715,6 +768,79 @@ describe('AnimatedBackgroundComponent', () => {
     });
   });
 
+  describe('renderer options', () => {
+    it('refuses a software renderer, so a weak machine keeps a plain page', () => {
+      expect(tideRendererOptions(false).failIfMajorPerformanceCaveat).toBeTrue();
+      expect(tideRendererOptions(true).failIfMajorPerformanceCaveat).toBeTrue();
+    });
+
+    it('keeps the transparent canvas and the low-power preference', () => {
+      expect(tideRendererOptions(false)).toEqual(
+        jasmine.objectContaining({ alpha: true, powerPreference: 'low-power' })
+      );
+    });
+
+    it('skips antialiasing on the compact tier only', () => {
+      expect(tideRendererOptions(false).antialias).toBeTrue();
+      expect(tideRendererOptions(true).antialias).toBeFalse();
+    });
+
+    it('asks the browser to refuse a software-only WebGL context', () => {
+      // The real factory, with a browser that has no usable context.
+      createRenderer.and.callThrough();
+      const getContext = spyOn(
+        HTMLCanvasElement.prototype,
+        'getContext'
+      ).and.returnValue(null);
+
+      expect(() => create()).not.toThrow();
+
+      // Asked once, with the refusal on. A second call without attributes is
+      // what three.js makes after a failure, and what builds a software context.
+      expect(getContext).toHaveBeenCalledOnceWith(
+        'webgl2',
+        jasmine.objectContaining({ failIfMajorPerformanceCaveat: true })
+      );
+      // The page stays plain, and the surfaces go solid.
+      expect(internals().tide).toBeNull();
+      expect(TestBed.inject(PerformanceTierService).reason()).toBe(
+        'no-hardware-webgl'
+      );
+    });
+
+    describe('context attributes', () => {
+      it('are the ones three.js would have requested from the same options', () => {
+        // three.js r176 (WebGLRenderer.js): its defaults, alpha always on.
+        expect(tideContextAttributes(tideRendererOptions(false))).toEqual({
+          alpha: true,
+          depth: true,
+          stencil: false,
+          antialias: true,
+          premultipliedAlpha: true,
+          preserveDrawingBuffer: false,
+          powerPreference: 'low-power',
+          failIfMajorPerformanceCaveat: true,
+        });
+        expect(tideContextAttributes(tideRendererOptions(true))).toEqual(
+          jasmine.objectContaining({ alpha: true, antialias: false })
+        );
+      });
+
+      it('fall back to three.js defaults for options that are not set', () => {
+        expect(tideContextAttributes({})).toEqual({
+          alpha: true,
+          depth: true,
+          stencil: false,
+          antialias: false,
+          premultipliedAlpha: true,
+          preserveDrawingBuffer: false,
+          powerPreference: 'default',
+          failIfMajorPerformanceCaveat: false,
+        });
+      });
+    });
+  });
+
   describe('quality', () => {
     it('keeps full quality while frames come in at 60 fps', () => {
       create();
@@ -722,6 +848,40 @@ describe('AnimatedBackgroundComponent', () => {
       advance(WARMUP_FRAMES + SAMPLE_FRAMES * 3);
 
       expect(internals().qualityLevel).toBe(0);
+      // A healthy device keeps its glass surfaces.
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+    });
+
+    it('switches the page to low-performance mode at the first step down', () => {
+      create();
+      const tier = TestBed.inject(PerformanceTierService);
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES - 1, 60);
+      expect(tier.isLow()).toBeFalse();
+
+      advance(2, 60);
+
+      expect(internals().qualityLevel).toBe(1);
+      expect(tier.reason()).toBe('slow-frames');
+      expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        'low'
+      );
+      expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBe('low');
+    });
+
+    it('stays in low mode when frames recover: no flapping', () => {
+      create();
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 60);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeTrue();
+
+      advance(SAMPLE_FRAMES * 3);
+
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeTrue();
+      expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        'low'
+      );
     });
 
     it('steps the pixel ratio, then the row count, down when frames stay slow', () => {
@@ -749,7 +909,56 @@ describe('AnimatedBackgroundComponent', () => {
         pending('WebGL is not available in this browser');
         return;
       }
+      // Same options as the app, minus the software-renderer refusal: the
+      // specs run on whatever GL the test browser has, SwiftShader included.
+      createRenderer.and.callFake(
+        (compact: boolean) =>
+          new THREE.WebGLRenderer({
+            ...tideRendererOptions(compact),
+            failIfMajorPerformanceCaveat: false,
+          })
+      );
+    });
+
+    it('builds the renderer on the context it requested, without asking again', () => {
+      // The real factory. The specs run on SwiftShader, which the refusal would
+      // turn away, so lift it on the way through and keep the context.
       createRenderer.and.callThrough();
+      const original = HTMLCanvasElement.prototype.getContext;
+      let requested: RenderingContext | null = null;
+      const getContext = spyOn(
+        HTMLCanvasElement.prototype as unknown as ContextFactory,
+        'getContext'
+      ).and.callFake(function (
+        this: HTMLCanvasElement,
+        contextId: string,
+        attributes?: WebGLContextAttributes
+      ) {
+        requested = original.call(this, contextId, {
+          ...attributes,
+          failIfMajorPerformanceCaveat: false,
+        });
+        return requested;
+      });
+
+      create();
+
+      expect(getContext).toHaveBeenCalledOnceWith(
+        'webgl2',
+        jasmine.objectContaining({
+          alpha: true,
+          powerPreference: 'low-power',
+          failIfMajorPerformanceCaveat: true,
+        })
+      );
+      expect(requested).not.toBeNull();
+      expect(tide().renderer.getContext()).toBe(
+        requested as unknown as WebGL2RenderingContext
+      );
+      expect(tide().renderer.domElement).toBe(
+        (requested as unknown as WebGL2RenderingContext).canvas as HTMLCanvasElement
+      );
+      expect(tide().renderer.domElement.isConnected).toBeTrue();
     });
 
     it('compiles the shaders and paints pixels onto a transparent canvas', () => {

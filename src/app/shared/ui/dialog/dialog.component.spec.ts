@@ -144,8 +144,7 @@ describe('UiDialogComponent', () => {
       await openDialog();
 
       const backdrop = query('.cdk-overlay-backdrop')!;
-      expect(backdrop.classList).toContain('bg-canvas/70');
-      expect(backdrop.classList).toContain('backdrop-blur-sm');
+      expect(backdrop.classList).toContain('glass-scrim');
       expect(getComputedStyle(backdrop).backgroundColor).not.toBe(
         'rgba(0, 0, 0, 0)'
       );

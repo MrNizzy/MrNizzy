@@ -67,7 +67,7 @@ describe('UiCardDirective', () => {
       expect(classes).toContain('border-line');
       expect(classes).toContain('bg-surface');
       expect(classes).toContain('shadow-[var(--ds-shadow-card)]');
-      expect(classes).not.toContain('backdrop-blur-md');
+      expect(classes).not.toContain('glass-panel');
     });
 
     it('renders the glass variant translucent and blurred, without a shadow', () => {
@@ -75,8 +75,7 @@ describe('UiCardDirective', () => {
       fixture.detectChanges();
 
       const classes = el('configurable').classList;
-      expect(classes).toContain('bg-surface/60');
-      expect(classes).toContain('backdrop-blur-md');
+      expect(classes).toContain('glass-panel');
       expect(classes).not.toContain('bg-surface');
       expect(classes).not.toContain('shadow-[var(--ds-shadow-card)]');
     });

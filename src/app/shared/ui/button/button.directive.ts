@@ -20,7 +20,7 @@ const VARIANTS: Record<ButtonVariant, string> = {
   // be transparent. The hover border keeps a cue on surfaces that are already
   // the same colour (cards, dialogs).
   secondary:
-    'border border-line-strong bg-surface/70 text-fg backdrop-blur-sm hover:border-fg-subtle hover:bg-surface',
+    'border border-line-strong glass-control text-fg hover:border-fg-subtle hover:bg-surface',
   ghost: 'text-fg-muted hover:text-fg hover:bg-fg/5',
 };
 

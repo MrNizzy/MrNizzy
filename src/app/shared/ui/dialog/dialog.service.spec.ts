@@ -83,7 +83,7 @@ describe('UiDialog', () => {
     expect(pane().classList).toContain('app-ui-dialog-panel');
     expect(pane().classList).toContain('extra-panel');
     const backdrop = document.querySelector('.cdk-overlay-backdrop')!;
-    expect(backdrop.classList).toContain('bg-canvas/70');
+    expect(backdrop.classList).toContain('glass-scrim');
     expect(backdrop.classList).toContain('extra-backdrop');
   });
 

@@ -49,7 +49,7 @@ describe('TechStackComponent', () => {
 
     expect(tiles.length).toBe(2);
     tiles.forEach((tile) => {
-      expect(tile.classList).toContain('bg-surface/60');
+      expect(tile.classList).toContain('glass-panel');
       expect(tile.classList).toContain('p-4');
       expect(tile.classList).toContain('hover:border-line-strong');
     });

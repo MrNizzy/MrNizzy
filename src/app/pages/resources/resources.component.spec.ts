@@ -271,7 +271,7 @@ describe('ResourcesComponent', () => {
     it('uses glass interactive cards', () => {
       const card = $('li h2')!.closest('li')!;
 
-      expect(card.className).toContain('backdrop-blur-md');
+      expect(card.className).toContain('glass-panel');
       expect(card.className).toContain('has-[:focus-visible]:ring-2');
     });
 

@@ -120,6 +120,30 @@ describe('NavbarComponent', () => {
     });
   });
 
+  describe('glass surfaces', () => {
+    it('draws the header bar as glass, with no raw blur or tint classes', () => {
+      const header = host().querySelector('header')!;
+
+      expect(header.classList).toContain('glass-bar');
+      // The blur and the tint come from the glass utility only, so the
+      // low-performance mode can turn them off in one place.
+      expect(header.className).not.toMatch(/backdrop-blur|bg-canvas[/]/);
+    });
+
+    it('draws the mobile menu backplate as glass', fakeAsync(() => {
+      openMenu();
+
+      const backplate = menu()!.querySelector<HTMLElement>('.glass-menu');
+      expect(backplate).not.toBeNull();
+      expect(backplate!.getAttribute('aria-hidden')).toBe('true');
+      expect(backplate!.className).not.toMatch(/backdrop-blur|bg-canvas[/]/);
+
+      pressEscape();
+      finishClosing();
+      flush();
+    }));
+  });
+
   describe('mobile menu', () => {
     it('starts collapsed with a labelled burger button', () => {
       expect(burger().getAttribute('aria-expanded')).toBe('false');

@@ -61,8 +61,7 @@ describe('UiButtonDirective', () => {
       expect(classes).toContain('border-line-strong');
       expect(classes).toContain('text-fg');
       // Over the animated background, so never transparent.
-      expect(classes).toContain('bg-surface/70');
-      expect(classes).toContain('backdrop-blur-sm');
+      expect(classes).toContain('glass-control');
       expect(classes).toContain('hover:bg-surface');
       expect(classes).not.toContain('bg-accent-fill');
     });
@@ -87,7 +86,7 @@ describe('UiButtonDirective', () => {
       expect(classes).not.toContain('bg-accent-fill');
       expect(classes).not.toContain('border-line-strong');
       // Ghost stays transparent: it is used on solid surfaces like the navbar.
-      expect(classes).not.toContain('bg-surface/70');
+      expect(classes).not.toContain('glass-control');
       expect(getComputedStyle(el('configurable')).backgroundColor).toBe(
         'rgba(0, 0, 0, 0)'
       );

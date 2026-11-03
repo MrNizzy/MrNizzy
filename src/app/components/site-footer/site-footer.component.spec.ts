@@ -39,8 +39,10 @@ describe('SiteFooterComponent', () => {
     expect(footer?.classList).toContain('w-full');
     expect(footer?.classList).toContain('border-t');
     expect(footer?.classList).toContain('border-line');
-    expect(footer?.classList).toContain('bg-canvas/80');
-    expect(footer?.classList).toContain('backdrop-blur-md');
+    expect(footer?.classList).toContain('glass-bar');
+    // The blur and the tint come from the glass utility only, so the
+    // low-performance mode can turn them off in one place.
+    expect(footer?.className).not.toMatch(/backdrop-blur|bg-canvas\//);
   });
 
   it('keeps its content in the page column inside the band', () => {

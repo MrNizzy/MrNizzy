@@ -137,7 +137,7 @@ describe('UiSelectComponent', () => {
     it('looks like the text field: field tokens, not the old hard-coded colours', () => {
       const classes = trigger().classList;
 
-      for (const token of ['rounded-control', 'border-line', 'bg-surface/60', 'text-fg']) {
+      for (const token of ['rounded-control', 'border-line', 'glass-field', 'text-fg']) {
         expect(classes).withContext(token).toContain(token);
       }
       expect(classes).not.toContain('bg-black/30');
@@ -236,6 +236,16 @@ describe('UiSelectComponent', () => {
     });
 
     it('opens below the trigger when there is room', async () => {
+      // Guarantee the room instead of relying on where the page happens to put
+      // the fixture: the Jasmine reporter above it grows with every spec that
+      // has run, and in a short headless window that pushes the trigger far
+      // enough down for the panel to flip above it.
+      Object.assign((fixture.nativeElement as HTMLElement).style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        right: '0',
+      });
       await openWithKeyboard();
 
       const pane = document.querySelector('.cdk-overlay-pane') as HTMLElement;

@@ -125,8 +125,7 @@ describe('PrivacyComponent', () => {
   it('keeps the whole policy on one glass sheet, off the animated background', () => {
     const sheet = root.querySelector('section')?.parentElement as HTMLElement;
 
-    expect(sheet.classList).toContain('bg-surface/60');
-    expect(sheet.classList).toContain('backdrop-blur-md');
+    expect(sheet.classList).toContain('glass-panel');
     expect(sheet.classList).toContain('rounded-card');
     // Every section and the closing note live inside it.
     expect(sheet.querySelectorAll(':scope > section').length).toBe(
@@ -160,7 +159,7 @@ describe('PrivacyComponent', () => {
 
     expect(heading.closest('[class*="rounded-card"]')).toBeNull();
     expect(
-      root.querySelectorAll('[class*="rounded-card"][class*="backdrop-blur"]')
+      root.querySelectorAll('[class*="rounded-card"][class*="glass-panel"]')
         .length
     ).toBeGreaterThanOrEqual(6);
   });

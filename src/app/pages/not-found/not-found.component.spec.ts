@@ -44,7 +44,7 @@ describe('NotFoundComponent', () => {
     const heading = root.querySelector('h1') as HTMLElement;
 
     expect(heading.closest('[class*="rounded-card"]')).toBeNull();
-    expect(heading.className).not.toMatch(/\b(?:border|backdrop-blur|shadow)/);
+    expect(heading.className).not.toMatch(/\b(?:border|glass-|shadow)/);
   });
 
   it('hides the decorative 404 from assistive technology', () => {

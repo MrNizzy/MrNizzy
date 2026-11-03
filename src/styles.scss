@@ -93,6 +93,18 @@
   --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
 }
 
+/* Values of the glass variables when blur is off (see `@layer base`). */
+@mixin glass-solid {
+  --glass-blur: none;
+  --glass-blur-soft: none;
+  --glass-alpha-panel: 95%;
+  --glass-alpha-control: 96%;
+  --glass-alpha-field: 96%;
+  --glass-alpha-bar: 96%;
+  --glass-alpha-menu: 97%;
+  --glass-alpha-scrim: 94%;
+}
+
 @layer base {
   /*
    * Which palette applies, in cascade order (later wins at equal or higher
@@ -136,6 +148,34 @@
   :root {
     --ds-duration-fast: 150ms;
     --ds-duration-base: 250ms;
+
+    /* Glass surfaces: see the "Glass surfaces" section below. */
+    --glass-blur: blur(var(--blur-md));
+    --glass-blur-soft: blur(var(--blur-sm));
+    --glass-alpha-panel: 60%;
+    --glass-alpha-control: 70%;
+    --glass-alpha-field: 60%;
+    --glass-alpha-bar: 80%;
+    --glass-alpha-menu: 95%;
+    --glass-alpha-scrim: 70%;
+  }
+
+  /*
+   * Solid glass: no backdrop blur and near-opaque fills. Applied on devices
+   * that are probably low-end (PerformanceTierService sets `data-perf="low"`
+   * on <html>) and for users who ask for less transparency. Re-blurring the
+   * moving background behind every surface on every frame is the expensive
+   * part; the tint is what keeps text legible, so it stays and gets denser.
+   * Both switches share the `glass-solid` mixin, so they cannot drift apart.
+   */
+  :root[data-perf="low"] {
+    @include glass-solid;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :root {
+      @include glass-solid;
+    }
   }
 
   /*
@@ -229,6 +269,69 @@
     opacity: 0;
     transform: translateY(12px) scale(0.98);
   }
+}
+
+/*
+ * Glass surfaces.
+ *
+ * A translucent tint plus a backdrop blur, so the animated background shows
+ * through without hurting text. The fill is the theme colour mixed with
+ * transparent (the same `color-mix` Tailwind emits for `bg-surface/60`), and
+ * the amount of tint and blur come from the --glass-* variables, which is how
+ * the low-performance mode turns every surface solid at once (see the
+ * variables in `@layer base`). Use these instead of `bg-x/NN backdrop-blur-*`.
+ *
+ *   glass-panel    cards over the background           (surface, medium blur)
+ *   glass-control  secondary buttons                   (surface, light blur)
+ *   glass-field    text fields and the select trigger  (surface, no blur)
+ *   glass-bar      navbar and footer                   (canvas,  medium blur)
+ *   glass-menu     full-screen mobile menu backplate   (canvas,  medium blur)
+ *   glass-scrim    dim behind dialogs                  (canvas,  light blur)
+ */
+@mixin glass-surface($color, $alpha, $filter: null) {
+  /* Without color-mix support the surface is plain and opaque. */
+  background-color: var(#{$color});
+
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(
+      in oklab,
+      var(#{$color}) var(#{$alpha}),
+      transparent
+    );
+  }
+
+  @if $filter {
+    -webkit-backdrop-filter: var(#{$filter});
+    backdrop-filter: var(#{$filter});
+  }
+}
+
+@utility glass-panel {
+  @include glass-surface(--ds-surface, --glass-alpha-panel, --glass-blur);
+}
+
+@utility glass-control {
+  @include glass-surface(
+    --ds-surface,
+    --glass-alpha-control,
+    --glass-blur-soft
+  );
+}
+
+@utility glass-field {
+  @include glass-surface(--ds-surface, --glass-alpha-field);
+}
+
+@utility glass-bar {
+  @include glass-surface(--ds-canvas, --glass-alpha-bar, --glass-blur);
+}
+
+@utility glass-menu {
+  @include glass-surface(--ds-canvas, --glass-alpha-menu, --glass-blur);
+}
+
+@utility glass-scrim {
+  @include glass-surface(--ds-canvas, --glass-alpha-scrim, --glass-blur-soft);
 }
 
 @layer components {

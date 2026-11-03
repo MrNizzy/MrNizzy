@@ -30,8 +30,7 @@ describe('SocialNetworkComponent', () => {
   it('sits on a glass card so its text never lies on the animated background', () => {
     const section = root.querySelector('section') as HTMLElement;
 
-    expect(section.classList).toContain('bg-surface/60');
-    expect(section.classList).toContain('backdrop-blur-md');
+    expect(section.classList).toContain('glass-panel');
     expect(section.classList).toContain('rounded-card');
   });
 

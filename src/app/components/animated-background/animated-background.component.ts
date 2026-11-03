@@ -9,6 +9,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { PerformanceTierService } from '@services/performance-tier.service';
 import { ResolvedTheme, ThemeService } from '@services/theme.service';
 import * as THREE from 'three';
 
@@ -45,7 +46,9 @@ import {
   VIEW_SHIFT,
   WARMUP_FRAMES,
   tideColumns,
+  tideContextAttributes,
   tideDepth,
+  tideRendererOptions,
 } from './tide.config';
 import { TIDE_FRAGMENT_SHADER, TIDE_VERTEX_SHADER } from './tide.shaders';
 
@@ -126,6 +129,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     'container'
   );
   private readonly theme = inject(ThemeService);
+  private readonly performanceTier = inject(PerformanceTierService);
   private readonly motionQuery =
     window.matchMedia?.(REDUCED_MOTION_QUERY) ?? null;
 
@@ -215,18 +219,28 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     tide.renderer.forceContextLoss();
   }
 
-  /** Overridable so specs can run without a GPU. */
+  /**
+   * Overridable so specs can run without a GPU. Throws when the browser
+   * refuses a hardware WebGL2 context.
+   *
+   * The context is requested here, not by three.js: when given only the
+   * options, three.js answers a refusal by calling `getContext('webgl2')` again
+   * without attributes, just to word its error, and on a software-only machine
+   * that call creates the very software context the options refuse.
+   */
   protected createRenderer(compact: boolean): THREE.WebGLRenderer {
-    return new THREE.WebGLRenderer({
-      alpha: true,
-      // The squares are axis-aligned and small; skip MSAA where fill is dear.
-      antialias: !compact,
-      // A decoration should not wake the discrete GPU.
-      powerPreference: 'low-power',
-    });
+    const options = tideRendererOptions(compact);
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('webgl2', tideContextAttributes(options));
+    if (!context) throw new Error('No hardware WebGL2 context available.');
+    return new THREE.WebGLRenderer({ canvas, context, ...options });
   }
 
-  /** Builds the scene. Returns false, leaving the page plain, without WebGL. */
+  /**
+   * Builds the scene. Returns false, leaving the page plain, without WebGL or
+   * when it only runs on a software renderer. Either way the glass surfaces
+   * turn solid: there is no tide to see through them.
+   */
   private initThree(): boolean {
     this.compact = isCompactDevice();
 
@@ -234,7 +248,8 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     try {
       renderer = this.createRenderer(this.compact);
     } catch {
-      // No WebGL: the page simply shows its plain canvas colour.
+      // No (hardware) WebGL: the page simply shows its plain canvas colour.
+      this.performanceTier.markLow('no-hardware-webgl');
       return false;
     }
     renderer.setClearColor(0x000000, 0);
@@ -476,7 +491,11 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     tide.uniforms.uPointerStrength.value = this.pointerStrength;
   }
 
-  /** Steps quality down once if the frames keep coming in slow. */
+  /**
+   * Steps quality down if the frames keep coming in slow. The first step also
+   * puts the page in low-performance mode: a device that cannot hold 30 fps
+   * on the tide will not manage the blurred surfaces over it either.
+   */
   private watchFrameTime(step: number) {
     if (this.qualityLevel >= 2) return;
 
@@ -493,6 +512,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
       this.qualityLevel++;
       this.applyQuality();
       this.applyDensity();
+      this.performanceTier.markLow('slow-frames');
     }
   }
 

@@ -34,7 +34,7 @@ describe('ProjectsComponent', () => {
     const heading = root.querySelector('h1') as HTMLElement;
 
     expect(heading.closest('[class*="rounded-card"]')).toBeNull();
-    expect(heading.className).not.toMatch(/\b(?:border|backdrop-blur|shadow)/);
+    expect(heading.className).not.toMatch(/\b(?:border|glass-|shadow)/);
   });
 
   it('renders the project showcase below the title with the heading rhythm', () => {

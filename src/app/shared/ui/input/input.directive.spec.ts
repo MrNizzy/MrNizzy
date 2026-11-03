@@ -50,7 +50,7 @@ describe('UiInputDirective', () => {
       expect(classes).withContext(id).toContain('w-full');
       expect(classes).withContext(id).toContain('rounded-control');
       expect(classes).withContext(id).toContain('border-line');
-      expect(classes).withContext(id).toContain('bg-surface/60');
+      expect(classes).withContext(id).toContain('glass-field');
       expect(classes).withContext(id).toContain('text-fg');
     }
   });

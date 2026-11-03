@@ -30,8 +30,8 @@ export type UiDialogConfig<D = unknown> = Omit<
   'ariaLabelledBy' | 'ariaLabel' | 'providers' | 'container' | 'templateContext'
 >;
 
-/** Dims and slightly blurs the page behind the dialog. */
-const BACKDROP_CLASSES = ['bg-canvas/70', 'backdrop-blur-sm'];
+/** Dims and slightly blurs the page behind the dialog (`glass-scrim`). */
+const BACKDROP_CLASSES = ['glass-scrim'];
 
 /**
  * The CDK pane only positions and sizes the dialog; the visible surface is

@@ -27,7 +27,30 @@
             ({{ work.months }} months)
           </p>
         </div>
-        <p class="text-fg-muted">{{ work.description }}</p>
+        <div class="grid gap-4">
+          <ul class="grid gap-2.5 leading-relaxed text-fg-muted" role="list">
+            @for (highlight of work.highlights; track $index) {
+              <li
+                class="relative pl-4 before:absolute before:top-[calc(0.8125em-0.1875rem)] before:left-0 before:size-1.5 before:rounded-full before:bg-accent before:opacity-70 forced-colors:before:bg-[CanvasText] forced-colors:before:opacity-100"
+              >
+                @for (part of splitMetrics(highlight); track $index) {
+                  <!-- Segments sit flush against each other: any whitespace here would show up around the metrics. -->
+                  @if (part.metric) {
+                    <strong class="whitespace-nowrap font-bold text-fg">{{
+                      part.text
+                    }}</strong>
+                  } @else {{{ part.text }}}
+                }
+              </li>
+            }
+          </ul>
+          @if (work.stack.length > 0) {
+            <app-ui-stack-list
+              class="border-t border-line pt-4"
+              [items]="work.stack"
+            />
+          }
+        </div>
       </li>
     } @empty {
       <li appUiCard variant="glass">

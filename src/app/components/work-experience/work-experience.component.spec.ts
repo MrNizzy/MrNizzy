@@ -82,6 +82,107 @@ describe('WorkExperienceComponent', () => {
     );
   });
 
+  describe('highlights', () => {
+    const cardAt = (index: number) =>
+      root.querySelectorAll('ol > li')[index] as HTMLElement;
+    const lines = (card: Element) =>
+      Array.from(card.querySelectorAll('ul:not([aria-label]) > li'));
+    const text = (el: Element) => el.textContent?.replace(/\s+/g, ' ').trim();
+
+    it('renders one list item per highlight, in order', () => {
+      component.works().forEach((work, index) => {
+        expect(lines(cardAt(index)).map(text)).toEqual(work.highlights);
+      });
+      expect(lines(cardAt(0)).length).toBe(4);
+      expect(lines(cardAt(2)).length).toBe(6);
+    });
+
+    it('renders no paragraphs next to the highlights', () => {
+      const column = cardAt(0).querySelector('ul:not([aria-label])')!
+        .parentElement!;
+
+      expect(column.querySelectorAll(':scope > p').length).toBe(0);
+    });
+
+    it('keeps list semantics and forced-colors dots', () => {
+      const list = cardAt(0).querySelector('ul:not([aria-label])')!;
+
+      expect(list.getAttribute('role')).toBe('list');
+      lines(cardAt(0)).forEach((item) => {
+        expect(item.className).toContain('forced-colors:before:bg-[CanvasText]');
+        expect(item.className).toContain('forced-colors:before:opacity-100');
+      });
+    });
+
+    it('lays the list out muted, relaxed and spaced, with an accent dot per item', () => {
+      const list = cardAt(0).querySelector('ul:not([aria-label])')!;
+      const item = lines(cardAt(0))[0] as HTMLElement;
+      const dot = getComputedStyle(item, '::before');
+
+      expect(list.classList).toContain('text-fg-muted');
+      expect(list.classList).toContain('leading-relaxed');
+      expect(item.textContent).not.toContain('•');
+      expect(dot.width).toBe('6px');
+      expect(dot.height).toBe('6px');
+      expect(dot.borderRadius).not.toBe('0px');
+      expect(dot.opacity).toBe('0.7');
+    });
+
+    it('emphasises every metric as bold foreground text and nothing else', () => {
+      const metrics = (index: number) =>
+        Array.from(cardAt(index).querySelectorAll('strong')).map(text);
+
+      expect(metrics(0)).toEqual([]);
+      expect(metrics(1)).toEqual([]);
+      expect(metrics(2)).toEqual(['~50%', '>40%', '>65%', '>40%']);
+      expect(metrics(3)).toEqual(['~80%', '~35%']);
+
+      root.querySelectorAll('strong').forEach((strong) => {
+        expect(strong.classList).toContain('text-fg');
+        expect(strong.classList).toContain('font-bold');
+        expect(strong.classList).toContain('whitespace-nowrap');
+        expect(strong.className).not.toContain('accent');
+      });
+    });
+
+    it('keeps the surrounding text of a highlight with metrics', () => {
+      expect(text(lines(cardAt(3))[1])).toBe(
+        'Modernized HTML5/CSS3, replacing deprecated elements (~35%).'
+      );
+    });
+  });
+
+  describe('stack', () => {
+    it('omits the stack block when a job has no technologies', () => {
+      component.works.update((works) => [{ ...works[0], stack: [] }]);
+      fixture.detectChanges();
+
+      expect(root.querySelector('app-ui-stack-list')).toBeNull();
+    });
+
+    it('shows each role stack under a divider, after the highlights', () => {
+      const cards = Array.from(root.querySelectorAll('ol > li'));
+
+      cards.forEach((card, index) => {
+        const stack = card.querySelector('app-ui-stack-list') as HTMLElement;
+        const items = Array.from(stack.querySelectorAll('li')).map((li) =>
+          li.textContent?.trim()
+        );
+
+        expect(items).toEqual(component.works()[index].stack);
+        expect(stack.classList).toContain('border-t');
+        expect(stack.classList).toContain('border-line');
+        expect(stack.classList).toContain('pt-4');
+        expect(stack.previousElementSibling?.tagName).toBe('UL');
+      });
+      expect(
+        Array.from(
+          cards[3].querySelectorAll('app-ui-stack-list li')
+        ).map((li) => li.textContent?.trim())
+      ).toEqual(['HTML5', 'CSS3']);
+    });
+  });
+
   it('uses no legacy decorations', () => {
     const html = root.innerHTML;
 

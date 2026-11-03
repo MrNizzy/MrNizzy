@@ -19,3 +19,4 @@ export { UiDialogComponent } from './dialog/dialog.component';
 export { UiDialog, UI_DIALOG_CONTEXT } from './dialog/dialog.service';
 export type { UiDialogConfig, UiDialogContext } from './dialog/dialog.service';
 export { UiSelectComponent } from './select/select.component';
+export { UiStackListComponent } from './stack-list/stack-list.component';

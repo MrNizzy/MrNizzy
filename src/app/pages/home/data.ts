@@ -57,8 +57,10 @@ export interface WorkExperience {
   end?: Date;
   /** Duration shown next to the dates. */
   months: number;
-  description: string;
-  readMoreLink?: string;
+  /** Achievements, one per line. Percentages in them are emphasised. */
+  highlights: string[];
+  /** Technologies used in the role. */
+  stack: string[];
 }
 
 // Experiencia profesional

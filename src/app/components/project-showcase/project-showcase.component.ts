@@ -9,6 +9,7 @@ import { UiButtonDirective } from '@shared/ui/button/button.directive';
 import { UiCardDirective } from '@shared/ui/card/card.directive';
 import { UiChipDirective } from '@shared/ui/chip/chip.directive';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
+import { UiStackListComponent } from '@shared/ui/stack-list/stack-list.component';
 import {
   SCREENSHOT_SIZES,
   ScreenshotSources,
@@ -22,7 +23,13 @@ const GITHUB_HOSTS: ReadonlySet<string> = new Set([
 
 @Component({
   selector: 'app-project-showcase',
-  imports: [UiButtonDirective, UiCardDirective, UiChipDirective, UiIconComponent],
+  imports: [
+    UiButtonDirective,
+    UiCardDirective,
+    UiChipDirective,
+    UiIconComponent,
+    UiStackListComponent,
+  ],
   templateUrl: './project-showcase.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

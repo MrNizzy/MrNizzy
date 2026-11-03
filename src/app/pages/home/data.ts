@@ -300,7 +300,7 @@ export const projects: Project[] = [
         url: 'https://repo-trackr-angular.pages.dev/',
       },
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/repo-trackr-angular',
       },
     ],
@@ -334,7 +334,7 @@ export const projects: Project[] = [
         url: 'https://promediar.netlify.app/',
       },
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/promediar-angular',
       },
     ],
@@ -363,7 +363,7 @@ export const projects: Project[] = [
       '2D platformer built in Python with Pygame to practice game logic and core programming concepts.',
     links: [
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/Ninja-Frog',
       },
     ],
@@ -377,7 +377,7 @@ export const projects: Project[] = [
       'Parameter converter for MiniZinc optimization problems, developed as an academic project.',
     links: [
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/convertidor-minizinc',
       },
     ],
@@ -395,7 +395,7 @@ export const projects: Project[] = [
         url: 'https://todo-16.netlify.app/',
       },
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/TODO-16.git',
       },
     ],
@@ -409,7 +409,7 @@ export const projects: Project[] = [
       'Basic interpreted programming language built with Scheme, supporting math operations, conditionals, loops, and data structures.',
     links: [
       {
-        text: 'View repository',
+        text: 'View code',
         url: 'https://github.com/MrNizzy/Lenguaje-FLP',
       },
     ],

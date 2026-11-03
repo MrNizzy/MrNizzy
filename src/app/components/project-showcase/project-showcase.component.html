@@ -56,7 +56,7 @@
 
           @let shot = screenshot(project);
           <div
-            class="aspect-video overflow-hidden rounded-control border border-line bg-canvas"
+            class="group relative aspect-video overflow-hidden rounded-control border border-line bg-canvas"
           >
             <img
               [srcset]="shot.srcset"
@@ -68,39 +68,81 @@
               [attr.loading]="$first ? 'eager' : 'lazy'"
               [attr.fetchpriority]="$first ? 'high' : null"
               decoding="async"
-              class="size-full object-cover object-top"
+              class="size-full object-cover object-top motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-103"
             />
+            <!-- Pointer-only shortcut to the primary link below, which already serves
+                 keyboard and screen-reader users: out of the tab order and the
+                 accessibility tree. It sits after the image so it paints on top. -->
+            @if (project.links[0]; as primary) {
+              <a
+                [href]="primary.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                tabindex="-1"
+                aria-hidden="true"
+                class="absolute inset-0"
+              ></a>
+            }
           </div>
 
           <div class="grid content-end gap-4">
-            @let tags = project.tags ?? project.categories ?? [];
-            @if (tags.length > 0) {
-              <ul class="flex flex-wrap gap-2" aria-label="Tags">
-                @for (tag of tags; track tag) {
-                  <li appUiChip>{{ tag }}</li>
-                }
-              </ul>
+            <!-- Categories are not a tech stack: no tags, no stack. -->
+            @let stack = project.tags ?? [];
+            @if (stack.length > 0) {
+              <div class="grid gap-1">
+                <!-- The list carries its own accessible name, so the visible label is hidden from AT. -->
+                <p
+                  class="text-xs font-semibold uppercase tracking-wider text-fg-subtle"
+                  aria-hidden="true"
+                >
+                  Stack
+                </p>
+                <!-- The separator dots are drawn on ::before (no text), so nothing extra is read out. -->
+                <!-- Every item draws its dot in the gap before it; the list is pulled
+                     left by one gap and clipped, so the dot that starts each line
+                     (the first one, and any after a wrap) is hidden. -->
+                <div class="overflow-hidden">
+                  <ul
+                    class="-ml-5 flex flex-wrap gap-y-1 text-sm text-fg-muted"
+                    aria-label="Tech stack"
+                  >
+                    @for (item of stack; track item) {
+                      <li
+                        class="relative whitespace-nowrap pl-5 before:absolute before:top-1/2 before:left-2 before:size-1 before:-translate-y-1/2 before:rounded-full before:bg-fg-subtle forced-colors:before:bg-[CanvasText]"
+                      >
+                        {{ item }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
             }
 
-            <ul class="flex flex-wrap gap-x-6 gap-y-2">
+            <!-- Two equal halves; a label that needs more room grows its button to fit
+                 and the row wraps instead of truncating. A lone button keeps half width. -->
+            <div class="flex flex-wrap gap-2">
               @for (link of project.links; track link.text) {
-                <li>
-                  <a
-                    appUiLink
-                    external
-                    class="whitespace-nowrap"
-                    [href]="link.url"
-                    >{{ link.text
-                    }}<span class="sr-only"> for {{ project.title }}</span
-                    ><app-ui-icon
-                      name="external-link"
-                      [size]="16"
-                      class="ml-1 align-middle"
-                    /><span class="sr-only"> (opens in a new tab)</span></a
-                  >
-                </li>
+                @let github = isGithub(link.url);
+                <a
+                  appUiButton
+                  size="sm"
+                  [variant]="$first ? 'primary' : 'secondary'"
+                  class="min-w-fit basis-[calc(50%-0.25rem)] whitespace-nowrap"
+                  [href]="link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @if (github) {
+                    <app-ui-icon name="github" [size]="16" />
+                  }
+                  {{ link.text }}<span class="sr-only"> for {{ project.title }}</span>
+                  @if (!github) {
+                    <app-ui-icon name="arrow-up-right" [size]="16" />
+                  }
+                  <span class="sr-only"> (opens in a new tab)</span>
+                </a>
               }
-            </ul>
+            </div>
           </div>
         </li>
       }

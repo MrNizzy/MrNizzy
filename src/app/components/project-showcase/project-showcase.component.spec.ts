@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { projects } from '@pages/home/data';
+import { ICONS } from '@shared/ui/icon/icon.registry';
 import { ProjectShowcaseComponent } from './project-showcase.component';
 
 describe('ProjectShowcaseComponent', () => {
@@ -19,6 +20,17 @@ describe('ProjectShowcaseComponent', () => {
   const status = () => root.querySelector('[role="status"]') as HTMLElement;
   const iconOf = (card: Element) =>
     card.querySelector('h2')!.previousElementSibling as HTMLImageElement;
+  const stack = (card: Element) =>
+    card.querySelector<HTMLElement>('ul[aria-label="Tech stack"]');
+  // The action buttons: every link of the card but the aria-hidden screenshot overlay.
+  const actions = (card: Element) =>
+    Array.from(
+      card.querySelectorAll<HTMLAnchorElement>('a:not([aria-hidden="true"])')
+    );
+  const text = (el: Element) =>
+    el.textContent?.replace(/\s+/g, ' ').trim();
+  const iconPath = (el: Element) =>
+    el.querySelector('app-ui-icon svg path')?.getAttribute('d');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -237,44 +249,482 @@ describe('ProjectShowcaseComponent', () => {
       });
     });
 
-    it('lists the tags as static chips without forced uppercase', () => {
-      const tags = Array.from(
-        cards()[0].querySelectorAll('ul[aria-label="Tags"] > li')
-      );
-
-      expect(tags.map((tag) => tag.textContent?.trim())).toEqual(
-        projects[0].tags!
-      );
-      tags.forEach((tag) => {
-        expect(tag.classList).toContain('rounded-chip');
-        expect(tag.classList).toContain('text-fg-muted');
-        expect(tag.classList).not.toContain('uppercase');
-        expect(tag.hasAttribute('aria-pressed')).toBeFalse();
+    it('keeps the filter chips as the only chips on the page', () => {
+      expect(chips().length).toBe(component.categories().length);
+      cards().forEach((card) => {
+        expect(card.querySelector('ul[aria-label="Tags"]')).toBeNull();
+        // The project icon also uses the chip radius, so images are excluded.
+        expect(card.querySelectorAll('.rounded-chip:not(img)').length).toBe(0);
+        expect(card.querySelector('[aria-pressed]')).toBeNull();
       });
     });
 
-    it('opens every link in a new tab and says so to screen readers', () => {
-      const links = Array.from(cards()[1].querySelectorAll('a'));
-
-      expect(links.map((a) => a.textContent)).toEqual(
-        projects[1].links.map(
-          (link) => `${link.text} for ${projects[1].title} (opens in a new tab)`
-        )
-      );
-      links.forEach((a, i) => {
-        expect(a.getAttribute('href')).toBe(projects[1].links[i].url);
-        expect(a.getAttribute('target')).toBe('_blank');
-        expect(a.getAttribute('rel')).toBe('noopener noreferrer');
-        expect(a.classList).toContain('text-accent');
-        expect(a.querySelector('app-ui-icon svg')).not.toBeNull();
-        expect(a.querySelectorAll('.sr-only').length).toBe(2);
-      });
-    });
-
-    it('does not make cards interactive or animate them on hover', () => {
-      expect(root.innerHTML).not.toMatch(/hover:scale|group-hover|hover:shadow/);
+    it('keeps the card itself static: only the screenshot moves on hover', () => {
+      expect(root.innerHTML).not.toMatch(/hover:shadow|ui-sheen/);
       cards().forEach((card) => {
         expect(card.className).not.toContain('has-[:focus-visible]:ring-2');
+        expect(card.className).not.toContain('hover:');
+      });
+    });
+  });
+
+  describe('tech stack', () => {
+    it('lists the tags in order under an accessible label', () => {
+      const list = stack(cards()[0])!;
+
+      expect(list.tagName).toBe('UL');
+      expect(list.getAttribute('aria-label')).toBe('Tech stack');
+      expect(
+        Array.from(list.children).map((item) => item.textContent?.trim())
+      ).toEqual(projects[0].tags!);
+    });
+
+    it('renders every project stack from its tags', () => {
+      cards().forEach((card, index) => {
+        expect(
+          Array.from(stack(card)!.children).map((item) =>
+            item.textContent?.trim()
+          )
+        ).toEqual(projects[index].tags!);
+      });
+    });
+
+    it('does not list the categories as a stack when a project has no tags', () => {
+      component.projects.set([
+        { ...projects[0], tags: undefined, categories: ['Mobile', 'Web'] },
+      ]);
+      fixture.detectChanges();
+
+      expect(stack(cards()[0])).toBeNull();
+      expect(cards()[0].textContent).not.toContain('Stack');
+    });
+
+    it('keeps the dots visible in forced-colors mode', () => {
+      expect(stack(cards()[0])!.children[0].className).toContain(
+        'forced-colors:before:bg-[CanvasText]'
+      );
+    });
+
+    it('omits the stack when a project has neither tags nor categories', () => {
+      component.projects.set([
+        { ...projects[0], tags: undefined, categories: undefined },
+      ]);
+      fixture.detectChanges();
+
+      expect(stack(cards()[0])).toBeNull();
+      expect(cards()[0].textContent).not.toContain('Stack');
+    });
+
+    it('shows a small uppercase "Stack" label that assistive tech skips', () => {
+      // The list sits in a clipping wrapper; the label precedes that wrapper.
+      const label = stack(cards()[0])!.parentElement!
+        .previousElementSibling as HTMLElement;
+
+      expect(label.textContent?.trim()).toBe('Stack');
+      expect(label.getAttribute('aria-hidden')).toBe('true');
+      expect(label.classList).toContain('text-xs');
+      expect(label.classList).toContain('font-semibold');
+      expect(label.classList).toContain('uppercase');
+      expect(label.classList).toContain('tracking-wider');
+      expect(label.classList).toContain('text-fg-subtle');
+    });
+
+    it('reads as plain muted text, not as chips', () => {
+      const list = stack(cards()[0])!;
+
+      expect(list.classList).toContain('text-sm');
+      expect(list.classList).toContain('text-fg-muted');
+      Array.from(list.children).forEach((item) => {
+        expect(item.classList).not.toContain('rounded-chip');
+        expect(item.classList).not.toContain('border');
+        expect(item.classList).toContain('whitespace-nowrap');
+      });
+    });
+
+    it('draws the separator dots with CSS', () => {
+      const items = Array.from(stack(cards()[0])!.children);
+
+      expect(items.length).toBeGreaterThan(1);
+      items.forEach((item) => {
+        const dot = getComputedStyle(item, '::before');
+        // No text, so nothing extra is read out.
+        expect(item.textContent).not.toContain('·');
+        expect(dot.width).toBe('4px');
+        expect(dot.height).toBe('4px');
+        expect(dot.borderRadius).not.toBe('0px');
+      });
+    });
+
+    it('hides the dot that starts each line, also after a wrap', () => {
+      const list = stack(cards()[1])!;
+      const clip = list.parentElement!;
+      clip.style.width = '160px';
+
+      try {
+        const left = clip.getBoundingClientRect().left;
+        const items = Array.from(list.children) as HTMLElement[];
+        const lineStarts = items.filter(
+          (item, index) =>
+            index === 0 || item.offsetTop !== items[index - 1].offsetTop
+        );
+
+        expect(getComputedStyle(clip).overflow).toBe('hidden');
+        expect(lineStarts.length).toBeGreaterThan(1);
+        lineStarts.forEach((item) => {
+          const box = item.getBoundingClientRect();
+          // The dot sits in the item's left padding, which falls outside the clip.
+          expect(box.left).toBeLessThan(left);
+          expect(Math.round(box.left + parseFloat(getComputedStyle(item).paddingLeft))).toBe(
+            Math.round(left)
+          );
+        });
+      } finally {
+        clip.style.width = '';
+      }
+    });
+  });
+
+  describe('action buttons', () => {
+    it('opens every link in a new tab and says so to screen readers', () => {
+      cards().forEach((card, index) => {
+        const project = projects[index];
+        const links = actions(card);
+
+        expect(links.length).toBe(project.links.length);
+        expect(links.map((a) => text(a))).toEqual(
+          project.links.map(
+            (link) => `${link.text} for ${project.title} (opens in a new tab)`
+          )
+        );
+        links.forEach((a, i) => {
+          expect(a.getAttribute('href')).toBe(project.links[i].url);
+          expect(a.getAttribute('target')).toBe('_blank');
+          expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+          expect(a.querySelectorAll('.sr-only').length).toBe(2);
+          expect(a.querySelector('.sr-only')!.textContent).toBe(
+            ` for ${project.title}`
+          );
+          expect(a.querySelector('.sr-only:last-child')!.textContent).toBe(
+            ' (opens in a new tab)'
+          );
+        });
+      });
+    });
+
+    it('renders every link as a small button instead of an underlined link', () => {
+      cards().forEach((card) => {
+        actions(card).forEach((a) => {
+          expect(a.classList).toContain('rounded-control');
+          expect(a.classList).toContain('h-9');
+          expect(a.classList).toContain('px-3');
+          expect(a.classList).not.toContain('underline');
+          expect(a.classList).not.toContain('text-accent');
+        });
+      });
+    });
+
+    it('makes the first link of every project the only primary button', () => {
+      cards().forEach((card) => {
+        const buttons = actions(card);
+        const primary = buttons.filter((a) =>
+          a.classList.contains('bg-accent-fill')
+        );
+
+        expect(primary.length).toBe(1);
+        expect(primary[0]).toBe(buttons[0]);
+      });
+    });
+
+    it('renders every other link as a secondary button', () => {
+      const withSeveralLinks = cards().filter((card) => actions(card).length > 1);
+      expect(withSeveralLinks.length).toBeGreaterThan(0);
+
+      withSeveralLinks.forEach((card) => {
+        actions(card)
+          .slice(1)
+          .forEach((a) => {
+            expect(a.classList).toContain('glass-control');
+            expect(a.classList).toContain('border-line-strong');
+            expect(a.classList).not.toContain('bg-accent-fill');
+          });
+      });
+    });
+
+    it('gives a repo-only project a single primary button', () => {
+      const repoOnly = projects.findIndex(
+        (p) => p.links.length === 1 && p.links[0].url.includes('github.com')
+      );
+      expect(repoOnly).toBeGreaterThan(-1);
+
+      const buttons = actions(cards()[repoOnly]);
+      expect(buttons.length).toBe(1);
+      expect(buttons[0].classList).toContain('bg-accent-fill');
+    });
+
+    it('puts the GitHub mark before the label of links to github.com', () => {
+      let seen = 0;
+      cards().forEach((card, index) => {
+        actions(card).forEach((a, i) => {
+          if (!projects[index].links[i].url.startsWith('https://github.com/')) {
+            return;
+          }
+          seen++;
+          expect(
+            Array.from(a.children).map((child) => child.tagName)
+          ).toEqual(['APP-UI-ICON', 'SPAN', 'SPAN']);
+          expect(iconPath(a)).toBe(ICONS.github.path);
+          expect(a.querySelector('svg')!.getAttribute('width')).toBe('16');
+        });
+      });
+      expect(seen).toBeGreaterThan(0);
+    });
+
+    it('puts an arrow after the label of any other link', () => {
+      let seen = 0;
+      cards().forEach((card, index) => {
+        actions(card).forEach((a, i) => {
+          if (projects[index].links[i].url.startsWith('https://github.com/')) {
+            return;
+          }
+          seen++;
+          // Label, then the "for {project}" text, the arrow, the "new tab" text.
+          expect(
+            Array.from(a.children).map((child) => child.tagName)
+          ).toEqual(['SPAN', 'APP-UI-ICON', 'SPAN']);
+          expect(iconPath(a)).toBe(ICONS['arrow-up-right'].path);
+          expect(a.querySelector('svg')!.getAttribute('width')).toBe('16');
+        });
+      });
+      expect(seen).toBeGreaterThan(0);
+    });
+
+    it('keeps the icons decorative', () => {
+      cards().forEach((card) => {
+        card.querySelectorAll('app-ui-icon svg').forEach((svg) => {
+          expect(svg.getAttribute('aria-hidden')).toBe('true');
+        });
+      });
+    });
+
+    it('does not mistake look-alike hosts for GitHub', () => {
+      component.projects.set([
+        {
+          ...projects[0],
+          links: [
+            { text: 'One', url: 'https://github.com.evil.example/repo' },
+            { text: 'Two', url: 'https://raw.githubusercontent.com/a/b' },
+            { text: 'Three', url: 'not a url' },
+          ],
+        },
+      ]);
+      fixture.detectChanges();
+
+      actions(cards()[0]).forEach((a) => {
+        expect(iconPath(a)).toBe(ICONS['arrow-up-right'].path);
+      });
+    });
+
+    it('lets labels wrap the row instead of truncating', () => {
+      const row = actions(cards()[0])[0].parentElement as HTMLElement;
+
+      expect(row.classList).toContain('flex');
+      expect(row.classList).toContain('flex-wrap');
+      cards().forEach((card) => {
+        actions(card).forEach((a) => {
+          expect(a.classList).toContain('basis-[calc(50%-0.25rem)]');
+          expect(a.classList).toContain('min-w-fit');
+          expect(a.classList).toContain('whitespace-nowrap');
+          expect(a.className).not.toContain('truncate');
+        });
+      });
+    });
+
+    describe('layout', () => {
+      const GAP = 8;
+      const rect = (el: Element) => el.getBoundingClientRect();
+      const rowOf = (card: Element) =>
+        actions(card)[0].parentElement as HTMLElement;
+      // A 320px phone minus the page gutters (px-4 on each side).
+      const PHONE = 288;
+      // Every button stays inside its row: nothing spills out of the card.
+      const fitsRow = () =>
+        cards().forEach((card) => {
+          const row = rect(rowOf(card));
+          actions(card).forEach((a) => {
+            expect(rect(a).left).toBeGreaterThanOrEqual(row.left - 0.5);
+            expect(rect(a).right).toBeLessThanOrEqual(row.right + 0.5);
+          });
+        });
+
+      // The component host is inline by default; give it a width so the cards,
+      // and so the button rows, have a known size whatever the Karma window is.
+      const resize = (width: number) => {
+        root.style.display = 'block';
+        root.style.width = `${width}px`;
+      };
+
+      it('splits the row into two equal halves', () => {
+        resize(1000);
+        const card = cards()[projects.findIndex((p) => p.links.length === 2)];
+        const [first, second] = actions(card);
+
+        expect(rect(first).top).toBeCloseTo(rect(second).top, 0);
+        expect(rect(first).width).toBeCloseTo(rect(second).width, 0);
+        expect(rect(first).width).toBeCloseTo(
+          (rect(rowOf(card)).width - GAP) / 2,
+          0
+        );
+        fitsRow();
+      });
+
+      it('keeps a lone button at half width, left-aligned', () => {
+        resize(1000);
+        const card = cards()[projects.findIndex((p) => p.links.length === 1)];
+        const [only] = actions(card);
+
+        expect(rect(only).left).toBeCloseTo(rect(rowOf(card)).left, 0);
+        expect(rect(only).width).toBeCloseTo(
+          (rect(rowOf(card)).width - GAP) / 2,
+          0
+        );
+      });
+
+      it('gives a lone button the same width as each of a pair', () => {
+        resize(1000);
+        const lone = cards()[projects.findIndex((p) => p.links.length === 1)];
+        const pair = cards()[projects.findIndex((p) => p.links.length === 2)];
+
+        expect(rect(actions(lone)[0]).width).toBeCloseTo(
+          rect(actions(pair)[0]).width,
+          0
+        );
+      });
+
+      it('grows a button to fit its label and stacks the row when it must', () => {
+        resize(PHONE);
+        const card = cards()[projects.findIndex((p) => p.links.length === 2)];
+        const [first, second] = actions(card);
+
+        expect(rect(second).top).toBeGreaterThan(rect(first).top);
+        fitsRow();
+      });
+
+      it('fits the longest label on a small phone without truncating it', () => {
+        resize(PHONE);
+        const nshorts = projects.findIndex((p) =>
+          p.links.some((link) => link.text === 'Open API (URL preview)')
+        );
+        expect(nshorts).toBeGreaterThan(-1);
+        const [button] = actions(cards()[nshorts]);
+        const row = rect(rowOf(cards()[nshorts]));
+
+        // Wider than half the row, so it grew to its label, yet inside the card.
+        expect(rect(button).width).toBeGreaterThan((row.width - GAP) / 2);
+        expect(rect(button).right).toBeLessThanOrEqual(row.right + 0.5);
+        expect(getComputedStyle(button).textOverflow).not.toBe('ellipsis');
+        fitsRow();
+      });
+    });
+  });
+
+  describe('screenshot link', () => {
+    it('overlays the screenshot with a pointer-only link to the first link', () => {
+      cards().forEach((card, index) => {
+        const frame = card.querySelector('.aspect-video') as HTMLElement;
+        const overlay = frame.querySelector('a') as HTMLAnchorElement;
+
+        expect(frame.classList).toContain('relative');
+        expect(overlay.getAttribute('href')).toBe(projects[index].links[0].url);
+        expect(overlay.getAttribute('target')).toBe('_blank');
+        expect(overlay.getAttribute('rel')).toBe('noopener noreferrer');
+        expect(overlay.getAttribute('tabindex')).toBe('-1');
+        expect(overlay.getAttribute('aria-hidden')).toBe('true');
+        expect(overlay.classList).toContain('absolute');
+        expect(overlay.classList).toContain('inset-0');
+        expect(overlay.textContent?.trim()).toBe('');
+      });
+    });
+
+    it('points at the same place as the primary button', () => {
+      cards().forEach((card) => {
+        const overlay = card.querySelector('.aspect-video a')!;
+
+        expect(overlay.getAttribute('href')).toBe(
+          actions(card)[0].getAttribute('href')
+        );
+      });
+    });
+
+    it('is the only link outside the button row, so it never doubles up for assistive tech', () => {
+      cards().forEach((card) => {
+        const hidden = card.querySelectorAll('a[aria-hidden="true"]');
+
+        expect(hidden.length).toBe(1);
+        expect(actions(card).length).toBe(
+          card.querySelectorAll('a').length - 1
+        );
+      });
+    });
+
+    it('covers the whole screenshot and catches the pointer above it', () => {
+      const frame = cards()[0].querySelector('.aspect-video') as HTMLElement;
+      const overlay = frame.querySelector('a') as HTMLElement;
+      const shot = frame.querySelector('img') as HTMLElement;
+
+      frame.scrollIntoView({ block: 'center' });
+      const area = overlay.getBoundingClientRect();
+      const image = shot.getBoundingClientRect();
+
+      expect(area.left).toBeCloseTo(image.left, 0);
+      expect(area.top).toBeCloseTo(image.top, 0);
+      expect(area.width).toBeCloseTo(image.width, 0);
+      expect(area.height).toBeCloseTo(image.height, 0);
+      expect(
+        document.elementFromPoint(
+          area.left + area.width / 2,
+          area.top + area.height / 2
+        )
+      ).toBe(overlay);
+    });
+
+    it('keeps the image outside the link so its alt text stays available', () => {
+      cards().forEach((card, index) => {
+        const shot = card.querySelector('.aspect-video img') as HTMLElement;
+
+        expect(shot.closest('a')).toBeNull();
+        expect(shot.getAttribute('alt')).toBe(
+          `Screenshot of ${projects[index].title}`
+        );
+      });
+    });
+
+    it('zooms the screenshot slowly on hover, only for users who accept motion', () => {
+      cards().forEach((card) => {
+        const frame = card.querySelector('.aspect-video') as HTMLElement;
+        const shot = frame.querySelector('img') as HTMLElement;
+        const classes = Array.from(shot.classList);
+
+        expect(frame.classList).toContain('group');
+        expect(classes).toContain('motion-safe:group-hover:scale-103');
+        expect(classes).toContain('motion-safe:transition-transform');
+        expect(classes).toContain('motion-safe:duration-500');
+        // Nothing moves unless it is behind the motion-safe variant.
+        classes
+          .filter((name) => /scale|transition|duration/.test(name))
+          .forEach((name) => expect(name.startsWith('motion-safe:')).toBeTrue());
+      });
+    });
+
+    it('keeps the eager/lazy loading choice and responsive sources', () => {
+      const shots = cards().map(
+        (card) => card.querySelector('.aspect-video img') as HTMLImageElement
+      );
+
+      expect(shots[0].getAttribute('loading')).toBe('eager');
+      expect(shots[0].getAttribute('fetchpriority')).toBe('high');
+      shots.forEach((shot) => {
+        expect(shot.getAttribute('srcset')).toContain(' ');
+        expect(shot.getAttribute('sizes')).toContain('calc(100vw');
       });
     });
   });

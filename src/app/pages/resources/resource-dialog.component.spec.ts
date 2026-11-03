@@ -147,7 +147,7 @@ describe('ResourceDialogComponent', () => {
         )
       ).toEqual([
         'Upvote',
-        'View repository (opens in a new tab)',
+        'View code (opens in a new tab)',
         'Visit website (opens in a new tab)',
       ]);
     });
@@ -251,7 +251,7 @@ describe('ResourceDialogComponent', () => {
       await openLoaded();
 
       const website = action('Visit website') as HTMLAnchorElement;
-      const repository = action('View repository') as HTMLAnchorElement;
+      const repository = action('View code') as HTMLAnchorElement;
 
       expect(website.href).toBe('https://tailwindcss.com/');
       expect(repository.href).toBe(
@@ -281,7 +281,7 @@ describe('ResourceDialogComponent', () => {
       await openLoaded();
       neverNavigate();
 
-      action('View repository')!.click();
+      action('View code')!.click();
       await settle();
 
       expect(api.click).toHaveBeenCalledOnceWith('res-1');
@@ -317,7 +317,7 @@ describe('ResourceDialogComponent', () => {
       await openLoaded({ ...RESOURCE, url: '', url_repository: '' });
 
       expect(action('Visit website')).toBeUndefined();
-      expect(action('View repository')).toBeUndefined();
+      expect(action('View code')).toBeUndefined();
       expect(action('Upvote')).toBeDefined();
     });
   });

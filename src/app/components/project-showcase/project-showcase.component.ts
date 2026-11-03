@@ -5,19 +5,24 @@ import {
   signal,
 } from '@angular/core';
 import { Project, projects } from '@pages/home/data';
+import { UiButtonDirective } from '@shared/ui/button/button.directive';
 import { UiCardDirective } from '@shared/ui/card/card.directive';
 import { UiChipDirective } from '@shared/ui/chip/chip.directive';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
-import { UiLinkDirective } from '@shared/ui/link/link.directive';
 import {
   SCREENSHOT_SIZES,
   ScreenshotSources,
   screenshotSources,
 } from './project-screenshot';
 
+const GITHUB_HOSTS: ReadonlySet<string> = new Set([
+  'github.com',
+  'www.github.com',
+]);
+
 @Component({
   selector: 'app-project-showcase',
-  imports: [UiCardDirective, UiChipDirective, UiIconComponent, UiLinkDirective],
+  imports: [UiButtonDirective, UiCardDirective, UiChipDirective, UiIconComponent],
   templateUrl: './project-showcase.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -55,5 +60,14 @@ export class ProjectShowcaseComponent {
 
   protected screenshot(project: Project): ScreenshotSources {
     return screenshotSources(project);
+  }
+
+  /** Links to GitHub get the GitHub mark; every other destination gets an arrow. */
+  protected isGithub(url: string): boolean {
+    try {
+      return GITHUB_HOSTS.has(new URL(url).hostname);
+    } catch {
+      return false;
+    }
   }
 }

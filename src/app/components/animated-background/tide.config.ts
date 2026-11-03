@@ -129,8 +129,29 @@ export const DPR_CAP_COMPACT = 1.5;
 /** Frames ignored while shaders compile, then frames per measurement. */
 export const WARMUP_FRAMES = 30;
 export const SAMPLE_FRAMES = 90;
-/** Average frame time (seconds) above which quality steps down. */
+/**
+ * Slowest frames of a sample (10%) dropped before it is averaged. A device
+ * that is really slow is slow on most frames; the odd hitch (scrolling, image
+ * decoding, garbage collection) is not, and should not read as a slow device.
+ */
+export const SAMPLE_TRIMMED_FRAMES = 9;
+/** Average frame time (seconds) of a sample above which quality steps down. */
 export const SLOW_FRAME_SECONDS = 0.034;
+/**
+ * Average frame time (seconds) of a sample above which the page also turns its
+ * glass surfaces solid (25 fps). It sits above a 30 fps cap (33.3 ms: iOS Low
+ * Power Mode, Chrome Energy Saver) so that energy-saving modes keep the glass.
+ */
+export const LOW_PERFORMANCE_FRAME_SECONDS = 0.04;
+/**
+ * A gap between frames this long (seconds) is a pause or browser throttling
+ * (hidden embeds, frozen tabs, one-off stalls), not rendering cost, so it is
+ * skipped: it is not a frame of the warm-up or of the sample. It does not
+ * restart them either, or a weak device with a long hitch every few seconds
+ * would never complete a sample. A page that delivers nothing but stalls
+ * never does, which is the point.
+ */
+export const STALL_FRAME_SECONDS = 0.25;
 /** Share of the rows kept after the last quality step. */
 export const ROWS_REDUCED_SHARE = 0.7;
 

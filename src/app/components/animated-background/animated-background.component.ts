@@ -23,6 +23,7 @@ import {
   DPR_CAP_COMPACT,
   FOG_FAR_RATIO,
   FOG_NEAR_RATIO,
+  LOW_PERFORMANCE_FRAME_SECONDS,
   MAX_FRAME_STEP,
   PARALLAX_DROP,
   PARALLAX_EASE,
@@ -33,7 +34,9 @@ import {
   POINTER_IDLE_TOUCH,
   ROWS_REDUCED_SHARE,
   SAMPLE_FRAMES,
+  SAMPLE_TRIMMED_FRAMES,
   SLOW_FRAME_SECONDS,
+  STALL_FRAME_SECONDS,
   STILL_TIME,
   SWAY_AMPLITUDE,
   SWAY_SPEED,
@@ -142,8 +145,11 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
   private compact = false;
   /** 0 = full quality; 1 = lower pixel ratio; 2 = also fewer rows. */
   private qualityLevel = 0;
-  private framesSeen = 0;
-  private frameSeconds = 0;
+  /** Frames of the warm-up that have passed since the last restart. */
+  private warmupFramesSeen = 0;
+  /** Gaps of the current sample, preallocated: the loop must not allocate. */
+  private readonly sampleGaps = new Float64Array(SAMPLE_FRAMES);
+  private sampleCount = 0;
 
   private scrollTarget = 0;
   private scrollEased = 0;
@@ -399,8 +405,7 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
       this.stopAnimation();
     } else if (this.animationFrameId === null) {
       this.lastTimestamp = null;
-      this.framesSeen = 0;
-      this.frameSeconds = 0;
+      this.restartFrameMeasurement();
       this.animationFrameId = requestAnimationFrame(this.animate);
     }
   };
@@ -424,12 +429,14 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     const tide = this.tide;
     if (!tide) return;
 
-    const elapsed =
+    const elapsed = Math.max(
       this.lastTimestamp === null
         ? 1 / 60
-        : (timestamp - this.lastTimestamp) / 1000;
+        : (timestamp - this.lastTimestamp) / 1000,
+      0
+    );
     this.lastTimestamp = timestamp;
-    const step = Math.min(Math.max(elapsed, 0), MAX_FRAME_STEP);
+    const step = Math.min(elapsed, MAX_FRAME_STEP);
 
     this.clock += step;
     tide.uniforms.uTime.value = this.clock;
@@ -443,7 +450,9 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
     );
 
     this.updatePointer(step);
-    this.watchFrameTime(step);
+    // The raw gap, not the clamped step: the scene clock must not jump after a
+    // pause, but the watcher has to tell a pause from rendering cost.
+    this.watchFrameTime(elapsed);
   }
 
   /**
@@ -492,28 +501,63 @@ export class AnimatedBackgroundComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Steps quality down if the frames keep coming in slow. The first step also
-   * puts the page in low-performance mode: a device that cannot hold 30 fps
-   * on the tide will not manage the blurred surfaces over it either.
+   * Steps quality down if the typical frame comes in slow. A sample that
+   * averages slower still also puts the page in low-performance mode: a
+   * device that cannot hold 25 fps on the tide will not manage the blurred
+   * surfaces over it either. The bar sits above a 30 fps cap, so energy-saving
+   * modes (iOS Low Power Mode, Chrome Energy Saver) keep the glass.
+   *
+   * `elapsed` is the raw time since the previous frame. A gap past
+   * STALL_FRAME_SECONDS is a pause or throttling (a hidden embed, a frozen
+   * tab), not rendering cost: it is skipped, counting toward neither the
+   * warm-up nor the sample. Each sample is a trimmed mean (see
+   * SAMPLE_TRIMMED_FRAMES), so the odd hitch does not read as a slow device.
+   *
+   * It keeps measuring after the last quality step, since a device can sink
+   * later and still deserve low mode, and stops once nothing is left to do.
    */
-  private watchFrameTime(step: number) {
-    if (this.qualityLevel >= 2) return;
+  private watchFrameTime(elapsed: number) {
+    if (this.qualityLevel >= 2 && this.performanceTier.isLow()) return;
+    if (elapsed > STALL_FRAME_SECONDS) return;
 
-    this.framesSeen++;
-    if (this.framesSeen <= WARMUP_FRAMES) return;
-
-    this.frameSeconds += step;
-    if (this.framesSeen - WARMUP_FRAMES < SAMPLE_FRAMES) return;
-
-    const average = this.frameSeconds / SAMPLE_FRAMES;
-    this.framesSeen = WARMUP_FRAMES;
-    this.frameSeconds = 0;
-    if (average > SLOW_FRAME_SECONDS) {
-      this.qualityLevel++;
-      this.applyQuality();
-      this.applyDensity();
-      this.performanceTier.markLow('slow-frames');
+    if (this.warmupFramesSeen < WARMUP_FRAMES) {
+      this.warmupFramesSeen++;
+      return;
     }
+
+    this.sampleGaps[this.sampleCount++] = elapsed;
+    if (this.sampleCount < SAMPLE_FRAMES) return;
+
+    const average = this.trimmedSampleMean();
+    this.sampleCount = 0;
+    if (average > SLOW_FRAME_SECONDS) {
+      if (this.qualityLevel < 2) {
+        this.qualityLevel++;
+        this.applyQuality();
+        this.applyDensity();
+      }
+      if (average > LOW_PERFORMANCE_FRAME_SECONDS) {
+        this.performanceTier.markLow('slow-frames');
+      }
+    }
+  }
+
+  /**
+   * Mean of the full sample without its slowest SAMPLE_TRIMMED_FRAMES gaps.
+   * Sorts the sample in place: it is about to be discarded.
+   */
+  private trimmedSampleMean(): number {
+    const gaps = this.sampleGaps.sort();
+    const kept = SAMPLE_FRAMES - SAMPLE_TRIMMED_FRAMES;
+    let total = 0;
+    for (let i = 0; i < kept; i++) total += gaps[i];
+    return total / kept;
+  }
+
+  /** Drops the frames measured so far; the next ones go through warm-up again. */
+  private restartFrameMeasurement() {
+    this.warmupFramesSeen = 0;
+    this.sampleCount = 0;
   }
 
   /** Puts the scene at rest for the still frame under reduced motion. */

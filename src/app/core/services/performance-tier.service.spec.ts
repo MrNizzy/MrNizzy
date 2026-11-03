@@ -200,7 +200,7 @@ describe('PerformanceTierService', () => {
   });
 
   describe('runtime signals', () => {
-    it('switches to low mode when the tide steps its quality down', () => {
+    it('switches to low mode when the tide reports slow frames', () => {
       const service = create();
 
       service.markLow('slow-frames');

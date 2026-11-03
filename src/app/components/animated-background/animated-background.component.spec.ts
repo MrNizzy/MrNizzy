@@ -13,9 +13,12 @@ import {
   CAMERA_POSITION,
   FOG_FAR_RATIO,
   FOG_NEAR_RATIO,
+  LOW_PERFORMANCE_FRAME_SECONDS,
   PARALLAX_DROP,
   POINTER_IDLE_MOUSE,
   SAMPLE_FRAMES,
+  SLOW_FRAME_SECONDS,
+  STALL_FRAME_SECONDS,
   STILL_TIME,
   TIDE_COLS_MAX,
   TIDE_COLS_MIN,
@@ -133,6 +136,22 @@ describe('AnimatedBackgroundComponent', () => {
   function advance(frames: number, stepMs = 1000 / 60): void {
     for (let i = 0; i < frames; i++) {
       now += stepMs;
+      internals().update(now);
+    }
+  }
+
+  /**
+   * Like `advance`, but every `every`-th frame takes `hitchMs` instead: the
+   * occasional hitch (scrolling, image decoding, GC) over a steady cadence.
+   */
+  function advanceWithHitches(
+    frames: number,
+    stepMs: number,
+    every: number,
+    hitchMs: number
+  ): void {
+    for (let i = 1; i <= frames; i++) {
+      now += i % every === 0 ? hitchMs : stepMs;
       internals().update(now);
     }
   }
@@ -598,6 +617,21 @@ describe('AnimatedBackgroundComponent', () => {
 
       expect(uniforms().uTime.value - before).toBeLessThan(0.1);
     });
+
+    it('restarts the frame-time measurement when the loop resumes', () => {
+      create();
+
+      // Slow frames, two short of a complete sample, then the tab is hidden
+      // and shown again, then healthy frames. Had the slow frames been kept,
+      // the first two healthy ones would have closed the sample at 59 ms.
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES - 2, 60);
+      setHidden(true);
+      setHidden(false);
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES * 2);
+
+      expect(internals().qualityLevel).toBe(0);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+    });
   });
 
   describe('pointer', () => {
@@ -842,6 +876,14 @@ describe('AnimatedBackgroundComponent', () => {
   });
 
   describe('quality', () => {
+    it('orders the thresholds: 30 fps < step-down < low mode < stall', () => {
+      const thirtyFps = 1 / 30;
+
+      expect(SLOW_FRAME_SECONDS).toBeGreaterThan(thirtyFps);
+      expect(LOW_PERFORMANCE_FRAME_SECONDS).toBeGreaterThan(SLOW_FRAME_SECONDS);
+      expect(STALL_FRAME_SECONDS).toBeGreaterThan(LOW_PERFORMANCE_FRAME_SECONDS);
+    });
+
     it('keeps full quality while frames come in at 60 fps', () => {
       create();
 
@@ -855,7 +897,7 @@ describe('AnimatedBackgroundComponent', () => {
       ).toBeFalse();
     });
 
-    it('switches the page to low-performance mode at the first step down', () => {
+    it('switches the page to low-performance mode once a sample of very slow frames closes', () => {
       create();
       const tier = TestBed.inject(PerformanceTierService);
       advance(WARMUP_FRAMES + SAMPLE_FRAMES - 1, 60);
@@ -869,6 +911,150 @@ describe('AnimatedBackgroundComponent', () => {
         'low'
       );
       expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBe('low');
+    });
+
+    it('steps down and goes low for frames at 22 fps, below the low-performance threshold', () => {
+      create();
+
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 45);
+
+      expect(internals().qualityLevel).toBe(1);
+      expect(TestBed.inject(PerformanceTierService).reason()).toBe(
+        'slow-frames'
+      );
+      expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        'low'
+      );
+    });
+
+    it('steps quality down but keeps the glass for frames between 25 and 30 fps', () => {
+      create();
+
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 36);
+
+      expect(internals().qualityLevel).toBe(1);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+      expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
+    });
+
+    it('leaves a steady 30 fps cap alone: energy-saving modes keep the glass', () => {
+      create();
+
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000 / 30);
+
+      expect(internals().qualityLevel).toBe(0);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+    });
+
+    it('still counts slow frames that are not stalls: 200 ms frames step down and go low', () => {
+      create();
+
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 200);
+
+      expect(internals().qualityLevel).toBe(1);
+      expect(TestBed.inject(PerformanceTierService).reason()).toBe(
+        'slow-frames'
+      );
+    });
+
+    it('does not mistake a throttled page for a slow one', () => {
+      create();
+
+      // A hidden embed or a frozen tab: the page still reports "visible", but a
+      // frame arrives about once a second. That is not rendering cost.
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000);
+
+      expect(internals().qualityLevel).toBe(0);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+      expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
+    });
+
+    it('does not count a stall as a frame of the sample', () => {
+      create();
+
+      // Healthy frames with a one second pause every fourth frame. Counted,
+      // the pauses would fill most of every sample and read as a slow device.
+      advanceWithHitches(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000 / 60, 4, 1000);
+
+      expect(internals().qualityLevel).toBe(0);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+    });
+
+    it('does not count a stall toward the warm-up or the sample, and does not restart them', () => {
+      create();
+
+      // Slow frames, each followed by a pause. The sample closes on the
+      // 120th slow frame (30 of warm-up, 90 measured), not before: the pauses
+      // are neither frames nor reasons to start over.
+      for (let i = 0; i < WARMUP_FRAMES + SAMPLE_FRAMES - 1; i++) {
+        advance(1, 60);
+        advance(1, 300);
+      }
+      expect(internals().qualityLevel).toBe(0);
+
+      advance(1, 60);
+
+      expect(internals().qualityLevel).toBe(1);
+    });
+
+    it('rides out occasional hitches over a 30 fps cadence: neither a step down nor low', () => {
+      create();
+
+      // 33 ms frames with a 200 ms hitch every 20th (4 or 5 per sample): the
+      // plain average of a sample reads 40 ms or more, the typical frame 33 ms.
+      advanceWithHitches(WARMUP_FRAMES + SAMPLE_FRAMES * 4, 1000 / 30, 20, 200);
+
+      expect(internals().qualityLevel).toBe(0);
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(
+        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
+      ).toBeFalse();
+      expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
+    });
+
+    it('still catches a slow device whose frames come with periodic stalls', () => {
+      create();
+
+      // 60 ms frames with a 300 ms pause every 20th frame. A weak phone like
+      // this must not be excused by the pauses: they are skipped, the slow
+      // frames around them still add up to a sample.
+      advanceWithHitches(200, 60, 20, 300);
+
+      expect(internals().qualityLevel).toBe(1);
+      expect(TestBed.inject(PerformanceTierService).reason()).toBe(
+        'slow-frames'
+      );
+    });
+
+    it('keeps measuring at the lowest quality, so a device that sinks later still goes low', () => {
+      create();
+      const tier = TestBed.inject(PerformanceTierService);
+
+      // About 27 fps for two samples: both quality steps, but the glass stays.
+      advance(WARMUP_FRAMES + SAMPLE_FRAMES * 2, 37);
+      expect(internals().qualityLevel).toBe(2);
+      expect(tier.isLow()).toBeFalse();
+
+      // Then the device gets worse: the next sample still counts.
+      advance(SAMPLE_FRAMES, 60);
+
+      expect(internals().qualityLevel).toBe(2);
+      expect(tier.reason()).toBe('slow-frames');
+      expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        'low'
+      );
     });
 
     it('stays in low mode when frames recover: no flapping', () => {

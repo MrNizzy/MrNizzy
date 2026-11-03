@@ -9,7 +9,11 @@ export type LowPerformanceReason =
   | 'low-memory'
   /** `navigator.hardwareConcurrency` is at or below {@link LOW_CORES_MAX}. */
   | 'few-cores'
-  /** The animated background stepped its quality down: frames run slow. */
+  /**
+   * The animated background measured a typical frame slower than 25 fps. It
+   * steps its quality down a little below 30 fps, but that alone does not
+   * turn the glass off.
+   */
   | 'slow-frames'
   /** WebGL is missing, or only available through a software renderer. */
   | 'no-hardware-webgl'
@@ -23,7 +27,7 @@ export const LOW_MEMORY_MAX_GB = 4;
  * cannot be 4: WebKit reports exactly 4 for every device with fewer than 8
  * cores, which includes every iPhone, and 4-core desktops with a dedicated
  * GPU draw the glass without trouble. Weaker 4-core machines are caught at
- * runtime instead, when the animated background steps its quality down.
+ * runtime instead, when the animated background measures slow frames.
  */
 export const LOW_CORES_MAX = 2;
 
@@ -84,11 +88,12 @@ export function detectLowPerformance(
  *
  * Hardware hints are read once, synchronously, when the service is created
  * (an app initializer creates it before the first render). Two runtime
- * signals report in through {@link markLow}: the tide stepping its quality
- * down, and WebGL failing to start on hardware. The decision only ever goes
- * one way: once low, the page stays low for the session, so surfaces never
- * flap between glass and solid. It is kept in sessionStorage so a reload does
- * not flash the glass again before the slow frames are noticed once more.
+ * signals report in through {@link markLow}: the tide measuring a typical frame
+ * slower than 25 fps (a 30 fps cap from an energy-saving mode does not count),
+ * and WebGL failing to start on hardware. The decision only ever goes one way:
+ * once low, the page stays low for the session, so surfaces never flap between
+ * glass and solid. It is kept in sessionStorage so a reload does not flash the
+ * glass again before the slow frames are noticed once more.
  */
 @Injectable({ providedIn: 'root' })
 export class PerformanceTierService {

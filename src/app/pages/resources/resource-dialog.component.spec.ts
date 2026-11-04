@@ -13,6 +13,7 @@ const RESOURCE: Resource = {
   description: 'A utility-first CSS framework.',
   type: 'library',
   category: 'styling',
+  added: '2026-11-04',
   tags: ['css', 'utility-first'],
 };
 
@@ -65,6 +66,7 @@ describe('ResourceDialogComponent', () => {
       ).toEqual(['css', 'utility-first']);
       expect(stat('Type')).toBe('library');
       expect(stat('Category')).toBe('styling');
+      expect(stat('Added')).toBe('November 2026');
     });
 
     it('does not show counters, voting or loading states', () => {
@@ -130,6 +132,27 @@ describe('ResourceDialogComponent', () => {
 
       expect(action('Visit website')).toBeUndefined();
       expect(action('View code')).toBeUndefined();
+    });
+  });
+
+  describe('added date', () => {
+    it('shows the month and year in a time element with the ISO date', () => {
+      open({ ...RESOURCE, added: '2026-03-15' });
+
+      const time = $<HTMLTimeElement>('time')!;
+      expect(time.textContent?.trim()).toBe('March 2026');
+      expect(time.getAttribute('datetime')).toBe('2026-03-15');
+    });
+
+    it('keeps the month on the first and last day of a month', () => {
+      // Karma cannot switch the browser time zone; the real guarantee is
+      // Angular parsing date-only strings as local midnight.
+      open({ ...RESOURCE, added: '2026-12-01' });
+      expect($('time')!.textContent?.trim()).toBe('December 2026');
+
+      TestBed.inject(Dialog).closeAll();
+      open({ ...RESOURCE, added: '2026-11-30' });
+      expect($('time')!.textContent?.trim()).toBe('November 2026');
     });
   });
 });

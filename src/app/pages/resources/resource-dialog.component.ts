@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UiButtonDirective } from '@shared/ui/button/button.directive';
@@ -9,7 +10,7 @@ import type { Resource } from './resource.model';
 /** Content of the dialog opened with `UiDialog.open` from the resources list. */
 @Component({
   selector: 'app-resource-dialog',
-  imports: [UiButtonDirective, UiChipDirective, UiDialogComponent, UiIconComponent],
+  imports: [DatePipe, UiButtonDirective, UiChipDirective, UiDialogComponent, UiIconComponent],
   templateUrl: './resource-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

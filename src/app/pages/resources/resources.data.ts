@@ -5,6 +5,7 @@ import type { Resource } from './resource.model';
 export const resources: readonly Resource[] = [
   {
     id: 'iconify',
+    added: '2026-11-04',
     name: 'Iconify',
     url: 'https://icon-sets.iconify.design/',
     description:
@@ -16,6 +17,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'react-bits',
+    added: '2026-11-04',
     name: 'React Bits',
     url: 'https://www.reactbits.dev/',
     description:
@@ -27,6 +29,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'angular-material',
+    added: '2026-11-04',
     name: 'Angular Material',
     url: 'https://material.angular.dev/',
     description:
@@ -38,6 +41,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'daisyui',
+    added: '2026-11-04',
     name: 'daisyUI',
     url: 'https://daisyui.com/components/',
     description:
@@ -49,6 +53,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'primeng',
+    added: '2026-11-04',
     name: 'PrimeNG',
     url: 'https://primeng.dev/',
     description:
@@ -60,6 +65,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'carmen-ansio-articles',
+    added: '2026-11-04',
     name: 'Carmen Ansio’s articles',
     url: 'https://www.carmenansio.com/articles/',
     description:
@@ -70,6 +76,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'chrome-carousel-gallery',
+    added: '2026-11-04',
     name: 'Carousel Gallery',
     url: 'https://chrome.dev/carousel/',
     description:
@@ -82,6 +89,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'caniuse',
+    added: '2026-11-04',
     name: 'Can I use',
     url: 'https://caniuse.com/',
     description:
@@ -93,6 +101,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'canirun-ai',
+    added: '2026-11-04',
     name: 'CanIRun.ai',
     url: 'https://canirun.ai/',
     description:
@@ -104,6 +113,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: 'can-you-run-it',
+    added: '2026-11-04',
     name: 'Can You RUN It',
     url: 'https://www.systemrequirementslab.com/cyri',
     description:

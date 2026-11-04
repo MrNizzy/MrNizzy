@@ -17,6 +17,7 @@ function makeResource(n: number, overrides: Partial<Resource> = {}): Resource {
     description: `Description of resource ${n}.`,
     type: 'tool',
     category: 'frontend',
+    added: '2026-01-01',
     tags: ['angular', 'css'],
     ...overrides,
   };
@@ -27,6 +28,7 @@ const TAILWIND = makeResource(1, {
   type: 'library',
   category: 'styling',
   tags: ['css', 'utility-first'],
+  added: '2026-03-01',
 });
 const CDK = makeResource(2, {
   name: 'Angular CDK',
@@ -34,6 +36,7 @@ const CDK = makeResource(2, {
   category: 'frontend',
   tags: ['angular', 'a11y'],
   repository: undefined,
+  added: '2026-01-01',
 });
 const EXCALIDRAW = makeResource(3, {
   name: 'Excalidraw',
@@ -41,6 +44,7 @@ const EXCALIDRAW = makeResource(3, {
   category: 'design',
   tags: [],
   url: '',
+  added: '2026-02-01',
 });
 const ITEMS = [TAILWIND, CDK, EXCALIDRAW];
 
@@ -159,7 +163,7 @@ describe('ResourcesComponent', () => {
       const items = $$('ul > li').filter((li) => li.querySelector(':scope h2'));
 
       expect(items.length).toBe(3);
-      expect(cardTitles()).toEqual(['Tailwind CSS', 'Angular CDK', 'Excalidraw']);
+      expect(cardTitles()).toEqual(['Angular CDK', 'Excalidraw', 'Tailwind CSS']);
     });
 
     it('uses glass interactive cards', () => {
@@ -315,7 +319,7 @@ describe('ResourcesComponent', () => {
 
       const input = $<HTMLInputElement>('input[type="search"]')!;
       expect(input.value).toBe('');
-      expect(selects().map((s) => s.value())).toEqual(['all', 'all']);
+      expect(selects().map((s) => s.value())).toEqual(['all', 'all', 'A–Z']);
       expect(count()).toBe('Showing 3 resources');
       expect(cardTitles().length).toBe(3);
       expect(document.activeElement).toBe(input);
@@ -340,6 +344,63 @@ describe('ResourcesComponent', () => {
     });
   });
 
+  describe('sorting', () => {
+    // Catalog order: Tailwind (Mar), CDK (Jan), Excalidraw (Feb).
+    const sortSelect = () => selects()[2];
+
+    async function choose(order: string): Promise<void> {
+      sortSelect().value.set(order);
+      await settle();
+    }
+
+    beforeEach(() => render());
+
+    it('adds a labelled Sort select with the four orders, A–Z first', () => {
+      expect(sortSelect().label()).toBe('Sort');
+      expect(sortSelect().options()).toEqual(['A–Z', 'Z–A', 'Newest', 'Oldest']);
+    });
+
+    it('sorts A–Z by default', () => {
+      expect(sortSelect().value()).toBe('A–Z');
+      expect(cardTitles()).toEqual(['Angular CDK', 'Excalidraw', 'Tailwind CSS']);
+    });
+
+    it('sorts Z–A', async () => {
+      await choose('Z–A');
+      expect(cardTitles()).toEqual(['Tailwind CSS', 'Excalidraw', 'Angular CDK']);
+    });
+
+    it('sorts Newest first', async () => {
+      await choose('Newest');
+      expect(cardTitles()).toEqual(['Tailwind CSS', 'Excalidraw', 'Angular CDK']);
+    });
+
+    it('sorts Oldest first', async () => {
+      await choose('Oldest');
+      expect(cardTitles()).toEqual(['Angular CDK', 'Excalidraw', 'Tailwind CSS']);
+    });
+
+    it('composes with a filter and leaves the count alone', async () => {
+      selects()[0].value.set('library');
+      await choose('Z–A');
+
+      expect(cardTitles()).toEqual(['Tailwind CSS', 'Angular CDK']);
+      expect(count()).toBe('Showing 2 of 3 resources');
+    });
+
+    it('keeps the chosen sort when the filters are cleared', async () => {
+      await choose('Z–A');
+      type('zzzz');
+      await settle();
+
+      buttonByText('Clear filters')!.click();
+      await settle();
+
+      expect(sortSelect().value()).toBe('Z–A');
+      expect(cardTitles()).toEqual(['Tailwind CSS', 'Excalidraw', 'Angular CDK']);
+    });
+  });
+
   describe('details dialog', () => {
     beforeEach(() => render());
 
@@ -360,7 +421,7 @@ describe('ResourcesComponent', () => {
 
       expect(trigger.type).toBe('button');
       expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
-      expect(trigger.textContent?.trim()).toBe('Tailwind CSS');
+      expect(trigger.textContent?.trim()).toBe('Angular CDK');
 
       open(0);
 
@@ -369,7 +430,7 @@ describe('ResourcesComponent', () => {
       expect(
         document.getElementById(dialog.getAttribute('aria-labelledby')!)
           ?.textContent?.trim()
-      ).toBe('Tailwind CSS');
+      ).toBe('Angular CDK');
       expect(dialog.contains(document.activeElement)).toBeTrue();
     });
 
@@ -389,8 +450,8 @@ describe('ResourcesComponent', () => {
       expect(
         document.getElementById(container()!.getAttribute('aria-labelledby')!)
           ?.textContent?.trim()
-      ).toBe('Angular CDK');
-      expect(container()!.textContent).toContain('Description of resource 2.');
+      ).toBe('Excalidraw');
+      expect(container()!.textContent).toContain('Description of resource 3.');
     });
   });
 });

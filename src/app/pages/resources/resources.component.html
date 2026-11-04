@@ -33,9 +33,9 @@
         <div
           role="search"
           aria-label="Filter resources"
-          class="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_14rem_14rem] lg:items-end"
+          class="grid gap-4 sm:grid-cols-3 lg:grid-cols-[minmax(0,1fr)_11rem_11rem_9rem] lg:items-end"
         >
-          <div class="sm:col-span-2 lg:col-span-1">
+          <div class="sm:col-span-3 lg:col-span-1">
             <label
               for="resources-search"
               class="mb-1 block text-xs uppercase text-fg-muted"
@@ -75,6 +75,7 @@
             [options]="categories()"
             [(value)]="category"
           />
+          <app-ui-select label="Sort" [options]="sortOrders" [(value)]="sort" />
         </div>
 
         <p
@@ -87,9 +88,9 @@
         </p>
       </div>
 
-      @if (filteredItems().length > 0) {
+      @if (sortedItems().length > 0) {
         <ul class="grid gap-4 md:grid-cols-2 md:gap-6">
-          @for (r of filteredItems(); track r.id) {
+          @for (r of sortedItems(); track r.id) {
             <!-- The heading button is stretched over the whole card (the
                  ::after overlay); links sit above it with `relative z-10`. -->
             <li

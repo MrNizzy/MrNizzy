@@ -22,6 +22,7 @@ import { UiSelectComponent } from '@shared/ui/select/select.component';
 import { ResourceDialogComponent } from './resource-dialog.component';
 import type { Resource } from './resource.model';
 import { RESOURCE_CATALOG } from './resources.data';
+import { SORT_ORDERS, sortResources, type SortOrder } from './sort-resources';
 
 const ALL = 'all';
 
@@ -55,6 +56,10 @@ export class ResourcesComponent {
   readonly type = signal<string>(ALL);
   readonly category = signal<string>(ALL);
 
+  /** Not a filter: it stays put when the filters are cleared. */
+  readonly sort = signal<SortOrder>('A–Z');
+  readonly sortOrders: SortOrder[] = [...SORT_ORDERS];
+
   private readonly searchInput =
     viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
@@ -84,6 +89,11 @@ export class ResourcesComponent {
       return matchesSearch && matchesType && matchesCategory;
     });
   });
+
+  /** The filtered resources in the chosen order: what the cards show. */
+  readonly sortedItems = computed<readonly Resource[]>(() =>
+    sortResources(this.filteredItems(), this.sort())
+  );
 
   /** What the page shows: an empty catalog gets its own message instead of filters. */
   readonly view: 'empty' | 'ready' = this.items.length === 0 ? 'empty' : 'ready';

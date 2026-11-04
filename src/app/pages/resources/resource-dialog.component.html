@@ -32,6 +32,15 @@
         <dt class="text-fg-subtle">Category</dt>
         <dd class="capitalize text-fg">{{ resource.category }}</dd>
       </div>
+      <div>
+        <dt class="text-fg-subtle">Added</dt>
+        <dd class="text-fg">
+          <!-- Angular reads a date-only string as local midnight, so formatting in local time keeps the month in every time zone. -->
+          <time [attr.datetime]="resource.added">{{
+            resource.added | date: 'MMMM y'
+          }}</time>
+        </dd>
+      </div>
     </dl>
   </div>
 

@@ -3,3 +3,11 @@ allowBuilds:
   esbuild: true
   lmdb: false
   msgpackr-extract: false
+
+# Wait a week before installing a newly published version: compromised releases are usually caught and pulled sooner.
+minimumReleaseAge: 10080
+# Fail when a package's publishing trust level drops compared with its earlier releases.
+trustPolicy: no-downgrade
+# Only releases from the last 30 days are checked: takeovers ship as new versions, and
+# older legacy lines (e.g. semver 6, ua-parser-js 0.7) predate their maintainers' provenance.
+trustPolicyIgnoreAfter: 43200

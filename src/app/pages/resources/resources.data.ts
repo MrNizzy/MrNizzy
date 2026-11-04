@@ -122,6 +122,133 @@ export const resources: readonly Resource[] = [
     category: 'Hardware',
     tags: ['gaming', 'pc', 'system requirements'],
   },
+  {
+    id: 'spartan',
+    added: '2026-11-04',
+    name: 'spartan',
+    url: 'https://spartan.ng/',
+    description:
+      'Accessible Angular UI primitives with styles you copy in and customize to build your own component library.',
+    type: 'Library',
+    category: 'UI components',
+    tags: ['angular', 'components', 'accessibility'],
+    repository: 'https://github.com/spartan-ng/spartan',
+  },
+  {
+    id: 'shadcn-ui',
+    added: '2026-11-04',
+    name: 'shadcn/ui',
+    url: 'https://ui.shadcn.com/',
+    description:
+      'Accessible React components you copy into your project and customize, with a CLI to add them.',
+    type: 'Library',
+    category: 'UI components',
+    tags: ['react', 'components', 'accessibility'],
+    repository: 'https://github.com/shadcn-ui/ui',
+  },
+  {
+    id: 'modern-css-solutions',
+    added: '2026-11-04',
+    name: 'Modern CSS Solutions',
+    url: 'https://moderncss.dev/',
+    description:
+      'Articles by Stephanie Eckles on modern CSS techniques that replace old workarounds.',
+    type: 'Blog',
+    category: 'CSS',
+    tags: ['css', 'layout', 'tutorials'],
+  },
+  {
+    id: 'josh-w-comeau',
+    added: '2026-11-04',
+    name: 'Josh W. Comeau’s blog',
+    url: 'https://www.joshwcomeau.com/',
+    description:
+      'In-depth, interactive tutorials on CSS, animation, React, JavaScript and SVG.',
+    type: 'Blog',
+    category: 'CSS',
+    tags: ['css', 'animation', 'react'],
+  },
+  {
+    id: 'oklch-color-picker',
+    added: '2026-11-04',
+    name: 'OKLCH Color Picker',
+    url: 'https://oklch.com/',
+    description:
+      'Picks colors in the OKLCH color space and converts HEX, RGB or HSL values to OKLCH, by Evil Martians.',
+    type: 'Tool',
+    category: 'Design',
+    tags: ['color', 'oklch', 'css'],
+    repository: 'https://github.com/evilmartians/oklch-picker',
+  },
+  {
+    id: 'utopia',
+    added: '2026-11-04',
+    name: 'Utopia',
+    url: 'https://utopia.fyi/',
+    description:
+      'Calculators for fluid type, space and grid scales that grow smoothly with the viewport width.',
+    type: 'Tool',
+    category: 'Design',
+    tags: ['fluid design', 'typography', 'spacing'],
+  },
+  {
+    id: 'aria-apg',
+    added: '2026-11-04',
+    name: 'ARIA Authoring Practices Guide',
+    url: 'https://www.w3.org/WAI/ARIA/apg/',
+    description:
+      'W3C guide to building accessible widgets and design patterns with ARIA, with working examples.',
+    type: 'Reference',
+    category: 'Accessibility',
+    tags: ['accessibility', 'aria', 'patterns'],
+    repository: 'https://github.com/w3c/aria-practices',
+  },
+  {
+    id: 'pagespeed-insights',
+    added: '2026-11-04',
+    name: 'PageSpeed Insights',
+    url: 'https://pagespeed.web.dev/',
+    description:
+      'Google tool that analyzes the performance of a web page and suggests how to make it faster.',
+    type: 'Tool',
+    category: 'Performance',
+    tags: ['performance', 'web vitals', 'lighthouse'],
+  },
+  {
+    id: 'squoosh',
+    added: '2026-11-04',
+    name: 'Squoosh',
+    url: 'https://squoosh.app/',
+    description:
+      'Compresses and converts images in the browser, without uploading them, with a side-by-side comparison.',
+    type: 'Tool',
+    category: 'Performance',
+    tags: ['images', 'compression', 'webp'],
+    repository: 'https://github.com/GoogleChromeLabs/squoosh',
+  },
+  {
+    id: 'regex101',
+    added: '2026-11-04',
+    name: 'regex101',
+    url: 'https://regex101.com/',
+    description:
+      'Tests, explains and debugs regular expressions across several flavors, and generates code for them.',
+    type: 'Tool',
+    category: 'Debugging',
+    tags: ['regex', 'debugging', 'testing'],
+  },
+  {
+    id: 'ollama',
+    added: '2026-11-04',
+    name: 'Ollama',
+    url: 'https://ollama.com/',
+    description:
+      'Runs open AI models locally on your own machine from the command line or an API.',
+    type: 'Tool',
+    category: 'AI',
+    tags: ['ai', 'local models', 'cli'],
+    repository: 'https://github.com/ollama/ollama',
+  },
 ];
 
 /** Injection point for the catalog, so specs can provide fixtures. */

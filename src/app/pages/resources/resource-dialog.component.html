@@ -1,128 +1,65 @@
-<app-ui-dialog [title]="data.name">
-  @switch (state()) {
-    @case ('loading') {
-      <div class="grid gap-4 pb-4" aria-busy="true">
-        <p role="status" class="text-sm text-fg-subtle">Loading resource…</p>
-        <div
-          class="flex items-start gap-4 motion-safe:animate-pulse"
-          aria-hidden="true"
-        >
-          <div class="size-16 shrink-0 rounded-control bg-fg/10"></div>
-          <div class="grid flex-1 gap-2">
-            <div class="h-4 w-full rounded-chip bg-fg/10"></div>
-            <div class="h-4 w-5/6 rounded-chip bg-fg/10"></div>
-            <div class="mt-1 flex gap-2">
-              <div class="h-6 w-14 rounded-chip bg-fg/10"></div>
-              <div class="h-6 w-20 rounded-chip bg-fg/10"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    }
-    @case ('error') {
-      <div role="alert" class="grid justify-items-start gap-3 pb-4">
-        <p class="font-semibold text-danger">Couldn't load this resource</p>
-        <p class="text-fg-muted">{{ errorMessage() }}</p>
-        <button appUiButton variant="secondary" size="sm" (click)="resource.reload()">
-          Try again
-        </button>
-      </div>
-    }
-    @default {
-      @let sel = resource.value();
-      <div class="grid gap-5">
-        <div class="flex items-start gap-4">
-          @if (sel.url_image) {
-            <img
-              [src]="sel.url_image"
-              alt=""
-              width="64"
-              height="64"
-              decoding="async"
-              class="size-16 shrink-0 rounded-control border border-line bg-canvas object-cover"
-            />
-          }
-          <div class="grid min-w-0 gap-3">
-            <p class="text-pretty text-fg-muted">{{ sel.description }}</p>
-            @if (tags().length > 0) {
-              <ul class="flex flex-wrap gap-2" aria-label="Tags">
-                @for (tag of tags(); track tag) {
-                  <li appUiChip>{{ tag }}</li>
-                }
-              </ul>
+<app-ui-dialog [title]="resource.name">
+  <div class="grid gap-5">
+    <div class="flex items-start gap-4">
+      @if (resource.image) {
+        <img
+          [src]="resource.image"
+          alt=""
+          width="64"
+          height="64"
+          decoding="async"
+          class="size-16 shrink-0 rounded-control border border-line bg-canvas object-cover"
+        />
+      }
+      <div class="grid min-w-0 gap-3">
+        <p class="text-pretty text-fg-muted">{{ resource.description }}</p>
+        @if (resource.tags?.length) {
+          <ul class="flex flex-wrap gap-2" aria-label="Tags">
+            @for (tag of resource.tags; track tag) {
+              <li appUiChip>{{ tag }}</li>
             }
-          </div>
-        </div>
-
-        <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm sm:grid-cols-5">
-          <div>
-            <dt class="text-fg-subtle">Type</dt>
-            <dd class="capitalize text-fg">{{ sel.type }}</dd>
-          </div>
-          <div>
-            <dt class="text-fg-subtle">Category</dt>
-            <dd class="capitalize text-fg">{{ sel.category }}</dd>
-          </div>
-          <div>
-            <dt class="text-fg-subtle">Views</dt>
-            <dd class="text-fg">{{ sel.view_count + viewDelta() }}</dd>
-          </div>
-          <div>
-            <dt class="text-fg-subtle">Upvotes</dt>
-            <dd class="text-fg">{{ sel.upvotes + upvoteDelta() }}</dd>
-          </div>
-          <div>
-            <dt class="text-fg-subtle">Clicks</dt>
-            <dd class="text-fg">{{ sel.click_count + clickDelta() }}</dd>
-          </div>
-        </dl>
-
-        <!-- Always in the DOM so the first upvote is announced. -->
-        <p
-          class="min-h-5 text-sm text-fg-muted"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {{ upvoteMessage() }}
-        </p>
+          </ul>
+        }
       </div>
-    }
-  }
+    </div>
+
+    <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+      <div>
+        <dt class="text-fg-subtle">Type</dt>
+        <dd class="capitalize text-fg">{{ resource.type }}</dd>
+      </div>
+      <div>
+        <dt class="text-fg-subtle">Category</dt>
+        <dd class="capitalize text-fg">{{ resource.category }}</dd>
+      </div>
+    </dl>
+  </div>
 
   <ng-container footer>
-    @if (state() === 'ready') {
-      @let sel = resource.value();
-      <button appUiButton variant="secondary" (click)="upvote(sel.resource_id)">
-        Upvote
-      </button>
-      @if (sel.url_repository) {
-        <a
-          appUiButton
-          variant="secondary"
-          [href]="sel.url_repository"
-          target="_blank"
-          rel="noopener noreferrer"
-          (click)="trackClick(sel.resource_id)"
-        >
-          View code
-          <app-ui-icon name="external-link" [size]="16" />
-          <span class="sr-only">(opens in a new tab)</span>
-        </a>
-      }
-      @if (sel.url) {
-        <a
-          appUiButton
-          [href]="sel.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          (click)="trackClick(sel.resource_id)"
-        >
-          Visit website
-          <app-ui-icon name="external-link" [size]="16" />
-          <span class="sr-only">(opens in a new tab)</span>
-        </a>
-      }
+    @if (resource.repository) {
+      <a
+        appUiButton
+        variant="secondary"
+        [href]="resource.repository"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View code
+        <app-ui-icon name="external-link" [size]="16" />
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+    }
+    @if (resource.url) {
+      <a
+        appUiButton
+        [href]="resource.url"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Visit website
+        <app-ui-icon name="external-link" [size]="16" />
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
     }
   </ng-container>
 </app-ui-dialog>

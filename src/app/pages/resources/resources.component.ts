@@ -19,12 +19,9 @@ import { UiInputDirective } from '@shared/ui/input/input.directive';
 import { UiLinkDirective } from '@shared/ui/link/link.directive';
 import { UiSectionHeadingComponent } from '@shared/ui/section-heading/section-heading.component';
 import { UiSelectComponent } from '@shared/ui/select/select.component';
-import { ResourceApi, describeLoadError } from './resource-api';
-import {
-  ResourceDialogComponent,
-  type ResourceDialogData,
-} from './resource-dialog.component';
+import { ResourceDialogComponent } from './resource-dialog.component';
 import type { Resource } from './resource.model';
+import { RESOURCE_CATALOG } from './resources.data';
 
 const ALL = 'all';
 
@@ -48,53 +45,35 @@ const DIALOG_WIDTH = 'min(40rem, calc(100vw - 2rem))';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResourcesComponent {
-  private readonly resourceApi = inject(ResourceApi);
   private readonly dialog = inject(UiDialog);
   private readonly injector = inject(Injector);
 
-  readonly resources = this.resourceApi.getResources();
+  readonly items: readonly Resource[] = inject(RESOURCE_CATALOG);
 
   // Filters
   readonly search = signal('');
   readonly type = signal<string>(ALL);
   readonly category = signal<string>(ALL);
 
-  /** Placeholder cards shown while the list loads. */
-  protected readonly skeletons = [0, 1, 2, 3];
-
   private readonly searchInput =
     viewChild<ElementRef<HTMLInputElement>>('searchInput');
-  private readonly loadingRegion =
-    viewChild<ElementRef<HTMLElement>>('loadingRegion');
 
-  // Distinct lists derived from fetched items. Reading `value()` while the
-  // request is in an error state throws, hence the `hasValue()` guard.
-  readonly items = computed<Resource[]>(() =>
-    this.resources.hasValue() ? (this.resources.value().items ?? []) : []
-  );
+  // Distinct lists derived from the catalog.
   readonly types = computed<string[]>(() => {
-    const set = new Set(
-      this.items()
-        .map((r) => r.type)
-        .filter(Boolean)
-    );
+    const set = new Set(this.items.map((r) => r.type).filter(Boolean));
     return [ALL, ...Array.from(set).sort((a, b) => a.localeCompare(b))];
   });
   readonly categories = computed<string[]>(() => {
-    const set = new Set(
-      this.items()
-        .map((r) => r.category)
-        .filter(Boolean)
-    );
+    const set = new Set(this.items.map((r) => r.category).filter(Boolean));
     return [ALL, ...Array.from(set).sort((a, b) => a.localeCompare(b))];
   });
 
   // Filtered items according to current filters
-  readonly filteredItems = computed<Resource[]>(() => {
+  readonly filteredItems = computed<readonly Resource[]>(() => {
     const q = this.search().trim().toLowerCase();
     const t = this.type();
     const c = this.category();
-    return this.items().filter((r) => {
+    return this.items.filter((r) => {
       const matchesSearch =
         !q ||
         r.name.toLowerCase().includes(q) ||
@@ -106,37 +85,18 @@ export class ResourcesComponent {
     });
   });
 
-  /** What the page shows: the request status first, then whether there is anything to list. */
-  readonly view = computed<'loading' | 'error' | 'empty' | 'ready'>(() => {
-    // `error()` keeps the previous failure while a retry is in flight, so
-    // loading has to win.
-    if (this.resources.isLoading()) return 'loading';
-    if (this.resources.error()) return 'error';
-    return this.items().length === 0 ? 'empty' : 'ready';
-  });
-
-  readonly errorMessage = computed(() =>
-    describeLoadError(this.resources.error())
-  );
+  /** What the page shows: an empty catalog gets its own message instead of filters. */
+  readonly view: 'empty' | 'ready' = this.items.length === 0 ? 'empty' : 'ready';
 
   /** Result count, announced politely after every filter change. */
   readonly resultsLabel = computed(() => {
     const shown = this.filteredItems().length;
-    const total = this.items().length;
+    const total = this.items.length;
     const noun = total === 1 ? 'resource' : 'resources';
     return shown === total
       ? `Showing ${total} ${noun}`
       : `Showing ${shown} of ${total} ${noun}`;
   });
-
-  /** Fetch the list again after a failure. */
-  retry() {
-    this.resources.reload();
-    // The button is replaced by the loading state; keep focus on the page.
-    afterNextRender(() => this.loadingRegion()?.nativeElement.focus(), {
-      injector: this.injector,
-    });
-  }
 
   clearSearch() {
     this.search.set('');
@@ -155,9 +115,9 @@ export class ResourcesComponent {
   }
 
   openResource(r: Resource) {
-    this.dialog.open<void, ResourceDialogData, ResourceDialogComponent>(
+    this.dialog.open<void, Resource, ResourceDialogComponent>(
       ResourceDialogComponent,
-      { data: { id: r.resource_id, name: r.name }, width: DIALOG_WIDTH }
+      { data: r, width: DIALOG_WIDTH }
     );
   }
 }

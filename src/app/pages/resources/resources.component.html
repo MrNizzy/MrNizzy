@@ -6,64 +6,7 @@
     Resources
   </app-ui-section-heading>
 
-  @switch (view()) {
-    @case ('loading') {
-      <div class="grid gap-4 md:gap-6" aria-busy="true">
-        <p
-          #loadingRegion
-          tabindex="-1"
-          role="status"
-          class="text-sm text-fg-subtle outline-hidden"
-        >
-          Loading resources…
-        </p>
-        <ul class="grid gap-4 md:grid-cols-2 md:gap-6" aria-hidden="true">
-          @for (n of skeletons; track n) {
-            <li
-              appUiCard
-              variant="glass"
-              class="grid content-start gap-4 motion-safe:animate-pulse"
-            >
-              <div class="flex items-start gap-4">
-                <div class="size-14 shrink-0 rounded-control bg-fg/10"></div>
-                <div class="grid flex-1 gap-2">
-                  <div class="h-6 w-2/3 rounded-chip bg-fg/10"></div>
-                  <div class="h-4 w-full rounded-chip bg-fg/10"></div>
-                  <div class="h-4 w-5/6 rounded-chip bg-fg/10"></div>
-                </div>
-              </div>
-              <div class="flex gap-2">
-                <div class="h-6 w-14 rounded-chip bg-fg/10"></div>
-                <div class="h-6 w-20 rounded-chip bg-fg/10"></div>
-                <div class="h-6 w-12 rounded-chip bg-fg/10"></div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-    }
-
-    @case ('error') {
-      <div
-        appUiCard
-        variant="glass"
-        padding="lg"
-        role="alert"
-        class="grid justify-items-start gap-4"
-      >
-        <div class="grid gap-2">
-          <h2 class="text-heading text-danger">Couldn't load the resources</h2>
-          <p class="max-w-prose text-pretty text-fg-muted">
-            {{ errorMessage() }} It's most likely temporary, so give it another
-            go.
-          </p>
-        </div>
-        <button appUiButton variant="secondary" (click)="retry()">
-          Try again
-        </button>
-      </div>
-    }
-
+  @switch (view) {
     @case ('empty') {
       <div
         appUiCard
@@ -146,7 +89,7 @@
 
       @if (filteredItems().length > 0) {
         <ul class="grid gap-4 md:grid-cols-2 md:gap-6">
-          @for (r of filteredItems(); track r.resource_id) {
+          @for (r of filteredItems(); track r.id) {
             <!-- The heading button is stretched over the whole card (the
                  ::after overlay); links sit above it with `relative z-10`. -->
             <li
@@ -156,9 +99,9 @@
               class="relative flex flex-col gap-4"
             >
               <div class="flex items-start gap-4">
-                @if (r.url_image) {
+                @if (r.image) {
                   <img
-                    [src]="r.url_image"
+                    [src]="r.image"
                     alt=""
                     width="56"
                     height="56"
@@ -208,13 +151,13 @@
                       >
                     </li>
                   }
-                  @if (r.url_repository) {
+                  @if (r.repository) {
                     <li>
                       <a
                         appUiLink
                         external
                         class="relative z-10 whitespace-nowrap"
-                        [href]="r.url_repository"
+                        [href]="r.repository"
                         >Repository<span class="sr-only"> for {{ r.name }}</span
                         ><app-ui-icon
                           name="external-link"
@@ -224,22 +167,6 @@
                       >
                     </li>
                   }
-                </ul>
-
-                <ul
-                  class="flex flex-wrap gap-x-4 text-sm text-fg-subtle"
-                  aria-label="Activity"
-                >
-                  <li>
-                    {{ r.view_count }} {{ r.view_count === 1 ? 'view' : 'views' }}
-                  </li>
-                  <li>
-                    {{ r.upvotes }} {{ r.upvotes === 1 ? 'upvote' : 'upvotes' }}
-                  </li>
-                  <li>
-                    {{ r.click_count }}
-                    {{ r.click_count === 1 ? 'click' : 'clicks' }}
-                  </li>
                 </ul>
               </div>
             </li>

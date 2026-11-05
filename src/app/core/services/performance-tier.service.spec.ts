@@ -39,9 +39,10 @@ describe('detectLowPerformance', () => {
   describe('memory', () => {
     it(`flags ${LOW_MEMORY_MAX_GB} GB and below`, () => {
       for (const deviceMemory of [LOW_MEMORY_MAX_GB, 2, 1, 0.5, 0.25]) {
-        expect(detectLowPerformance({ ...CAPABLE, deviceMemory }))
-          .withContext(`${deviceMemory} GB`)
-          .toBe('low-memory');
+        expect(
+          detectLowPerformance({ ...CAPABLE, deviceMemory }),
+          `${deviceMemory} GB`
+        ).toBe('low-memory');
       }
     });
 
@@ -56,9 +57,10 @@ describe('detectLowPerformance', () => {
   describe('cores', () => {
     it(`flags ${LOW_CORES_MAX} logical cores and fewer`, () => {
       for (const hardwareConcurrency of [LOW_CORES_MAX, 1]) {
-        expect(detectLowPerformance({ ...CAPABLE, hardwareConcurrency }))
-          .withContext(`${hardwareConcurrency} cores`)
-          .toBe('few-cores');
+        expect(
+          detectLowPerformance({ ...CAPABLE, hardwareConcurrency }),
+          `${hardwareConcurrency} cores`
+        ).toBe('few-cores');
       }
     });
 
@@ -147,13 +149,13 @@ describe('PerformanceTierService', () => {
   });
 
   it('ignores touch input and screen size: a high-end phone keeps the glass', () => {
-    const matchMedia = spyOn(window, 'matchMedia').and.returnValue({
+    const matchMedia = vi.spyOn(window, 'matchMedia').mockReturnValue({
       matches: true,
     } as MediaQueryList);
 
     const service = create({ deviceMemory: 8, hardwareConcurrency: 8 });
 
-    expect(service.isLow()).toBeFalse();
+    expect(service.isLow()).toBe(false);
     expect(matchMedia).not.toHaveBeenCalled();
   });
 
@@ -161,17 +163,17 @@ describe('PerformanceTierService', () => {
     it('stays normal and leaves the document alone', () => {
       const service = create();
 
-      expect(service.isLow()).toBeFalse();
+      expect(service.isLow()).toBe(false);
       expect(service.reason()).toBeNull();
-      expect(html.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBeFalse();
+      expect(html.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(false);
       expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
     });
 
     it('stays normal without a navigator', () => {
       const service = create(null);
 
-      expect(service.isLow()).toBeFalse();
-      expect(html.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBeFalse();
+      expect(service.isLow()).toBe(false);
+      expect(html.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(false);
     });
   });
 
@@ -186,7 +188,7 @@ describe('PerformanceTierService', () => {
       it(`switches to low mode on ${name}, before anything renders`, () => {
         const service = create(signals);
 
-        expect(service.isLow()).toBeTrue();
+        expect(service.isLow()).toBe(true);
         expect(service.reason()).toBe(reason);
         expect(html.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe('low');
       });
@@ -205,7 +207,7 @@ describe('PerformanceTierService', () => {
 
       service.markLow('slow-frames');
 
-      expect(service.isLow()).toBeTrue();
+      expect(service.isLow()).toBe(true);
       expect(service.reason()).toBe('slow-frames');
       expect(html.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe('low');
     });
@@ -243,7 +245,7 @@ describe('PerformanceTierService', () => {
 
       const service = create();
 
-      expect(service.isLow()).toBeTrue();
+      expect(service.isLow()).toBe(true);
       expect(service.reason()).toBe('stored');
       expect(html.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe('low');
     });
@@ -251,17 +253,21 @@ describe('PerformanceTierService', () => {
     it('ignores a stored value it does not know', () => {
       sessionStorage.setItem(PERFORMANCE_STORAGE_KEY, 'whatever');
 
-      expect(create().isLow()).toBeFalse();
+      expect(create().isLow()).toBe(false);
     });
   });
 
   describe('when it cannot rely on the browser', () => {
     it('still switches when sessionStorage throws', () => {
-      spyOn(Storage.prototype, 'getItem').and.throwError('blocked');
-      spyOn(Storage.prototype, 'setItem').and.throwError('blocked');
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
+      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
       const service = create({ ...CAPABLE, deviceMemory: 2 });
 
-      expect(service.isLow()).toBeTrue();
+      expect(service.isLow()).toBe(true);
       expect(html.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe('low');
     });
 
@@ -276,9 +282,9 @@ describe('PerformanceTierService', () => {
       });
 
       const service = TestBed.inject(PerformanceTierService);
-      expect(service.isLow()).toBeFalse();
+      expect(service.isLow()).toBe(false);
       expect(() => service.markLow('slow-frames')).not.toThrow();
-      expect(service.isLow()).toBeTrue();
+      expect(service.isLow()).toBe(true);
     });
   });
 });

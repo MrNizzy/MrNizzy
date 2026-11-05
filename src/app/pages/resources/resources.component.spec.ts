@@ -212,13 +212,15 @@ describe('ResourcesComponent', () => {
 
     it('omits the links a resource does not have', () => {
       expect(
-        Array.from(cardOf('CDK').querySelectorAll('a')).map((a) => a.textContent)
-      ).toEqual([jasmine.stringContaining('Website')]);
+        Array.from(cardOf('CDK').querySelectorAll('a')).map(
+          (a) => a.textContent
+        )
+      ).toEqual([expect.stringContaining('Website')]);
       expect(
         Array.from(cardOf('Excalidraw').querySelectorAll('a')).map(
           (a) => a.textContent
         )
-      ).toEqual([jasmine.stringContaining('Repository')]);
+      ).toEqual([expect.stringContaining('Repository')]);
     });
 
     it('does not show any activity counters', () => {
@@ -431,7 +433,7 @@ describe('ResourcesComponent', () => {
         document.getElementById(dialog.getAttribute('aria-labelledby')!)
           ?.textContent?.trim()
       ).toBe('Angular CDK');
-      expect(dialog.contains(document.activeElement)).toBeTrue();
+      expect(dialog.contains(document.activeElement)).toBe(true);
     });
 
     it('closes with Escape and gives focus back to the heading button', async () => {

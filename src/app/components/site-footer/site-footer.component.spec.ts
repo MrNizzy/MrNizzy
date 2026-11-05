@@ -78,7 +78,7 @@ describe('SiteFooterComponent', () => {
 
   it('keeps the links on same-tab navigation', () => {
     root.querySelectorAll('nav a').forEach((link) => {
-      expect(link.hasAttribute('target')).toBeFalse();
+      expect(link.hasAttribute('target')).toBe(false);
     });
   });
 });

@@ -31,18 +31,19 @@ describe('resources catalog', () => {
       });
 
       it('links to an https website', () => {
-        expect(isHttps(r.url)).withContext(r.url).toBeTrue();
+        expect(isHttps(r.url), r.url).toBe(true);
       });
 
       it('links to an https repository when it has one', () => {
-        expect(r.repository === undefined || isHttps(r.repository))
-          .withContext(String(r.repository))
-          .toBeTrue();
+        expect(
+          r.repository === undefined || isHttps(r.repository),
+          String(r.repository)
+        ).toBe(true);
       });
 
       it('has a real ISO date for when it was added', () => {
         expect(r.added).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-        expect(Number.isNaN(Date.parse(r.added))).toBeFalse();
+        expect(Number.isNaN(Date.parse(r.added))).toBe(false);
       });
     });
   });

@@ -12,7 +12,7 @@ describe('routes', () => {
 
   it('serves the public pages', () => {
     expect(paths()).toEqual(
-      jasmine.arrayContaining([
+      expect.arrayContaining([
         '',
         'about',
         'contact',

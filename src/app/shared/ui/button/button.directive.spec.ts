@@ -176,7 +176,7 @@ describe('UiButtonDirective', () => {
     });
 
     it('does not add a type to links', () => {
-      expect(el('link').hasAttribute('type')).toBeFalse();
+      expect(el('link').hasAttribute('type')).toBe(false);
       expect(el('link').getAttribute('href')).toBe('/somewhere');
     });
   });

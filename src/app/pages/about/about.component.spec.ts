@@ -137,7 +137,7 @@ describe('AboutComponent', () => {
     );
 
     expect(hrefs).toEqual(
-      jasmine.arrayContaining([
+      expect.arrayContaining([
         'https://www.youtube.com/@MrNizzy',
         'https://github.com/MrNizzy?tab=repositories&sort=stargazers',
         'https://github.com/MrNizzy?tab=followers',

@@ -79,6 +79,6 @@ describe('NotFoundComponent', () => {
 
     action('Go home')?.dispatchEvent(event);
 
-    expect(event.defaultPrevented).toBeTrue();
+    expect(event.defaultPrevented).toBe(true);
   });
 });

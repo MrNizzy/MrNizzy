@@ -145,7 +145,7 @@ describe('ResourceDialogComponent', () => {
     });
 
     it('keeps the month on the first and last day of a month', () => {
-      // Karma cannot switch the browser time zone; the real guarantee is
+      // The test runner cannot switch the time zone; the real guarantee is
       // Angular parsing date-only strings as local midnight.
       open({ ...RESOURCE, added: '2026-12-01' });
       expect($('time')!.textContent?.trim()).toBe('December 2026');

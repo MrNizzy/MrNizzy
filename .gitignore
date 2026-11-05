@@ -44,3 +44,6 @@ Thumbs.db
 # Others
 todo
 todo.txt
+
+# Vitest browser-mode failure screenshots
+/.vitest

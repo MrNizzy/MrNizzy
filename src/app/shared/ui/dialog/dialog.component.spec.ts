@@ -132,8 +132,13 @@ describe('UiDialogComponent', () => {
       await openDialog();
 
       const classes = query('app-ui-dialog')!.classList;
-      for (const token of ['bg-surface', 'border-line', 'rounded-card', 'text-fg']) {
-        expect(classes).withContext(token).toContain(token);
+      for (const token of [
+        'bg-surface',
+        'border-line',
+        'rounded-card',
+        'text-fg',
+      ]) {
+        expect(classes, token).toContain(token);
       }
       expect(getComputedStyle(query('app-ui-dialog')!).backgroundColor).not.toBe(
         'rgba(0, 0, 0, 0)'
@@ -181,7 +186,7 @@ describe('UiDialogComponent', () => {
 
       const dialogHost = document.querySelector('app-ui-dialog');
       expect(dialogHost).toBeTruthy();
-      expect(dialogHost!.hasAttribute('title')).toBeFalse();
+      expect(dialogHost!.hasAttribute('title')).toBe(false);
     });
 
     it('gives every dialog its own title id', async () => {
@@ -210,7 +215,7 @@ describe('UiDialogComponent', () => {
       TestBed.inject(UiDialog).open(BareContentComponent);
       await settle();
 
-      expect(container()!.hasAttribute('aria-describedby')).toBeFalse();
+      expect(container()!.hasAttribute('aria-describedby')).toBe(false);
     });
 
     it('names the close button', async () => {
@@ -331,7 +336,7 @@ describe('UiDialogComponent', () => {
       closeButton()!.click();
       await settle();
 
-      expect(fixture.nativeElement.hasAttribute('aria-hidden')).toBeFalse();
+      expect(fixture.nativeElement.hasAttribute('aria-hidden')).toBe(false);
     });
   });
 
@@ -339,7 +344,7 @@ describe('UiDialogComponent', () => {
     it('stays on the document theme when opened from the page', async () => {
       await openDialog();
 
-      expect(query('app-ui-dialog')!.hasAttribute('data-theme')).toBeFalse();
+      expect(query('app-ui-dialog')!.hasAttribute('data-theme')).toBe(false);
     });
 
     it('inherits a scoped theme from the opener', async () => {

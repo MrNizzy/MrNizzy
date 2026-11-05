@@ -37,7 +37,7 @@ describe('ThemeToggleComponent', () => {
     systemDark = true;
     localStorage.removeItem(THEME_STORAGE_KEY);
     root().removeAttribute('data-theme');
-    spyOn(window, 'matchMedia').and.callFake(
+    vi.spyOn(window, 'matchMedia').mockImplementation(
       () =>
         ({
           matches: systemDark,

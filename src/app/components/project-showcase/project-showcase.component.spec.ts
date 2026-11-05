@@ -62,7 +62,7 @@ describe('ProjectShowcaseComponent', () => {
       chips().forEach((button) => {
         expect(button.getAttribute('type')).toBe('button');
         expect(button.classList).toContain('rounded-chip');
-        expect(button.hasAttribute('aria-pressed')).toBeTrue();
+        expect(button.hasAttribute('aria-pressed')).toBe(true);
       });
       expect(chip('All').getAttribute('aria-pressed')).toBe('true');
       expect(chip('All').classList).toContain('bg-accent-fill');
@@ -226,7 +226,7 @@ describe('ProjectShowcaseComponent', () => {
         const candidates = shot.getAttribute('srcset')!.split(', ');
 
         candidates.forEach((candidate) => {
-          expect(candidate.startsWith(`${original}-`)).toBeTrue();
+          expect(candidate.startsWith(`${original}-`)).toBe(true);
           expect(candidate).toMatch(/-\d+\.webp \d+w$/);
         });
         expect(candidates[candidates.length - 1]).toContain(
@@ -245,7 +245,7 @@ describe('ProjectShowcaseComponent', () => {
       expect(shots[0].getAttribute('fetchpriority')).toBe('high');
       shots.slice(1).forEach((shot) => {
         expect(shot.getAttribute('loading')).toBe('lazy');
-        expect(shot.hasAttribute('fetchpriority')).toBeFalse();
+        expect(shot.hasAttribute('fetchpriority')).toBe(false);
       });
     });
 
@@ -484,7 +484,7 @@ describe('ProjectShowcaseComponent', () => {
         });
 
       // The component host is inline by default; give it a width so the cards,
-      // and so the button rows, have a known size whatever the Karma window is.
+      // and so the button rows, have a known size whatever the test window is.
       const resize = (width: number) => {
         root.style.display = 'block';
         root.style.width = `${width}px`;
@@ -638,7 +638,9 @@ describe('ProjectShowcaseComponent', () => {
         // Nothing moves unless it is behind the motion-safe variant.
         classes
           .filter((name) => /scale|transition|duration/.test(name))
-          .forEach((name) => expect(name.startsWith('motion-safe:')).toBeTrue());
+          .forEach((name) =>
+            expect(name.startsWith('motion-safe:')).toBe(true)
+          );
       });
     });
 

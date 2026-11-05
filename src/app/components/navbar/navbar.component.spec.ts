@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  flush,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { THEME_STORAGE_KEY } from '@services/theme.service';
 import { NavbarComponent } from './navbar.component';
@@ -19,6 +13,12 @@ class BlankComponent {}
 const CLOSE_ANIMATION_MS = 250;
 
 describe('NavbarComponent', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ advanceTimeDelta: 1, shouldAdvanceTime: true });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   let fixture: ComponentFixture<NavbarComponent>;
   let router: Router;
 
@@ -34,20 +34,20 @@ describe('NavbarComponent', () => {
     menu()!.querySelector<HTMLAnchorElement>(`a[href="${path}"]`)!;
 
   /** Lets the focus trap settle after the overlay renders or detaches. */
-  const settle = () => {
+  const settle = async () => {
     fixture.detectChanges();
-    tick();
+    await vi.advanceTimersByTimeAsync(0);
     fixture.detectChanges();
   };
 
-  const openMenu = () => {
+  const openMenu = async () => {
     burger().click();
-    settle();
+    await settle();
   };
 
-  const finishClosing = () => {
-    tick(CLOSE_ANIMATION_MS);
-    settle();
+  const finishClosing = async () => {
+    await vi.advanceTimersByTimeAsync(CLOSE_ANIMATION_MS);
+    await settle();
   };
 
   const pressEscape = () => {
@@ -111,7 +111,7 @@ describe('NavbarComponent', () => {
 
       await router.navigateByUrl('/contact');
       fixture.detectChanges();
-      expect(desktopLinks()[0].hasAttribute('aria-current')).toBeFalse();
+      expect(desktopLinks()[0].hasAttribute('aria-current')).toBe(false);
       expect(desktopLinks()[3].getAttribute('aria-current')).toBe('page');
     });
 
@@ -130,8 +130,8 @@ describe('NavbarComponent', () => {
       expect(header.className).not.toMatch(/backdrop-blur|bg-canvas[/]/);
     });
 
-    it('draws the mobile menu backplate as glass', fakeAsync(() => {
-      openMenu();
+    it('draws the mobile menu backplate as glass', async () => {
+      await openMenu();
 
       const backplate = menu()!.querySelector<HTMLElement>('.glass-menu');
       expect(backplate).not.toBeNull();
@@ -139,9 +139,9 @@ describe('NavbarComponent', () => {
       expect(backplate!.className).not.toMatch(/backdrop-blur|bg-canvas[/]/);
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
   });
 
   describe('mobile menu', () => {
@@ -152,20 +152,20 @@ describe('NavbarComponent', () => {
       expect(menu()).toBeNull();
     });
 
-    it('toggles aria-expanded and the accessible name when opened', fakeAsync(() => {
-      openMenu();
+    it('toggles aria-expanded and the accessible name when opened', async () => {
+      await openMenu();
 
       expect(burger().getAttribute('aria-expanded')).toBe('true');
       expect(burger().getAttribute('aria-label')).toBe('Close menu');
       expect(menu()).not.toBeNull();
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
 
-    it('renders the links in a labelled nav inside a modal dialog', fakeAsync(() => {
-      openMenu();
+    it('renders the links in a labelled nav inside a modal dialog', async () => {
+      await openMenu();
 
       expect(menu()!.getAttribute('role')).toBe('dialog');
       expect(menu()!.getAttribute('aria-modal')).toBe('true');
@@ -173,28 +173,28 @@ describe('NavbarComponent', () => {
 
       const nav = menu()!.querySelector('nav')!;
       expect(nav.getAttribute('aria-label')).toBe('Main');
-      expect(nav.hasAttribute('role')).toBeFalse();
+      expect(nav.hasAttribute('role')).toBe(false);
       expect(nav.querySelectorAll('a').length).toBe(4);
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
 
-    it('moves focus into the menu when it opens', fakeAsync(() => {
-      openMenu();
+    it('moves focus into the menu when it opens', async () => {
+      await openMenu();
 
-      expect(menu()!.contains(document.activeElement)).toBeTrue();
+      expect(menu()!.contains(document.activeElement)).toBe(true);
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
 
-    it('marks the active route with aria-current inside the menu', fakeAsync(() => {
+    it('marks the active route with aria-current inside the menu', async () => {
       router.navigateByUrl('/resources');
-      tick();
-      openMenu();
+      await vi.advanceTimersByTimeAsync(0);
+      await openMenu();
 
       const current = Array.from(
         menu()!.querySelectorAll('a[aria-current="page"]')
@@ -203,12 +203,12 @@ describe('NavbarComponent', () => {
       expect(current[0].textContent?.trim()).toBe('Resources');
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
 
-    it('closes on Escape and returns focus to the burger', fakeAsync(() => {
-      openMenu();
+    it('closes on Escape and returns focus to the burger', async () => {
+      await openMenu();
 
       pressEscape();
       // The exit animation keeps the dialog mounted but no longer "expanded".
@@ -216,50 +216,50 @@ describe('NavbarComponent', () => {
       expect(menu()).not.toBeNull();
       expect(burger().getAttribute('aria-expanded')).toBe('false');
 
-      finishClosing();
+      await finishClosing();
 
       expect(menu()).toBeNull();
       expect(document.activeElement).toBe(burger());
-    }));
+    });
 
-    it('closes with the close button and returns focus to the burger', fakeAsync(() => {
-      openMenu();
+    it('closes with the close button and returns focus to the burger', async () => {
+      await openMenu();
 
       menu()!
         .querySelector<HTMLButtonElement>('button[aria-label="Close menu"]')!
         .click();
-      finishClosing();
+      await finishClosing();
 
       expect(menu()).toBeNull();
       expect(burger().getAttribute('aria-expanded')).toBe('false');
       expect(document.activeElement).toBe(burger());
-    }));
+    });
 
-    it('closes when a link is clicked, and still navigates', fakeAsync(() => {
-      openMenu();
+    it('closes when a link is clicked, and still navigates', async () => {
+      await openMenu();
 
       menuLink('/projects').click();
-      tick();
-      finishClosing();
+      await vi.advanceTimersByTimeAsync(0);
+      await finishClosing();
 
       expect(router.url).toBe('/projects');
       expect(menu()).toBeNull();
       expect(burger().getAttribute('aria-expanded')).toBe('false');
-    }));
+    });
 
-    it('can be reopened after closing', fakeAsync(() => {
-      openMenu();
+    it('can be reopened after closing', async () => {
+      await openMenu();
       pressEscape();
-      finishClosing();
+      await finishClosing();
 
-      openMenu();
+      await openMenu();
       expect(menu()).not.toBeNull();
       expect(burger().getAttribute('aria-expanded')).toBe('true');
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
   });
 
   describe('theme toggle', () => {
@@ -292,23 +292,23 @@ describe('NavbarComponent', () => {
       expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe('light');
     });
 
-    it('is also inside the mobile menu', fakeAsync(() => {
-      openMenu();
+    it('is also inside the mobile menu', async () => {
+      await openMenu();
 
       expect(menuToggle().getAttribute('aria-label')).toBe(
         'Switch to light theme'
       );
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
 
-    it('switches the theme from the menu without closing it', fakeAsync(() => {
-      openMenu();
+    it('switches the theme from the menu without closing it', async () => {
+      await openMenu();
 
       menuToggle().click();
-      settle();
+      await settle();
 
       expect(document.documentElement.getAttribute('data-theme')).toBe('light');
       expect(menuToggle().getAttribute('aria-label')).toBe(
@@ -318,8 +318,8 @@ describe('NavbarComponent', () => {
       expect(burger().getAttribute('aria-expanded')).toBe('true');
 
       pressEscape();
-      finishClosing();
-      flush();
-    }));
+      await finishClosing();
+      await vi.runAllTimersAsync();
+    });
   });
 });

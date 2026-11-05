@@ -45,8 +45,8 @@ describe('UiChipDirective', () => {
     });
 
     it('adds no type to non-button hosts', () => {
-      expect(el('link').hasAttribute('type')).toBeFalse();
-      expect(el('label').hasAttribute('type')).toBeFalse();
+      expect(el('link').hasAttribute('type')).toBe(false);
+      expect(el('label').hasAttribute('type')).toBe(false);
     });
   });
 
@@ -69,7 +69,7 @@ describe('UiChipDirective', () => {
     });
 
     it('does not announce a pressed state', () => {
-      expect(el('label').hasAttribute('aria-pressed')).toBeFalse();
+      expect(el('label').hasAttribute('aria-pressed')).toBe(false);
     });
   });
 
@@ -112,7 +112,7 @@ describe('UiChipDirective', () => {
       host.selected.set(undefined);
       fixture.detectChanges();
 
-      expect(el('toggle').hasAttribute('aria-pressed')).toBeFalse();
+      expect(el('toggle').hasAttribute('aria-pressed')).toBe(false);
     });
 
     it('treats the bare attribute as selected', () => {
@@ -123,13 +123,13 @@ describe('UiChipDirective', () => {
 
   describe('non-toggle hosts', () => {
     it('keeps a plain button interactive without aria-pressed', () => {
-      expect(el('plain-button').hasAttribute('aria-pressed')).toBeFalse();
+      expect(el('plain-button').hasAttribute('aria-pressed')).toBe(false);
       expect(el('plain-button').classList).toContain('hover:bg-fg/5');
       expect(el('plain-button').classList).toContain('focus-visible:ring-2');
     });
 
     it('keeps a link interactive without aria-pressed', () => {
-      expect(el('link').hasAttribute('aria-pressed')).toBeFalse();
+      expect(el('link').hasAttribute('aria-pressed')).toBe(false);
       expect(el('link').classList).toContain('hover:bg-fg/5');
       expect(el('link').getAttribute('href')).toBe('/tag/angular');
     });
@@ -137,7 +137,7 @@ describe('UiChipDirective', () => {
     it('applies the selected look to a non-button but never aria-pressed', () => {
       const chip = el('label-selected');
       expect(chip.classList).toContain('bg-accent-fill');
-      expect(chip.hasAttribute('aria-pressed')).toBeFalse();
+      expect(chip.hasAttribute('aria-pressed')).toBe(false);
       expect(chip.classList).not.toContain('cursor-pointer');
     });
   });

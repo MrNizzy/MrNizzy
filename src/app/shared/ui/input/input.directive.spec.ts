@@ -47,11 +47,11 @@ describe('UiInputDirective', () => {
   it('styles inputs and textareas the same way', () => {
     for (const id of ['input', 'textarea']) {
       const classes = el(id).classList;
-      expect(classes).withContext(id).toContain('w-full');
-      expect(classes).withContext(id).toContain('rounded-control');
-      expect(classes).withContext(id).toContain('border-line');
-      expect(classes).withContext(id).toContain('glass-field');
-      expect(classes).withContext(id).toContain('text-fg');
+      expect(classes, id).toContain('w-full');
+      expect(classes, id).toContain('rounded-control');
+      expect(classes, id).toContain('border-line');
+      expect(classes, id).toContain('glass-field');
+      expect(classes, id).toContain('text-fg');
     }
   });
 

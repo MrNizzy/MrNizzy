@@ -99,9 +99,10 @@ describe('UiCardDirective', () => {
         fixture.detectChanges();
 
         for (const cls of classes) {
-          expect(el('configurable').classList)
-            .withContext(`${padding} should have ${cls}`)
-            .toContain(cls);
+          expect(
+            el('configurable').classList,
+            `${padding} should have ${cls}`
+          ).toContain(cls);
         }
       }
     });
@@ -193,7 +194,7 @@ describe('UiCardDirective', () => {
 
   it('works on article, section, li and div hosts', () => {
     for (const id of ['default', 'configurable', 'list-item', 'div']) {
-      expect(el(id).classList).withContext(id).toContain('rounded-card');
+      expect(el(id).classList, id).toContain('rounded-card');
     }
   });
 

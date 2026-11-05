@@ -1,11 +1,6 @@
+import type { Mock } from 'vitest';
 import { Clipboard } from '@angular/cdk/clipboard';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  flush,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactComponent } from './contact.component';
 
 const EMAIL = 'mr.nizzy@proton.me';
@@ -34,9 +29,15 @@ const EXPECTED_CHANNELS = [
 ];
 
 describe('ContactComponent', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ advanceTimeDelta: 1, shouldAdvanceTime: true });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   let fixture: ComponentFixture<ContactComponent>;
   let compiled: HTMLElement;
-  let clipboard: jasmine.SpyObj<Clipboard>;
+  let clipboard: { copy: Mock<Clipboard['copy']> };
 
   const copyButton = () =>
     compiled.querySelector('button') as HTMLButtonElement;
@@ -44,8 +45,10 @@ describe('ContactComponent', () => {
     compiled.querySelector('[aria-live="polite"]') as HTMLElement;
 
   beforeEach(async () => {
-    clipboard = jasmine.createSpyObj<Clipboard>('Clipboard', ['copy']);
-    clipboard.copy.and.returnValue(true);
+    clipboard = {
+      copy: vi.fn<Clipboard['copy']>().mockName('Clipboard.copy'),
+    };
+    clipboard.copy.mockReturnValue(true);
 
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
@@ -136,7 +139,7 @@ describe('ContactComponent', () => {
       const glyph = link.querySelector('app-ui-icon svg[aria-hidden="true"]');
 
       // A channel draws either its SVG asset or a registry glyph, never both.
-      expect(image !== null || glyph !== null).toBeTrue();
+      expect(image !== null || glyph !== null).toBe(true);
       if (image) expect(image.getAttribute('alt')).toBe('');
     });
   });
@@ -183,27 +186,28 @@ describe('ContactComponent', () => {
       expect(liveRegion().textContent?.trim()).toBe('');
     });
 
-    it('should copy the email, show "Copied" and revert after 2 seconds', fakeAsync(() => {
+    it('should copy the email, show "Copied" and revert after 2 seconds', async () => {
       copyButton().click();
       fixture.detectChanges();
 
-      expect(clipboard.copy).toHaveBeenCalledOnceWith(EMAIL);
+      expect(clipboard.copy).toHaveBeenCalledTimes(1);
+      expect(clipboard.copy).toHaveBeenCalledWith(EMAIL);
       expect(copyButton().textContent).toContain('Copied');
       expect(liveRegion().textContent?.trim()).not.toBe('');
 
-      tick(1999);
+      await vi.advanceTimersByTimeAsync(1999);
       fixture.detectChanges();
       expect(copyButton().textContent).toContain('Copied');
 
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
       fixture.detectChanges();
       expect(copyButton().textContent).toContain('Copy email');
       expect(copyButton().textContent).not.toContain('Copied');
       expect(liveRegion().textContent?.trim()).toBe('');
-    }));
+    });
 
-    it('should show "Copy failed" when the clipboard rejects the copy', fakeAsync(() => {
-      clipboard.copy.and.returnValue(false);
+    it('should show "Copy failed" when the clipboard rejects the copy', async () => {
+      clipboard.copy.mockReturnValue(false);
 
       copyButton().click();
       fixture.detectChanges();
@@ -211,32 +215,50 @@ describe('ContactComponent', () => {
       expect(copyButton().textContent).toContain('Copy failed');
       expect(liveRegion().textContent).toContain('Copy failed');
 
-      tick(2000);
+      await vi.advanceTimersByTimeAsync(2000);
       fixture.detectChanges();
       expect(copyButton().textContent).toContain('Copy email');
-    }));
+    });
 
-    it('should restart the revert timer when clicked again', fakeAsync(() => {
+    it('should restart the revert timer when clicked again', async () => {
       copyButton().click();
-      tick(1500);
+      await vi.advanceTimersByTimeAsync(1500);
       copyButton().click();
       fixture.detectChanges();
 
-      tick(1500);
+      await vi.advanceTimersByTimeAsync(1500);
       fixture.detectChanges();
       expect(copyButton().textContent).toContain('Copied');
 
-      tick(500);
+      await vi.advanceTimersByTimeAsync(500);
       fixture.detectChanges();
       expect(copyButton().textContent).toContain('Copy email');
-    }));
+    });
 
-    it('should clear the revert timer when destroyed', fakeAsync(() => {
-      copyButton().click();
-      fixture.destroy();
+    it('should clear the revert timer when destroyed', async () => {
+      // Without zone.js, Angular's own scheduler also uses timers, so watch the
+      // revert timer (the only 2 second one) instead of counting all of them.
+      const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout');
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
 
-      // flush() returns the virtual time it had to advance: 0 means no pending timers.
-      expect(flush()).toBe(0);
-    }));
+      try {
+        copyButton().click();
+        const revertCallIndex = setTimeoutSpy.mock.calls.findIndex(
+          ([, delay]) => delay === 2000
+        );
+        expect(revertCallIndex).toBeGreaterThanOrEqual(0);
+        const revertTimer = setTimeoutSpy.mock.results[revertCallIndex].value;
+
+        fixture.destroy();
+
+        expect(clearTimeoutSpy).toHaveBeenCalledWith(revertTimer);
+      } finally {
+        // Restore while the fake timers are still installed: the global
+        // afterEach would otherwise put the fake functions back after
+        // useRealTimers() and leak them into the next spec file.
+        setTimeoutSpy.mockRestore();
+        clearTimeoutSpy.mockRestore();
+      }
+    });
   });
 });

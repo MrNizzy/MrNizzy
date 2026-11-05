@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   LIGHT_THEME_ENABLED,
@@ -8,8 +9,8 @@ import {
 
 interface FakeMediaQuery {
   matches: boolean;
-  addEventListener: jasmine.Spy;
-  removeEventListener: jasmine.Spy;
+  addEventListener: Mock;
+  removeEventListener: Mock;
 }
 
 describe('ThemeService', () => {
@@ -37,16 +38,17 @@ describe('ThemeService', () => {
     localStorage.removeItem(THEME_STORAGE_KEY);
     root().removeAttribute('data-theme');
 
-    spyOn(window, 'matchMedia').and.callFake(() => {
+    vi.spyOn(window, 'matchMedia').mockImplementation(() => {
       const query: FakeMediaQuery = {
         matches: systemDark,
-        addEventListener: jasmine
-          .createSpy('addEventListener')
-          .and.callFake(
+        addEventListener: vi
+          .fn()
+          .mockName('addEventListener')
+          .mockImplementation(
             (_type: string, listener: (event: MediaQueryListEvent) => void) =>
               mediaListeners.push(listener)
           ),
-        removeEventListener: jasmine.createSpy('removeEventListener'),
+        removeEventListener: vi.fn().mockName('removeEventListener'),
       };
       return query as unknown as MediaQueryList;
     });
@@ -58,8 +60,8 @@ describe('ThemeService', () => {
   });
 
   it('ships with the light theme enabled', () => {
-    expect(LIGHT_THEME_ENABLED).toBeTrue();
-    expect(TestBed.inject(LIGHT_THEME_ENABLED_TOKEN)).toBeTrue();
+    expect(LIGHT_THEME_ENABLED).toBe(true);
+    expect(TestBed.inject(LIGHT_THEME_ENABLED_TOKEN)).toBe(true);
   });
 
   describe('with the shipped configuration', () => {
@@ -67,7 +69,7 @@ describe('ThemeService', () => {
       systemDark = false;
       const service = TestBed.inject(ThemeService);
 
-      expect(service.lightThemeEnabled).toBeTrue();
+      expect(service.lightThemeEnabled).toBe(true);
       expect(service.preference()).toBe('system');
       expect(service.resolved()).toBe('light');
       expect(root().getAttribute('data-theme')).toBe('light');
@@ -103,7 +105,7 @@ describe('ThemeService', () => {
       systemDark = false;
       const service = createService(false);
 
-      expect(service.lightThemeEnabled).toBeFalse();
+      expect(service.lightThemeEnabled).toBe(false);
       expect(service.resolved()).toBe('dark');
       expect(root().getAttribute('data-theme')).toBe('dark');
     });
@@ -196,8 +198,12 @@ describe('ThemeService', () => {
     });
 
     it('keeps working when localStorage throws', () => {
-      spyOn(Storage.prototype, 'getItem').and.throwError('blocked');
-      spyOn(Storage.prototype, 'setItem').and.throwError('blocked');
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
+      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
       const service = createService(true);
 
       expect(service.preference()).toBe('system');

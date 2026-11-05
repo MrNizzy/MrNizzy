@@ -114,7 +114,7 @@ describe('UiSelectComponent', () => {
       expect(trigger().getAttribute('type')).toBe('button');
       expect(trigger().getAttribute('aria-haspopup')).toBe('listbox');
       expect(trigger().getAttribute('aria-expanded')).toBe('false');
-      expect(trigger().hasAttribute('aria-controls')).toBeFalse();
+      expect(trigger().hasAttribute('aria-controls')).toBe(false);
     });
 
     it('is named by the visible label and the current value', () => {
@@ -137,8 +137,13 @@ describe('UiSelectComponent', () => {
     it('looks like the text field: field tokens, not the old hard-coded colours', () => {
       const classes = trigger().classList;
 
-      for (const token of ['rounded-control', 'border-line', 'glass-field', 'text-fg']) {
-        expect(classes).withContext(token).toContain(token);
+      for (const token of [
+        'rounded-control',
+        'border-line',
+        'glass-field',
+        'text-fg',
+      ]) {
+        expect(classes, token).toContain(token);
       }
       expect(classes).not.toContain('bg-black/30');
     });
@@ -237,7 +242,7 @@ describe('UiSelectComponent', () => {
 
     it('opens below the trigger when there is room', async () => {
       // Guarantee the room instead of relying on where the page happens to put
-      // the fixture: the Jasmine reporter above it grows with every spec that
+      // the fixture: the content above it can grow with every spec that
       // has run, and in a short headless window that pushes the trigger far
       // enough down for the panel to flip above it.
       Object.assign((fixture.nativeElement as HTMLElement).style, {
@@ -260,7 +265,9 @@ describe('UiSelectComponent', () => {
 
       await openWithKeyboard();
 
-      expect(options().every((el) => el.getAttribute('aria-selected') === 'false')).toBeTrue();
+      expect(
+        options().every((el) => el.getAttribute('aria-selected') === 'false')
+      ).toBe(true);
       expect(active()).toBe(option('angular'));
     });
   });
@@ -454,7 +461,7 @@ describe('UiSelectComponent', () => {
     it('keeps the document theme for a normal select', async () => {
       await openWithKeyboard();
 
-      expect(listbox()!.parentElement!.hasAttribute('data-theme')).toBeFalse();
+      expect(listbox()!.parentElement!.hasAttribute('data-theme')).toBe(false);
     });
 
     it('takes the theme of the wrapper the select lives in', async () => {

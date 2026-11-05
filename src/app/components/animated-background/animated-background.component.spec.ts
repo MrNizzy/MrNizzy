@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   PERFORMANCE_ATTRIBUTE,
@@ -57,6 +58,7 @@ interface BackgroundInternals {
     };
   } | null;
   animationFrameId: number | null;
+  animate: FrameRequestCallback;
   qualityLevel: number;
   update(timestamp: number): void;
   renderFrame(): void;
@@ -83,12 +85,12 @@ interface ContextFactory {
 function createFakeRenderer() {
   return {
     domElement: document.createElement('canvas'),
-    setClearColor: jasmine.createSpy('setClearColor'),
-    setPixelRatio: jasmine.createSpy('setPixelRatio'),
-    setSize: jasmine.createSpy('setSize'),
-    render: jasmine.createSpy('render'),
-    dispose: jasmine.createSpy('dispose'),
-    forceContextLoss: jasmine.createSpy('forceContextLoss'),
+    setClearColor: vi.fn().mockName('setClearColor'),
+    setPixelRatio: vi.fn().mockName('setPixelRatio'),
+    setSize: vi.fn().mockName('setSize'),
+    render: vi.fn().mockName('render'),
+    dispose: vi.fn().mockName('dispose'),
+    forceContextLoss: vi.fn().mockName('forceContextLoss'),
   };
 }
 
@@ -110,18 +112,25 @@ describe('AnimatedBackgroundComponent', () => {
   let component: AnimatedBackgroundComponent;
   let fixture: ComponentFixture<AnimatedBackgroundComponent>;
   let renderer: ReturnType<typeof createFakeRenderer>;
-  let createRenderer: jasmine.Spy;
-  let requestFrame: jasmine.Spy;
-  let cancelFrame: jasmine.Spy;
+  let createRenderer: Mock;
+  let requestFrame: Mock;
+  let cancelFrame: Mock;
   let systemDark: boolean;
   let coarsePointer: boolean;
   let motion: {
     matches: boolean;
-    addEventListener: jasmine.Spy;
-    removeEventListener: jasmine.Spy;
+    addEventListener: Mock;
+    removeEventListener: Mock;
   };
 
   const internals = () => component as unknown as BackgroundInternals;
+  // Frames requested by the component's own loop. Without zone.js, Angular's
+  // zoneless scheduler also calls requestAnimationFrame, so the spy alone
+  // cannot tell the two apart.
+  const loopFrames = () =>
+    requestFrame.mock.calls.filter(
+      ([callback]) => callback === internals().animate
+    );
   const tide = () => {
     const current = internals().tide;
     if (!current) throw new Error('the tide scene was not created');
@@ -182,11 +191,11 @@ describe('AnimatedBackgroundComponent', () => {
 
     motion = {
       matches: false,
-      addEventListener: jasmine.createSpy('motion add'),
-      removeEventListener: jasmine.createSpy('motion remove'),
+      addEventListener: vi.fn().mockName('motion add'),
+      removeEventListener: vi.fn().mockName('motion remove'),
     };
     const realMatchMedia = window.matchMedia.bind(window);
-    spyOn(window, 'matchMedia').and.callFake((query: string) => {
+    vi.spyOn(window, 'matchMedia').mockImplementation((query: string) => {
       if (query.includes('prefers-color-scheme')) {
         return {
           matches: systemDark,
@@ -207,13 +216,19 @@ describe('AnimatedBackgroundComponent', () => {
 
     // No GPU needed: hand the component a stand-in renderer.
     renderer = createFakeRenderer();
-    createRenderer = spyOn(
-      AnimatedBackgroundComponent.prototype as unknown as RendererFactory,
-      'createRenderer'
-    ).and.callFake(() => renderer as unknown as THREE.WebGLRenderer);
+    createRenderer = vi
+      .spyOn(
+        AnimatedBackgroundComponent.prototype as unknown as RendererFactory,
+        'createRenderer'
+      )
+      .mockImplementation(() => renderer as unknown as THREE.WebGLRenderer);
 
-    requestFrame = spyOn(window, 'requestAnimationFrame').and.returnValue(42);
-    cancelFrame = spyOn(window, 'cancelAnimationFrame');
+    requestFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(42);
+    cancelFrame = vi
+      .spyOn(window, 'cancelAnimationFrame')
+      .mockReturnValue(undefined);
 
     await TestBed.configureTestingModule({
       imports: [AnimatedBackgroundComponent],
@@ -239,7 +254,7 @@ describe('AnimatedBackgroundComponent', () => {
     create();
 
     expect(component).toBeTruthy();
-    expect(renderer.domElement.isConnected).toBeTrue();
+    expect(renderer.domElement.isConnected).toBe(true);
   });
 
   describe('canvas surface', () => {
@@ -271,15 +286,19 @@ describe('AnimatedBackgroundComponent', () => {
     });
 
     it('survives a machine without WebGL', () => {
-      createRenderer.and.throwError('Error creating WebGL context.');
+      createRenderer.mockImplementation(() => {
+        throw new Error('Error creating WebGL context.');
+      });
 
       expect(() => create()).not.toThrow();
-      expect(requestFrame).not.toHaveBeenCalled();
+      expect(loopFrames()).toHaveLength(0);
       expect(() => fixture.destroy()).not.toThrow();
     });
 
     it('switches to low-performance mode when WebGL is missing or software only', () => {
-      createRenderer.and.throwError('Error creating WebGL context.');
+      createRenderer.mockImplementation(() => {
+        throw new Error('Error creating WebGL context.');
+      });
 
       create();
 
@@ -293,65 +312,54 @@ describe('AnimatedBackgroundComponent', () => {
     it('stays in normal mode when the renderer starts', () => {
       create();
 
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
     });
 
     it('adds its listeners on init and removes the same ones on destroy', () => {
-      const windowAdd = spyOn(window, 'addEventListener').and.callThrough();
-      const windowRemove = spyOn(
-        window,
-        'removeEventListener'
-      ).and.callThrough();
-      const documentAdd = spyOn(document, 'addEventListener').and.callThrough();
-      const documentRemove = spyOn(
-        document,
-        'removeEventListener'
-      ).and.callThrough();
-      const rootAdd = spyOn(
-        document.documentElement,
-        'addEventListener'
-      ).and.callThrough();
-      const rootRemove = spyOn(
+      const windowAdd = vi.spyOn(window, 'addEventListener');
+      const windowRemove = vi.spyOn(window, 'removeEventListener');
+      const documentAdd = vi.spyOn(document, 'addEventListener');
+      const documentRemove = vi.spyOn(document, 'removeEventListener');
+      const rootAdd = vi.spyOn(document.documentElement, 'addEventListener');
+      const rootRemove = vi.spyOn(
         document.documentElement,
         'removeEventListener'
-      ).and.callThrough();
+      );
 
       create();
       const self = internals();
-      const expected: [jasmine.Spy, jasmine.Spy, string, unknown][] = [
+      const expected: [Mock, Mock, string, unknown][] = [
         [windowAdd, windowRemove, 'resize', self.onResize],
         [windowAdd, windowRemove, 'scroll', self.onScroll],
         [windowAdd, windowRemove, 'pointermove', self.onPointerMove],
         [windowAdd, windowRemove, 'pointerdown', self.onPointerDown],
         [rootAdd, rootRemove, 'pointerleave', self.onPointerLeave],
       ];
-      const wasAdded = (add: jasmine.Spy, type: string, handler: unknown) =>
-        add.calls.allArgs().some(([t, h]) => t === type && h === handler);
+      const wasAdded = (add: Mock, type: string, handler: unknown) =>
+        vi.mocked(add).mock.calls.some(([t, h]) => t === type && h === handler);
       for (const [add, , type, handler] of expected) {
-        expect(wasAdded(add, type, handler))
-          .withContext(`${type} added`)
-          .toBeTrue();
+        expect(wasAdded(add, type, handler), `${type} added`).toBe(true);
       }
-      const visibilityHandler = documentAdd.calls
-        .allArgs()
-        .find(([type]) => type === 'visibilitychange')?.[1] as EventListener;
-      expect(visibilityHandler)
-        .withContext('visibilitychange added')
-        .toEqual(jasmine.any(Function));
+      const visibilityHandler = vi
+        .mocked(documentAdd)
+        .mock.calls.find(
+          ([type]) => type === 'visibilitychange'
+        )?.[1] as EventListener;
+      expect(visibilityHandler, 'visibilitychange added').toEqual(
+        expect.any(Function)
+      );
       expect(motion.addEventListener).toHaveBeenCalledWith(
         'change',
-        jasmine.any(Function)
+        expect.any(Function)
       );
 
       fixture.destroy();
 
       for (const [, remove, type, handler] of expected) {
-        expect(remove)
-          .withContext(`${type} removed`)
-          .toHaveBeenCalledWith(type, handler);
+        expect(remove, `${type} removed`).toHaveBeenCalledWith(type, handler);
       }
       expect(documentRemove).toHaveBeenCalledWith(
         'visibilitychange',
@@ -359,15 +367,15 @@ describe('AnimatedBackgroundComponent', () => {
       );
       expect(motion.removeEventListener).toHaveBeenCalledWith(
         'change',
-        motion.addEventListener.calls.mostRecent().args[1]
+        vi.mocked(motion.addEventListener).mock.lastCall![1]
       );
     });
 
     it('cancels the loop and releases the GPU objects on destroy', () => {
       create();
       const { geometry, material } = tide();
-      const disposeGeometry = spyOn(geometry, 'dispose').and.callThrough();
-      const disposeMaterial = spyOn(material, 'dispose').and.callThrough();
+      const disposeGeometry = vi.spyOn(geometry, 'dispose');
+      const disposeMaterial = vi.spyOn(material, 'dispose');
       expect(internals().animationFrameId).toBe(42);
 
       fixture.destroy();
@@ -377,13 +385,13 @@ describe('AnimatedBackgroundComponent', () => {
       expect(disposeMaterial).toHaveBeenCalled();
       expect(renderer.dispose).toHaveBeenCalled();
       expect(renderer.forceContextLoss).toHaveBeenCalled();
-      expect(renderer.domElement.isConnected).toBeFalse();
+      expect(renderer.domElement.isConnected).toBe(false);
     });
 
     it('stops reacting to events after destroy', () => {
       create();
       fixture.destroy();
-      renderer.render.calls.reset();
+      renderer.render.mockClear();
 
       window.dispatchEvent(new Event('resize'));
       pointer('pointermove', { clientX: 10, clientY: 10 });
@@ -404,14 +412,20 @@ describe('AnimatedBackgroundComponent', () => {
 
       const cols = uniforms().uCols.value;
 
-      expect(geometry.isInstancedBufferGeometry).toBeTrue();
+      expect(geometry.isInstancedBufferGeometry).toBe(true);
       // A whole number of rows, and more than one of them.
       expect(geometry.instanceCount % cols).toBe(0);
       expect(geometry.instanceCount).toBeGreaterThan(cols);
       // A single quad, with no per-instance attributes to keep up to date.
       expect(geometry.attributes['position'].count).toBe(4);
       expect(Object.keys(geometry.attributes)).toEqual(['position']);
-      expect((mesh as { isInstancedMesh?: boolean }).isInstancedMesh).toBeFalsy();
+      expect(
+        (
+          mesh as {
+            isInstancedMesh?: boolean;
+          }
+        ).isInstancedMesh
+      ).toBeFalsy();
     });
   });
 
@@ -423,14 +437,14 @@ describe('AnimatedBackgroundComponent', () => {
       renderer.domElement.dispatchEvent(lost);
 
       // preventDefault is what lets the browser restore the context.
-      expect(lost.defaultPrevented).toBeTrue();
+      expect(lost.defaultPrevented).toBe(true);
       expect(cancelFrame).toHaveBeenCalledWith(42);
       expect(internals().animationFrameId).toBeNull();
 
-      requestFrame.calls.reset();
+      requestFrame.mockClear();
       renderer.domElement.dispatchEvent(new Event('webglcontextrestored'));
 
-      expect(requestFrame).toHaveBeenCalledTimes(1);
+      expect(loopFrames()).toHaveLength(1);
       expect(internals().animationFrameId).toBe(42);
     });
   });
@@ -511,7 +525,7 @@ describe('AnimatedBackgroundComponent', () => {
     it('animates on a loop by default', () => {
       create();
 
-      expect(requestFrame).toHaveBeenCalled();
+      expect(loopFrames().length).toBeGreaterThan(0);
       expect(internals().animationFrameId).toBe(42);
     });
 
@@ -520,7 +534,7 @@ describe('AnimatedBackgroundComponent', () => {
 
       create();
 
-      expect(requestFrame).not.toHaveBeenCalled();
+      expect(loopFrames()).toHaveLength(0);
       expect(internals().animationFrameId).toBeNull();
       expect(renderer.render).toHaveBeenCalled();
       expect(uniforms().uTime.value).toBe(STILL_TIME);
@@ -530,7 +544,7 @@ describe('AnimatedBackgroundComponent', () => {
     it('repaints the still frame when the theme changes', () => {
       motion.matches = true;
       create();
-      renderer.render.calls.reset();
+      renderer.render.mockClear();
 
       TestBed.inject(ThemeService).setPreference('light');
       fixture.detectChanges();
@@ -542,27 +556,28 @@ describe('AnimatedBackgroundComponent', () => {
     it('repaints the still frame when the window is resized', () => {
       motion.matches = true;
       create();
-      renderer.render.calls.reset();
+      renderer.render.mockClear();
 
       window.dispatchEvent(new Event('resize'));
 
       expect(renderer.render).toHaveBeenCalledTimes(1);
-      expect(requestFrame).not.toHaveBeenCalled();
+      expect(loopFrames()).toHaveLength(0);
     });
 
     it('starts and stops the loop when the preference flips', () => {
       create();
-      const onChange = motion.addEventListener.calls.mostRecent().args[1] as () => void;
+      const onChange = vi.mocked(motion.addEventListener).mock
+        .lastCall![1] as () => void;
 
       motion.matches = true;
       onChange();
       expect(cancelFrame).toHaveBeenCalledWith(42);
       expect(internals().animationFrameId).toBeNull();
 
-      requestFrame.calls.reset();
+      requestFrame.mockClear();
       motion.matches = false;
       onChange();
-      expect(requestFrame).toHaveBeenCalledTimes(1);
+      expect(loopFrames()).toHaveLength(1);
       expect(internals().animationFrameId).toBe(42);
     });
   });
@@ -577,7 +592,7 @@ describe('AnimatedBackgroundComponent', () => {
 
     beforeEach(() => {
       hidden = false;
-      spyOnProperty(document, 'hidden', 'get').and.callFake(() => hidden);
+      vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
     });
 
     it('pauses the loop while the document is hidden and resumes after', () => {
@@ -588,9 +603,9 @@ describe('AnimatedBackgroundComponent', () => {
       expect(cancelFrame).toHaveBeenCalledWith(42);
       expect(internals().animationFrameId).toBeNull();
 
-      requestFrame.calls.reset();
+      requestFrame.mockClear();
       setHidden(false);
-      expect(requestFrame).toHaveBeenCalledTimes(1);
+      expect(loopFrames()).toHaveLength(1);
       expect(internals().animationFrameId).toBe(42);
     });
 
@@ -599,7 +614,7 @@ describe('AnimatedBackgroundComponent', () => {
 
       create();
 
-      expect(requestFrame).not.toHaveBeenCalled();
+      expect(loopFrames()).toHaveLength(0);
       expect(internals().animationFrameId).toBeNull();
     });
 
@@ -612,7 +627,7 @@ describe('AnimatedBackgroundComponent', () => {
       setHidden(false);
       // The first frame after resuming is a clean 1/60 s step, whatever the
       // (huge) gap in timestamps.
-      now += 60_000;
+      now += 60000;
       internals().update(now);
 
       expect(uniforms().uTime.value - before).toBeLessThan(0.1);
@@ -630,7 +645,7 @@ describe('AnimatedBackgroundComponent', () => {
       advance(WARMUP_FRAMES + SAMPLE_FRAMES * 2);
 
       expect(internals().qualityLevel).toBe(0);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
     });
   });
 
@@ -715,12 +730,10 @@ describe('AnimatedBackgroundComponent', () => {
 
   describe('scroll parallax', () => {
     const scrollTo = (y: number, range = 1000) => {
-      spyOnProperty(window, 'scrollY', 'get').and.returnValue(y);
-      spyOnProperty(
-        document.documentElement,
-        'scrollHeight',
-        'get'
-      ).and.returnValue(window.innerHeight + range);
+      vi.spyOn(window, 'scrollY', 'get').mockReturnValue(y);
+      vi.spyOn(document.documentElement, 'scrollHeight', 'get').mockReturnValue(
+        window.innerHeight + range
+      );
       window.dispatchEvent(new Event('scroll'));
     };
 
@@ -765,7 +778,7 @@ describe('AnimatedBackgroundComponent', () => {
 
     it('matches the columns to the container aspect ratio', () => {
       create();
-      const [width, height] = renderer.setSize.calls.mostRecent().args;
+      const [width, height] = vi.mocked(renderer.setSize).mock.lastCall!;
 
       expect(uniforms().uCols.value).toBe(tideColumns(width / height));
     });
@@ -776,9 +789,9 @@ describe('AnimatedBackgroundComponent', () => {
       const cols = uniforms().uCols.value;
 
       expect(tide().geometry.instanceCount).toBe(cols * TIDE_ROWS_COMPACT);
-      expect(renderer.setPixelRatio.calls.mostRecent().args[0]).toBeLessThanOrEqual(
-        1.5
-      );
+      expect(
+        vi.mocked(renderer.setPixelRatio).mock.lastCall![0]
+      ).toBeLessThanOrEqual(1.5);
     });
 
     it('never draws fewer rows than the compact tier', () => {
@@ -804,36 +817,38 @@ describe('AnimatedBackgroundComponent', () => {
 
   describe('renderer options', () => {
     it('refuses a software renderer, so a weak machine keeps a plain page', () => {
-      expect(tideRendererOptions(false).failIfMajorPerformanceCaveat).toBeTrue();
-      expect(tideRendererOptions(true).failIfMajorPerformanceCaveat).toBeTrue();
+      expect(tideRendererOptions(false).failIfMajorPerformanceCaveat).toBe(
+        true
+      );
+      expect(tideRendererOptions(true).failIfMajorPerformanceCaveat).toBe(true);
     });
 
     it('keeps the transparent canvas and the low-power preference', () => {
       expect(tideRendererOptions(false)).toEqual(
-        jasmine.objectContaining({ alpha: true, powerPreference: 'low-power' })
+        expect.objectContaining({ alpha: true, powerPreference: 'low-power' })
       );
     });
 
     it('skips antialiasing on the compact tier only', () => {
-      expect(tideRendererOptions(false).antialias).toBeTrue();
-      expect(tideRendererOptions(true).antialias).toBeFalse();
+      expect(tideRendererOptions(false).antialias).toBe(true);
+      expect(tideRendererOptions(true).antialias).toBe(false);
     });
 
     it('asks the browser to refuse a software-only WebGL context', () => {
       // The real factory, with a browser that has no usable context.
-      createRenderer.and.callThrough();
-      const getContext = spyOn(
-        HTMLCanvasElement.prototype,
-        'getContext'
-      ).and.returnValue(null);
+      createRenderer.mockRestore();
+      const getContext = vi
+        .spyOn(HTMLCanvasElement.prototype, 'getContext')
+        .mockReturnValue(null);
 
       expect(() => create()).not.toThrow();
 
       // Asked once, with the refusal on. A second call without attributes is
       // what three.js makes after a failure, and what builds a software context.
-      expect(getContext).toHaveBeenCalledOnceWith(
+      expect(getContext).toHaveBeenCalledTimes(1);
+      expect(getContext).toHaveBeenCalledWith(
         'webgl2',
-        jasmine.objectContaining({ failIfMajorPerformanceCaveat: true })
+        expect.objectContaining({ failIfMajorPerformanceCaveat: true })
       );
       // The page stays plain, and the surfaces go solid.
       expect(internals().tide).toBeNull();
@@ -856,7 +871,7 @@ describe('AnimatedBackgroundComponent', () => {
           failIfMajorPerformanceCaveat: true,
         });
         expect(tideContextAttributes(tideRendererOptions(true))).toEqual(
-          jasmine.objectContaining({ alpha: true, antialias: false })
+          expect.objectContaining({ alpha: true, antialias: false })
         );
       });
 
@@ -891,17 +906,17 @@ describe('AnimatedBackgroundComponent', () => {
 
       expect(internals().qualityLevel).toBe(0);
       // A healthy device keeps its glass surfaces.
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
     });
 
     it('switches the page to low-performance mode once a sample of very slow frames closes', () => {
       create();
       const tier = TestBed.inject(PerformanceTierService);
       advance(WARMUP_FRAMES + SAMPLE_FRAMES - 1, 60);
-      expect(tier.isLow()).toBeFalse();
+      expect(tier.isLow()).toBe(false);
 
       advance(2, 60);
 
@@ -933,10 +948,10 @@ describe('AnimatedBackgroundComponent', () => {
       advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 36);
 
       expect(internals().qualityLevel).toBe(1);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
       expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
     });
 
@@ -946,10 +961,10 @@ describe('AnimatedBackgroundComponent', () => {
       advance(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000 / 30);
 
       expect(internals().qualityLevel).toBe(0);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
     });
 
     it('still counts slow frames that are not stalls: 200 ms frames step down and go low', () => {
@@ -971,10 +986,10 @@ describe('AnimatedBackgroundComponent', () => {
       advance(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000);
 
       expect(internals().qualityLevel).toBe(0);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
       expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
     });
 
@@ -986,10 +1001,10 @@ describe('AnimatedBackgroundComponent', () => {
       advanceWithHitches(WARMUP_FRAMES + SAMPLE_FRAMES * 3, 1000 / 60, 4, 1000);
 
       expect(internals().qualityLevel).toBe(0);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
     });
 
     it('does not count a stall toward the warm-up or the sample, and does not restart them', () => {
@@ -1017,10 +1032,10 @@ describe('AnimatedBackgroundComponent', () => {
       advanceWithHitches(WARMUP_FRAMES + SAMPLE_FRAMES * 4, 1000 / 30, 20, 200);
 
       expect(internals().qualityLevel).toBe(0);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeFalse();
-      expect(
-        document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)
-      ).toBeFalse();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(false);
+      expect(document.documentElement.hasAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
+        false
+      );
       expect(sessionStorage.getItem(PERFORMANCE_STORAGE_KEY)).toBeNull();
     });
 
@@ -1045,7 +1060,7 @@ describe('AnimatedBackgroundComponent', () => {
       // About 27 fps for two samples: both quality steps, but the glass stays.
       advance(WARMUP_FRAMES + SAMPLE_FRAMES * 2, 37);
       expect(internals().qualityLevel).toBe(2);
-      expect(tier.isLow()).toBeFalse();
+      expect(tier.isLow()).toBe(false);
 
       // Then the device gets worse: the next sample still counts.
       advance(SAMPLE_FRAMES, 60);
@@ -1060,11 +1075,11 @@ describe('AnimatedBackgroundComponent', () => {
     it('stays in low mode when frames recover: no flapping', () => {
       create();
       advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 60);
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeTrue();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(true);
 
       advance(SAMPLE_FRAMES * 3);
 
-      expect(TestBed.inject(PerformanceTierService).isLow()).toBeTrue();
+      expect(TestBed.inject(PerformanceTierService).isLow()).toBe(true);
       expect(document.documentElement.getAttribute(PERFORMANCE_ATTRIBUTE)).toBe(
         'low'
       );
@@ -1076,7 +1091,7 @@ describe('AnimatedBackgroundComponent', () => {
 
       advance(WARMUP_FRAMES + SAMPLE_FRAMES + 1, 60);
       expect(internals().qualityLevel).toBe(1);
-      expect(renderer.setPixelRatio.calls.mostRecent().args[0]).toBe(1);
+      expect(vi.mocked(renderer.setPixelRatio).mock.lastCall![0]).toBe(1);
       expect(tide().geometry.instanceCount).toBe(full);
 
       advance(SAMPLE_FRAMES + 1, 60);
@@ -1090,14 +1105,12 @@ describe('AnimatedBackgroundComponent', () => {
   });
 
   describe('with a real WebGL context', () => {
-    beforeEach(() => {
-      if (!isWebGlAvailable()) {
-        pending('WebGL is not available in this browser');
-        return;
-      }
+    beforeEach(({ skip }) => {
+      // Same condition the Jasmine suite used to mark these specs as pending.
+      skip(!isWebGlAvailable(), 'WebGL is not available in this environment');
       // Same options as the app, minus the software-renderer refusal: the
       // specs run on whatever GL the test browser has, SwiftShader included.
-      createRenderer.and.callFake(
+      createRenderer.mockImplementation(
         (compact: boolean) =>
           new THREE.WebGLRenderer({
             ...tideRendererOptions(compact),
@@ -1109,29 +1122,33 @@ describe('AnimatedBackgroundComponent', () => {
     it('builds the renderer on the context it requested, without asking again', () => {
       // The real factory. The specs run on SwiftShader, which the refusal would
       // turn away, so lift it on the way through and keep the context.
-      createRenderer.and.callThrough();
+      createRenderer.mockRestore();
       const original = HTMLCanvasElement.prototype.getContext;
       let requested: RenderingContext | null = null;
-      const getContext = spyOn(
-        HTMLCanvasElement.prototype as unknown as ContextFactory,
-        'getContext'
-      ).and.callFake(function (
-        this: HTMLCanvasElement,
-        contextId: string,
-        attributes?: WebGLContextAttributes
-      ) {
-        requested = original.call(this, contextId, {
-          ...attributes,
-          failIfMajorPerformanceCaveat: false,
+      const getContext = vi
+        .spyOn(
+          HTMLCanvasElement.prototype as unknown as ContextFactory,
+          'getContext'
+        )
+        .mockImplementation(function (
+          this: HTMLCanvasElement,
+          contextId: string,
+          attributes?: WebGLContextAttributes
+        ) {
+          requested = original.call(this, contextId, {
+            ...attributes,
+            failIfMajorPerformanceCaveat: false,
+          });
+          return requested;
         });
-        return requested;
-      });
 
       create();
 
-      expect(getContext).toHaveBeenCalledOnceWith(
+      expect(getContext).toHaveBeenCalledTimes(1);
+
+      expect(getContext).toHaveBeenCalledWith(
         'webgl2',
-        jasmine.objectContaining({
+        expect.objectContaining({
           alpha: true,
           powerPreference: 'low-power',
           failIfMajorPerformanceCaveat: true,
@@ -1144,11 +1161,11 @@ describe('AnimatedBackgroundComponent', () => {
       expect(tide().renderer.domElement).toBe(
         (requested as unknown as WebGL2RenderingContext).canvas as HTMLCanvasElement
       );
-      expect(tide().renderer.domElement.isConnected).toBeTrue();
+      expect(tide().renderer.domElement.isConnected).toBe(true);
     });
 
     it('compiles the shaders and paints pixels onto a transparent canvas', () => {
-      const errors = spyOn(console, 'error');
+      const errors = vi.spyOn(console, 'error').mockReturnValue(undefined);
       create();
       const real = tide().renderer;
 
@@ -1173,8 +1190,8 @@ describe('AnimatedBackgroundComponent', () => {
         else clear++;
       }
 
-      expect(painted).withContext('painted pixels').toBeGreaterThan(0);
-      expect(clear).withContext('transparent pixels').toBeGreaterThan(0);
+      expect(painted, 'painted pixels').toBeGreaterThan(0);
+      expect(clear, 'transparent pixels').toBeGreaterThan(0);
       expect(gl.getError()).toBe(gl.NO_ERROR);
     });
   });

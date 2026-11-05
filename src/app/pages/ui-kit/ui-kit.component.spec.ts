@@ -34,7 +34,7 @@ describe('UiKitComponent', () => {
     const text = root.textContent ?? '';
 
     for (const name of ICON_NAMES) {
-      expect(text).withContext(name).toContain(name);
+      expect(text, name).toContain(name);
     }
   });
 

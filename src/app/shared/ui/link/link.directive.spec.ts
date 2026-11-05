@@ -45,8 +45,8 @@ describe('UiLinkDirective', () => {
   });
 
   it('keeps navigation in the same tab by default', () => {
-    expect(el('internal').hasAttribute('target')).toBeFalse();
-    expect(el('internal').hasAttribute('rel')).toBeFalse();
+    expect(el('internal').hasAttribute('target')).toBe(false);
+    expect(el('internal').hasAttribute('rel')).toBe(false);
     expect(el('internal').getAttribute('href')).toBe('/about');
   });
 
@@ -56,7 +56,7 @@ describe('UiLinkDirective', () => {
   });
 
   it('follows a bound external value', () => {
-    expect(el('bound').hasAttribute('target')).toBeFalse();
+    expect(el('bound').hasAttribute('target')).toBe(false);
 
     host.external.set(true);
     fixture.detectChanges();
@@ -65,7 +65,7 @@ describe('UiLinkDirective', () => {
 
     host.external.set(false);
     fixture.detectChanges();
-    expect(el('bound').hasAttribute('target')).toBeFalse();
-    expect(el('bound').hasAttribute('rel')).toBeFalse();
+    expect(el('bound').hasAttribute('target')).toBe(false);
+    expect(el('bound').hasAttribute('rel')).toBe(false);
   });
 });

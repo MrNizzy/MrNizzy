@@ -11,7 +11,7 @@ class HostComponent {}
 
 describe('ScrollFadeInDirective', () => {
   function render(prefersReducedMotion: boolean): HTMLElement {
-    spyOn(window, 'matchMedia').and.callFake(
+    vi.spyOn(window, 'matchMedia').mockImplementation(
       (query: string) =>
         ({
           matches:

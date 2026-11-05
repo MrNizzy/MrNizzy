@@ -8,7 +8,9 @@ import { UiDialog } from './dialog.service';
   template: `<p id="data">{{ data.name }}</p>`,
 })
 class DataDialogComponent {
-  protected readonly data = inject<{ name: string }>(DIALOG_DATA);
+  protected readonly data = inject<{
+    name: string;
+  }>(DIALOG_DATA);
   readonly ref = inject(DialogRef);
 }
 
@@ -26,10 +28,13 @@ describe('UiDialog', () => {
   });
 
   it('opens the component and returns a typed reference', () => {
-    const ref = service.open<string, { name: string }, DataDialogComponent>(
-      DataDialogComponent,
-      { data: { name: 'Ada' } }
-    );
+    const ref = service.open<
+      string,
+      {
+        name: string;
+      },
+      DataDialogComponent
+    >(DataDialogComponent, { data: { name: 'Ada' } });
     TestBed.tick();
 
     expect(ref.componentInstance).toBeInstanceOf(DataDialogComponent);
@@ -40,11 +45,11 @@ describe('UiDialog', () => {
   it('applies the design system defaults', () => {
     const ref = service.open(DataDialogComponent, { data: { name: 'Ada' } });
 
-    expect(ref.config.hasBackdrop).toBeTrue();
+    expect(ref.config.hasBackdrop).toBe(true);
     expect(ref.config.autoFocus).toBe('first-tabbable');
-    expect(ref.config.restoreFocus).toBeTrue();
-    expect(ref.config.closeOnNavigation).toBeTrue();
-    expect(ref.config.ariaModal).toBeTrue();
+    expect(ref.config.restoreFocus).toBe(true);
+    expect(ref.config.closeOnNavigation).toBe(true);
+    expect(ref.config.ariaModal).toBe(true);
     expect(ref.config.disableClose).toBeFalsy();
   });
 
@@ -68,8 +73,8 @@ describe('UiDialog', () => {
     TestBed.tick();
 
     expect(pane().style.width).toBe('20rem');
-    expect(ref.config.disableClose).toBeTrue();
-    expect(ref.config.restoreFocus).toBeFalse();
+    expect(ref.config.disableClose).toBe(true);
+    expect(ref.config.restoreFocus).toBe(false);
   });
 
   it('keeps its own classes when the caller adds some', () => {
@@ -96,15 +101,18 @@ describe('UiDialog', () => {
   it('closes on browser navigation', () => {
     const ref = service.open(DataDialogComponent, { data: { name: 'Ada' } });
 
-    expect(ref.config.closeOnNavigation).toBeTrue();
-    expect(ref.overlayRef.getConfig().disposeOnNavigation).toBeTrue();
+    expect(ref.config.closeOnNavigation).toBe(true);
+    expect(ref.overlayRef.getConfig().disposeOnNavigation).toBe(true);
   });
 
   it('resolves `closed` with the result', async () => {
-    const ref = service.open<string, { name: string }, DataDialogComponent>(
-      DataDialogComponent,
-      { data: { name: 'Ada' } }
-    );
+    const ref = service.open<
+      string,
+      {
+        name: string;
+      },
+      DataDialogComponent
+    >(DataDialogComponent, { data: { name: 'Ada' } });
     const closed = new Promise<string | undefined>((resolve) =>
       ref.closed.subscribe(resolve)
     );

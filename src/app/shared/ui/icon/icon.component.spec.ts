@@ -29,8 +29,8 @@ describe('UiIconComponent', () => {
 
   it('is decorative and hidden from assistive technology without a label', () => {
     expect(svg().getAttribute('aria-hidden')).toBe('true');
-    expect(svg().hasAttribute('role')).toBeFalse();
-    expect(svg().hasAttribute('aria-label')).toBeFalse();
+    expect(svg().hasAttribute('role')).toBe(false);
+    expect(svg().hasAttribute('aria-label')).toBe(false);
   });
 
   it('becomes a labelled image when a label is provided', () => {
@@ -39,7 +39,7 @@ describe('UiIconComponent', () => {
 
     expect(svg().getAttribute('role')).toBe('img');
     expect(svg().getAttribute('aria-label')).toBe('Send an email');
-    expect(svg().hasAttribute('aria-hidden')).toBeFalse();
+    expect(svg().hasAttribute('aria-hidden')).toBe(false);
   });
 
   it('treats an empty label as decorative', () => {
@@ -47,7 +47,7 @@ describe('UiIconComponent', () => {
     fixture.detectChanges();
 
     expect(svg().getAttribute('aria-hidden')).toBe('true');
-    expect(svg().hasAttribute('role')).toBeFalse();
+    expect(svg().hasAttribute('role')).toBe(false);
   });
 
   it('defaults to 20px and follows the size input', () => {
@@ -66,7 +66,7 @@ describe('UiIconComponent', () => {
     fixture.detectChanges();
 
     expect(svg().getAttribute('fill')).toBe('currentColor');
-    expect(svg().hasAttribute('stroke')).toBeFalse();
+    expect(svg().hasAttribute('stroke')).toBe(false);
     expect(path().getAttribute('d')).toBe(ICONS['check'].path);
   });
 
@@ -95,7 +95,7 @@ describe('UiIconComponent', () => {
     host.name.set('chevron-right');
     fixture.detectChanges();
     const rightPath = path().getAttribute('d');
-    expect(path().hasAttribute('transform')).toBeFalse();
+    expect(path().hasAttribute('transform')).toBe(false);
 
     host.name.set('chevron-left');
     fixture.detectChanges();
@@ -138,16 +138,20 @@ describe('icon registry', () => {
   ];
 
   it('contains every icon the templates need', () => {
-    expect(ICON_NAMES).toEqual(jasmine.arrayContaining(REQUIRED));
+    expect(ICON_NAMES).toEqual(expect.arrayContaining(REQUIRED));
   });
 
   it('has a usable definition for every icon', () => {
     for (const name of ICON_NAMES) {
-      const icon: { viewBox: string; path: string } = ICONS[name];
-      expect(icon.path.startsWith('M') || icon.path.startsWith('m'))
-        .withContext(`${name} path`)
-        .toBeTrue();
-      expect(icon.viewBox).withContext(`${name} viewBox`).toMatch(/^0 0 \d+ \d+$/);
+      const icon: {
+        viewBox: string;
+        path: string;
+      } = ICONS[name];
+      expect(
+        icon.path.startsWith('M') || icon.path.startsWith('m'),
+        `${name} path`
+      ).toBe(true);
+      expect(icon.viewBox, `${name} viewBox`).toMatch(/^0 0 \d+ \d+$/);
     }
   });
 });

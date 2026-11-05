@@ -31,7 +31,7 @@ describe('PrivacyComponent', () => {
     const rootElement = root.firstElementChild as HTMLElement;
 
     expect(rootElement.getAttribute('lang')).toBe('es');
-    expect(rootElement.contains(root.querySelector('h1'))).toBeTrue();
+    expect(rootElement.contains(root.querySelector('h1'))).toBe(true);
   });
 
   it('has exactly one h1', () => {

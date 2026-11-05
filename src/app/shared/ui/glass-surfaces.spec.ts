@@ -105,9 +105,10 @@ describe('glass surfaces', () => {
 
     it('never lets more of the background through than normal mode', () => {
       for (const { utility, alpha } of GLASS) {
-        expect(alphaOf(fill(make(utility))) * 100)
-          .withContext(utility)
-          .toBeGreaterThanOrEqual(alpha);
+        expect(
+          alphaOf(fill(make(utility))) * 100,
+          utility
+        ).toBeGreaterThanOrEqual(alpha);
       }
     });
 
@@ -149,12 +150,12 @@ describe('glass surfaces', () => {
       return found;
     }
 
-    it('turns the blur off under prefers-reduced-transparency', () => {
+    it('turns the blur off under prefers-reduced-transparency', ({ skip }) => {
       // Browsers that do not know the feature drop the whole @media rule.
-      if (window.matchMedia('(prefers-reduced-transparency)').media === 'not all') {
-        pending('prefers-reduced-transparency is not supported by this browser');
-        return;
-      }
+      skip(
+        window.matchMedia('(prefers-reduced-transparency)').media === 'not all',
+        'prefers-reduced-transparency is not supported by this browser'
+      );
 
       const css = mediaRules('prefers-reduced-transparency')
         .map((rule) => rule.cssText)

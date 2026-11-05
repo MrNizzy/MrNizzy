@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { PROFILE_PHOTO } from '@shared/profile-photo';
 import { UiCardDirective } from '@shared/ui/card/card.directive';
 import { UiChipDirective } from '@shared/ui/chip/chip.directive';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
@@ -29,6 +30,8 @@ const YOUTUBE_CHANNEL_URL =
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutComponent {
+  protected readonly photo = PROFILE_PHOTO;
+
   readonly skills: readonly string[] = [
     'Angular',
     'TypeScript',

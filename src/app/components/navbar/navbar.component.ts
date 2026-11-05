@@ -13,6 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { PROFILE_PHOTO } from '@shared/profile-photo';
 import { UiIconComponent } from '@shared/ui/icon/icon.component';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 import { COLOR_TRANSITION, FOCUS_RING } from '@shared/ui/ui-classes';
@@ -50,6 +51,7 @@ const MOBILE_LINK = `block rounded-control px-4 py-2 font-display text-title fon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
+  protected readonly photo = PROFILE_PHOTO;
   protected readonly links: readonly NavLink[] = [
     { path: '/', label: 'Home' },
     { path: '/projects', label: 'Projects' },

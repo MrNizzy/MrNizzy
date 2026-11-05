@@ -26,9 +26,18 @@
     class="order-first w-28 rounded-full outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:w-36 lg:order-none lg:w-full lg:justify-self-end"
   >
     <picture>
-      <source srcset="mrnizzy.webp" type="image/webp" />
+      <source
+        type="image/avif"
+        [srcset]="photo.avifSrcset"
+        sizes="(min-width: 64rem) 20rem, (min-width: 40rem) 9rem, 7rem"
+      />
+      <source
+        type="image/webp"
+        [srcset]="photo.webpSrcset"
+        sizes="(min-width: 64rem) 20rem, (min-width: 40rem) 9rem, 7rem"
+      />
       <img
-        src="mrnizzy.png"
+        [src]="photo.fallbackSrc"
         alt="MrNizzy"
         width="256"
         height="256"

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { PROFILE_PHOTO } from '@shared/profile-photo';
 import { AboutComponent } from './about.component';
 
 const SKILLS = [
@@ -105,7 +106,22 @@ describe('AboutComponent', () => {
     const image = root.querySelector('picture img');
 
     expect(image?.getAttribute('alt')).toBe('MrNizzy profile picture');
-    expect(image?.getAttribute('src')).toBe('mrnizzy.png');
+    expect(image?.getAttribute('src')).toBe('mrnizzy-320.webp');
+  });
+
+  it('serves the portrait as AVIF, then WebP, sized to its layout', () => {
+    const sources = Array.from(root.querySelectorAll('picture source'));
+    const [avif, webp] = sources;
+    const sizes = '(min-width: 64rem) 16rem, (min-width: 40rem) 9rem, 7rem';
+
+    expect(sources.length).toBe(2);
+    expect(avif.getAttribute('type')).toBe('image/avif');
+    expect(avif.getAttribute('srcset')).toBe(PROFILE_PHOTO.avifSrcset);
+    expect(avif.getAttribute('sizes')).toBe(sizes);
+    expect(webp.getAttribute('type')).toBe('image/webp');
+    expect(webp.getAttribute('srcset')).toBe(PROFILE_PHOTO.webpSrcset);
+    expect(webp.getAttribute('sizes')).toBe(sizes);
+    expect(avif.getAttribute('srcset')).toContain('mrnizzy-640.avif 640w');
   });
 
   it('embeds no third-party images', () => {

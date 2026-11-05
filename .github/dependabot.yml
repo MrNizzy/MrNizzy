@@ -1,0 +1,87 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    # One day more than minimumReleaseAge in pnpm-workspace.yaml (7 days), which
+    # would refuse a newer release anyway; compromised releases are usually pulled sooner.
+    cooldown:
+      default-days: 8
+    commit-message:
+      prefix: build
+      include: scope
+    # A dependency joins the first group it matches.
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - '@angular-eslint/*'
+          - angular-eslint
+      # The Playwright provider pins vitest to its exact version: they move together.
+      vitest:
+        patterns:
+          - vitest
+          - '@vitest/*'
+      eslint:
+        patterns:
+          - eslint
+          - '@eslint/*'
+          - typescript-eslint
+      tailwind:
+        patterns:
+          - tailwindcss
+          - '@tailwindcss/*'
+      three:
+        patterns:
+          - three
+          - '@types/three'
+      minor-and-patch:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # Angular majors need the `ng update` migrations, so they are done by hand.
+      - dependency-name: '@angular/*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@angular-eslint/*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: angular-eslint
+        update-types: ['version-update:semver-major']
+      # Each Angular major supports a single TypeScript minor (Angular 22: >=6.0 <6.1).
+      - dependency-name: typescript
+        update-types:
+          - 'version-update:semver-major'
+          - 'version-update:semver-minor'
+      # Angular's peer range is rxjs ^6.5.3 || ^7.4.0.
+      - dependency-name: rxjs
+        update-types: ['version-update:semver-major']
+      # @angular/build supports vitest ^4 || ^5; wait for it before moving majors.
+      - dependency-name: vitest
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@vitest/*'
+        update-types: ['version-update:semver-major']
+      # angular-eslint and typescript-eslint support eslint ^9 || ^10.
+      - dependency-name: eslint
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@eslint/*'
+        update-types: ['version-update:semver-major']
+
+  # Workflows pin actions to commit SHAs; Dependabot bumps the SHA and its version comment.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns:
+          - '*'

@@ -8,12 +8,12 @@
   <g font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif">
     <text x="24" y="40" font-size="18" font-weight="600" fill="#BE185D">Most used languages</text>
     <g clip-path="url(#bar-clip)">
-      <rect x="24" y="62" width="145.38" height="10" fill="#BE185D" />
-      <rect x="171.38" y="62" width="114.99" height="10" fill="#0891B2" />
-      <rect x="288.37" y="62" width="41.73" height="10" fill="#7C3AED" />
-      <rect x="332.1" y="62" width="25.73" height="10" fill="#059669" />
-      <rect x="359.84" y="62" width="19.12" height="10" fill="#C2410C" />
-      <rect x="380.96" y="62" width="75.04" height="10" fill="#8C959F" />
+      <rect x="24" y="62" width="145.44" height="10" fill="#BE185D" />
+      <rect x="171.44" y="62" width="114.96" height="10" fill="#0891B2" />
+      <rect x="288.41" y="62" width="41.72" height="10" fill="#7C3AED" />
+      <rect x="332.13" y="62" width="25.73" height="10" fill="#059669" />
+      <rect x="359.86" y="62" width="19.12" height="10" fill="#C2410C" />
+      <rect x="380.97" y="62" width="75.03" height="10" fill="#8C959F" />
     </g>
     <circle cx="29" cy="103" r="5" fill="#BE185D" />
     <text x="43" y="108" font-size="14" fill="#1F2328">TypeScript</text>
